@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ResourceManagementApplication {
+public class ResourcemanagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ResourceManagementApplication.class, args);
+        SpringApplication.run(ResourcemanagementApplication.class, args);
     }
 
 }

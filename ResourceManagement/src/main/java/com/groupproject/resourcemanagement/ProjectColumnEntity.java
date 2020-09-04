@@ -1,0 +1,91 @@
+package com.groupproject.resourcemanagement;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
+
+@Entity
+@Table(name = "project_column", schema = "mydb", catalog = "")
+public class ProjectColumnEntity {
+    private Integer projectColumnId;
+    private Integer projectId;
+    private String projectColumnName;
+    private String columnType;
+    private ProjectEntity projectByProjectId;
+    private Collection<ProjectItemEntity> projectItemsByProjectColumnId;
+
+    @Id
+    @Column(name = "project_column_id")
+    public Integer getProjectColumnId() {
+        return projectColumnId;
+    }
+
+    public void setProjectColumnId(Integer projectColumnId) {
+        this.projectColumnId = projectColumnId;
+    }
+
+    @Basic
+    @Column(name = "project_id")
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    @Basic
+    @Column(name = "project_column_name")
+    public String getProjectColumnName() {
+        return projectColumnName;
+    }
+
+    public void setProjectColumnName(String projectColumnName) {
+        this.projectColumnName = projectColumnName;
+    }
+
+    @Basic
+    @Column(name = "column_type")
+    public String getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectColumnEntity that = (ProjectColumnEntity) o;
+        return Objects.equals(projectColumnId, that.projectColumnId) &&
+                Objects.equals(projectId, that.projectId) &&
+                Objects.equals(projectColumnName, that.projectColumnName) &&
+                Objects.equals(columnType, that.columnType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(projectColumnId, projectId, projectColumnName, columnType);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
+    public ProjectEntity getProjectByProjectId() {
+        return projectByProjectId;
+    }
+
+    public void setProjectByProjectId(ProjectEntity projectByProjectId) {
+        this.projectByProjectId = projectByProjectId;
+    }
+
+    @OneToMany(mappedBy = "projectColumnByProjectColumnId")
+    public Collection<ProjectItemEntity> getProjectItemsByProjectColumnId() {
+        return projectItemsByProjectColumnId;
+    }
+
+    public void setProjectItemsByProjectColumnId(Collection<ProjectItemEntity> projectItemsByProjectColumnId) {
+        this.projectItemsByProjectColumnId = projectItemsByProjectColumnId;
+    }
+}
