@@ -1,4 +1,4 @@
-package com.groupproject.resourcemanagement;
+package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
 import java.sql.Date;

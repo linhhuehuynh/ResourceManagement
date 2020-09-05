@@ -1,4 +1,4 @@
-package com.groupproject.resourcemanagement;
+package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

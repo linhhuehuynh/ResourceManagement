@@ -1,7 +1,6 @@
-package com.groupproject.resourcemanagement;
+package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +11,6 @@ public class ProjectColumnEntity {
     private String projectColumnName;
     private String columnType;
     private ProjectEntity projectByProjectId;
-    private Collection<ProjectItemEntity> projectItemsByProjectColumnId;
 
     @Id
     @Column(name = "project_column_id")
@@ -78,14 +76,5 @@ public class ProjectColumnEntity {
 
     public void setProjectByProjectId(ProjectEntity projectByProjectId) {
         this.projectByProjectId = projectByProjectId;
-    }
-
-    @OneToMany(mappedBy = "projectColumnByProjectColumnId")
-    public Collection<ProjectItemEntity> getProjectItemsByProjectColumnId() {
-        return projectItemsByProjectColumnId;
-    }
-
-    public void setProjectItemsByProjectColumnId(Collection<ProjectItemEntity> projectItemsByProjectColumnId) {
-        this.projectItemsByProjectColumnId = projectItemsByProjectColumnId;
     }
 }
