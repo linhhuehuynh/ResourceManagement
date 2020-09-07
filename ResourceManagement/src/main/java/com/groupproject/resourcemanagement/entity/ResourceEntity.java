@@ -106,7 +106,7 @@ public class ResourceEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "parent_resource_id", referencedColumnName = "resource_id")
+    @JoinColumn(name = "parent_resource_id", referencedColumnName = "resource_id",insertable = false,updatable = false)
     public ResourceEntity getResourceByParentResourceId() {
         return resourceByParentResourceId;
     }

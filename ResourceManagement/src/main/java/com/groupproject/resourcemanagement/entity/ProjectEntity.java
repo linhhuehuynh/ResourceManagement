@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "project", schema = "mydb", catalog = "")
+@Table(name = "project", schema = "project", catalog = "")
 public class ProjectEntity {
     private Integer projectId;
     private Integer userId;
@@ -85,7 +85,7 @@ public class ProjectEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id",insertable = false,updatable = false, nullable = false)
     public UserEntity getUserByUserId() {
         return userByUserId;
     }

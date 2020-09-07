@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "project_column", schema = "mydb", catalog = "")
+@Table(name = "project_column", schema = "project", catalog = "")
 public class ProjectColumnEntity {
     private Integer projectColumnId;
     private Integer projectId;
@@ -23,7 +23,7 @@ public class ProjectColumnEntity {
     }
 
     @Basic
-    @Column(name = "project_id")
+    @Column(name = "project_id",insertable = false,updatable = false)
     public Integer getProjectId() {
         return projectId;
     }

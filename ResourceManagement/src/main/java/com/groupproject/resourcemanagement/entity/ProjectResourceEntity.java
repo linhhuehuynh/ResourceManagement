@@ -47,7 +47,7 @@ public class ProjectResourceEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
+    @JoinColumn(name = "project_id", referencedColumnName = "project_id",insertable = false,updatable = false, nullable = false)
     public ProjectEntity getProjectByProjectId() {
         return projectByProjectId;
     }
@@ -57,7 +57,7 @@ public class ProjectResourceEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false)
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id",insertable = false,updatable = false, nullable = false)
     public ResourceEntity getResourceByResourceId() {
         return resourceByResourceId;
     }
