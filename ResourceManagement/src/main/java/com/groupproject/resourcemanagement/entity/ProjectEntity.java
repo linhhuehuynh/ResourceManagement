@@ -2,38 +2,33 @@ package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "project", schema = "mydb", catalog = "")
 public class ProjectEntity {
-    private Integer projectId;
-    private Integer userId;
+    private int projectId;
+    private int userId;
     private String name;
     private Date createDate;
     private Date updateDate;
-    private UserEntity userByUserId;
-    private Collection<ProjectColumnEntity> projectColumnsByProjectId;
-    private Collection<ProjectResourceEntity> projectResourcesByProjectId;
 
     @Id
     @Column(name = "project_id")
-    public Integer getProjectId() {
+    public int getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
 
     @Basic
     @Column(name = "user_id")
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -71,44 +66,25 @@ public class ProjectEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ProjectEntity that = (ProjectEntity) o;
-        return Objects.equals(projectId, that.projectId) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(createDate, that.createDate) &&
-                Objects.equals(updateDate, that.updateDate);
+
+        if (projectId != that.projectId) return false;
+        if (userId != that.userId) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectId, userId, name, createDate, updateDate);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public UserEntity getUserByUserId() {
-        return userByUserId;
-    }
-
-    public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
-    }
-
-    @OneToMany(mappedBy = "projectByProjectId")
-    public Collection<ProjectColumnEntity> getProjectColumnsByProjectId() {
-        return projectColumnsByProjectId;
-    }
-
-    public void setProjectColumnsByProjectId(Collection<ProjectColumnEntity> projectColumnsByProjectId) {
-        this.projectColumnsByProjectId = projectColumnsByProjectId;
-    }
-
-    @OneToMany(mappedBy = "projectByProjectId")
-    public Collection<ProjectResourceEntity> getProjectResourcesByProjectId() {
-        return projectResourcesByProjectId;
-    }
-
-    public void setProjectResourcesByProjectId(Collection<ProjectResourceEntity> projectResourcesByProjectId) {
-        this.projectResourcesByProjectId = projectResourcesByProjectId;
+        int result = projectId;
+        result = 31 * result + userId;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+        return result;
     }
 }

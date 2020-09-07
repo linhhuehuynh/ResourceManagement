@@ -1,34 +1,31 @@
 package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "project_resource", schema = "mydb", catalog = "")
 @IdClass(ProjectResourceEntityPK.class)
 public class ProjectResourceEntity {
-    private Integer projectId;
-    private Integer resourceId;
-    private ProjectEntity projectByProjectId;
-    private ResourceEntity resourceByResourceId;
+    private int projectId;
+    private int resourceId;
 
     @Id
     @Column(name = "project_id")
-    public Integer getProjectId() {
+    public int getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
 
     @Id
     @Column(name = "resource_id")
-    public Integer getResourceId() {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Integer resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -36,33 +33,19 @@ public class ProjectResourceEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ProjectResourceEntity that = (ProjectResourceEntity) o;
-        return Objects.equals(projectId, that.projectId) &&
-                Objects.equals(resourceId, that.resourceId);
+
+        if (projectId != that.projectId) return false;
+        if (resourceId != that.resourceId) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectId, resourceId);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
-    public ProjectEntity getProjectByProjectId() {
-        return projectByProjectId;
-    }
-
-    public void setProjectByProjectId(ProjectEntity projectByProjectId) {
-        this.projectByProjectId = projectByProjectId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false)
-    public ResourceEntity getResourceByResourceId() {
-        return resourceByResourceId;
-    }
-
-    public void setResourceByResourceId(ResourceEntity resourceByResourceId) {
-        this.resourceByResourceId = resourceByResourceId;
+        int result = projectId;
+        result = 31 * result + resourceId;
+        return result;
     }
 }

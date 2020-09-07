@@ -2,29 +2,24 @@ package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "resource", schema = "mydb", catalog = "")
 public class ResourceEntity {
-    private Integer resourceId;
+    private int resourceId;
     private String name;
     private String code;
     private Date createDate;
     private Date updateDate;
     private Integer parentResourceId;
-    private Collection<ProjectResourceEntity> projectResourcesByResourceId;
-    private ResourceEntity resourceByParentResourceId;
-    private Collection<ResourceEntity> resourcesByResourceId;
 
     @Id
     @Column(name = "resource_id")
-    public Integer getResourceId() {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Integer resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -82,45 +77,28 @@ public class ResourceEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ResourceEntity that = (ResourceEntity) o;
-        return Objects.equals(resourceId, that.resourceId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(code, that.code) &&
-                Objects.equals(createDate, that.createDate) &&
-                Objects.equals(updateDate, that.updateDate) &&
-                Objects.equals(parentResourceId, that.parentResourceId);
+
+        if (resourceId != that.resourceId) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
+        if (parentResourceId != null ? !parentResourceId.equals(that.parentResourceId) : that.parentResourceId != null)
+            return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resourceId, name, code, createDate, updateDate, parentResourceId);
-    }
-
-    @OneToMany(mappedBy = "resourceByResourceId")
-    public Collection<ProjectResourceEntity> getProjectResourcesByResourceId() {
-        return projectResourcesByResourceId;
-    }
-
-    public void setProjectResourcesByResourceId(Collection<ProjectResourceEntity> projectResourcesByResourceId) {
-        this.projectResourcesByResourceId = projectResourcesByResourceId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "parent_resource_id", referencedColumnName = "resource_id")
-    public ResourceEntity getResourceByParentResourceId() {
-        return resourceByParentResourceId;
-    }
-
-    public void setResourceByParentResourceId(ResourceEntity resourceByParentResourceId) {
-        this.resourceByParentResourceId = resourceByParentResourceId;
-    }
-
-    @OneToMany(mappedBy = "resourceByParentResourceId")
-    public Collection<ResourceEntity> getResourcesByResourceId() {
-        return resourcesByResourceId;
-    }
-
-    public void setResourcesByResourceId(Collection<ResourceEntity> resourcesByResourceId) {
-        this.resourcesByResourceId = resourcesByResourceId;
+        int result = resourceId;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+        result = 31 * result + (parentResourceId != null ? parentResourceId.hashCode() : 0);
+        return result;
     }
 }
