@@ -5,7 +5,7 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
 #    ??
-    url: jdbc:mysql://localhost:3306/project?useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/project?serverTimezone=UTC?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
   jpa:
@@ -15,5 +15,5 @@ spring:
     show-sql: true
     hibernate:
       #配置指明在程序启动的时候要删除并且创建实体类对应的表
-      ddl-auto: create
+      ddl-auto: update
 #      ??

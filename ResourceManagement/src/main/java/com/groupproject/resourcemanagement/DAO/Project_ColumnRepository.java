@@ -17,4 +17,5 @@ public interface Project_ColumnRepository extends JpaRepository<ProjectColumnEnt
     boolean updateByProjectColumnId(ProjectColumnEntity projectColumnEntity, Integer project_column_id);
 
     boolean removeByProjectColumnId(Integer project_column_id);
+
 }
