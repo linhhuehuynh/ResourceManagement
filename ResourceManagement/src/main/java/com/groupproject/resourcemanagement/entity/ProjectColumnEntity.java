@@ -1,34 +1,32 @@
 package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "project_column", schema = "mydb", catalog = "")
 public class ProjectColumnEntity {
-    private Integer projectColumnId;
-    private Integer projectId;
+    private int projectColumnId;
+    private int projectId;
     private String projectColumnName;
     private String columnType;
-    private ProjectEntity projectByProjectId;
 
     @Id
     @Column(name = "project_column_id")
-    public Integer getProjectColumnId() {
+    public int getProjectColumnId() {
         return projectColumnId;
     }
 
-    public void setProjectColumnId(Integer projectColumnId) {
+    public void setProjectColumnId(int projectColumnId) {
         this.projectColumnId = projectColumnId;
     }
 
     @Basic
     @Column(name = "project_id")
-    public Integer getProjectId() {
+    public int getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
 
@@ -56,25 +54,24 @@ public class ProjectColumnEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ProjectColumnEntity that = (ProjectColumnEntity) o;
-        return Objects.equals(projectColumnId, that.projectColumnId) &&
-                Objects.equals(projectId, that.projectId) &&
-                Objects.equals(projectColumnName, that.projectColumnName) &&
-                Objects.equals(columnType, that.columnType);
+
+        if (projectColumnId != that.projectColumnId) return false;
+        if (projectId != that.projectId) return false;
+        if (projectColumnName != null ? !projectColumnName.equals(that.projectColumnName) : that.projectColumnName != null)
+            return false;
+        if (columnType != null ? !columnType.equals(that.columnType) : that.columnType != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectColumnId, projectId, projectColumnName, columnType);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
-    public ProjectEntity getProjectByProjectId() {
-        return projectByProjectId;
-    }
-
-    public void setProjectByProjectId(ProjectEntity projectByProjectId) {
-        this.projectByProjectId = projectByProjectId;
+        int result = projectColumnId;
+        result = 31 * result + projectId;
+        result = 31 * result + (projectColumnName != null ? projectColumnName.hashCode() : 0);
+        result = 31 * result + (columnType != null ? columnType.hashCode() : 0);
+        return result;
     }
 }
