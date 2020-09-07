@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "project", schema = "project", catalog = "")
+@Table(name = "project", schema = "mydb", catalog = "")
 public class ProjectEntity {
     private Integer projectId;
     private Integer userId;
