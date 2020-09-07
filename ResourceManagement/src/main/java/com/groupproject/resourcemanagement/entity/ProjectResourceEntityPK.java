@@ -3,29 +3,28 @@ package com.groupproject.resourcemanagement.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Objects;
 
 public class ProjectResourceEntityPK implements Serializable {
-    private Integer projectId;
-    private Integer resourceId;
+    private int projectId;
+    private int resourceId;
 
     @Column(name = "project_id")
     @Id
-    public Integer getProjectId() {
+    public int getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
 
     @Column(name = "resource_id")
     @Id
-    public Integer getResourceId() {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Integer resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -33,13 +32,19 @@ public class ProjectResourceEntityPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ProjectResourceEntityPK that = (ProjectResourceEntityPK) o;
-        return Objects.equals(projectId, that.projectId) &&
-                Objects.equals(resourceId, that.resourceId);
+
+        if (projectId != that.projectId) return false;
+        if (resourceId != that.resourceId) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectId, resourceId);
+        int result = projectId;
+        result = 31 * result + resourceId;
+        return result;
     }
 }

@@ -2,27 +2,23 @@ package com.groupproject.resourcemanagement.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "mydb", catalog = "")
 public class UserEntity {
-    private Integer userId;
+    private int userId;
     private String profilePic;
     private Date createDate;
     private Date updateDate;
     private String role;
-    private Collection<ProjectEntity> projectsByUserId;
-    private UserCredentialEntity userCredentialByUserId;
 
     @Id
     @Column(name = "user_id")
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -70,34 +66,25 @@ public class UserEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         UserEntity that = (UserEntity) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(profilePic, that.profilePic) &&
-                Objects.equals(createDate, that.createDate) &&
-                Objects.equals(updateDate, that.updateDate) &&
-                Objects.equals(role, that.role);
+
+        if (userId != that.userId) return false;
+        if (profilePic != null ? !profilePic.equals(that.profilePic) : that.profilePic != null) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
+        if (updateDate != null ? !updateDate.equals(that.updateDate) : that.updateDate != null) return false;
+        if (role != null ? !role.equals(that.role) : that.role != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, profilePic, createDate, updateDate, role);
-    }
-
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<ProjectEntity> getProjectsByUserId() {
-        return projectsByUserId;
-    }
-
-    public void setProjectsByUserId(Collection<ProjectEntity> projectsByUserId) {
-        this.projectsByUserId = projectsByUserId;
-    }
-
-    @OneToOne(mappedBy = "userByUserId")
-    public UserCredentialEntity getUserCredentialByUserId() {
-        return userCredentialByUserId;
-    }
-
-    public void setUserCredentialByUserId(UserCredentialEntity userCredentialByUserId) {
-        this.userCredentialByUserId = userCredentialByUserId;
+        int result = userId;
+        result = 31 * result + (profilePic != null ? profilePic.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
     }
 }
