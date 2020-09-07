@@ -85,7 +85,7 @@ public class ProjectEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id",insertable = false,updatable = false, nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     public UserEntity getUserByUserId() {
         return userByUserId;
     }
