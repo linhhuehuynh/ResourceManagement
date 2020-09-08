@@ -26,15 +26,15 @@ public class Resource {
     @Column (name="update_date")
     private Date updateDate;
 
-    @Column(name = "parent_resource_id")
-    private int parentResourceId;
+//    @Column(name = "parent_resource_id")
+//    private int parentResourceId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "parent_resource_id", referencedColumnName = "resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
-//    private Resource resourceByParentResourceId;
-//
-//    @OneToMany(mappedBy = "resourceByParentResourceId")
-//    private List<Resource> resourcesByResourceId;
+    @ManyToOne
+    @JoinColumn(name = "parent_resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
+    private Resource resourceByParentResourceId;
+
+    @OneToMany(mappedBy = "resourceByParentResourceId")
+    private List<Resource> resourcesByResourceId;
 
 
 //    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -43,13 +43,12 @@ public class Resource {
     public Resource() {
     }
 
-    public Resource(int id, String name, String code, Date createDate, Date updateDate, int parentResourceId) {
+    public Resource(int id, String name, String code, Date createDate, Date updateDate) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.parentResourceId = parentResourceId;
     }
 
     public int getId() {
@@ -92,13 +91,13 @@ public class Resource {
         this.updateDate = updateDate;
     }
 
-    public int getParentResourceId() {
-        return parentResourceId;
-    }
-
-    public void setParentResourceId(int parentResourceId) {
-        this.parentResourceId = parentResourceId;
-    }
+//    public int getParentResourceId() {
+//        return parentResourceId;
+//    }
+//
+//    public void setParentResourceId(int parentResourceId) {
+//        this.parentResourceId = parentResourceId;
+//    }
 
 //    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    public List<ProjectResource> getProjectResource() {
@@ -109,22 +108,22 @@ public class Resource {
 //        this.projectResource = projectResource;
 //    }
 
-//    @ManyToOne
-//    @JoinColumn(name = "parent_resource_id", referencedColumnName = "resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
-//    public Resource getResourceByParentResourceId() {
-//        return resourceByParentResourceId;
-//    }
-//
-//    public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
-//        this.resourceByParentResourceId = resourceByParentResourceId;
-//    }
-//
-//    @OneToMany(mappedBy = "resourceByParentResourceId")
-//    public List<Resource> getResourcesByResourceId() {
-//        return resourcesByResourceId;
-//    }
-//
-//    public void setResourcesByResourceId(List<Resource> resourcesByResourceId) {
-//        this.resourcesByResourceId = resourcesByResourceId;
-//    }
+    @ManyToOne
+    @JoinColumn(name = "parent_resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
+    public Resource getResourceByParentResourceId() {
+        return resourceByParentResourceId;
+    }
+
+    public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
+        this.resourceByParentResourceId = resourceByParentResourceId;
+    }
+
+    @OneToMany(mappedBy = "resourceByParentResourceId")
+    public List<Resource> getResourcesByResourceId() {
+        return resourcesByResourceId;
+    }
+
+    public void setResourcesByResourceId(List<Resource> resourcesByResourceId) {
+        this.resourcesByResourceId = resourcesByResourceId;
+    }
 }
