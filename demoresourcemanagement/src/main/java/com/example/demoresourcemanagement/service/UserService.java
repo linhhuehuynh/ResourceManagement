@@ -5,6 +5,8 @@ import com.example.demoresourcemanagement.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -18,6 +20,8 @@ public class UserService {
     public User getUserById(int id) {
         return userDao.getOne(id);
     }
+
+    public List<User> getAllUser() {return userDao.findAll();};
 
     public void setUserById(User user) {
         userDao.save(user);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -16,8 +16,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("")
-    public void addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) {
         userService.addUser(user);
+        return user;
     }
 
     @GetMapping("/{id}")
@@ -25,20 +26,22 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-//    @GetMapping("")
-//    @ResponseBody
-//    public List<UserEntity> getUserAll() {
-//        return userService.getUserAll(id);
-//    }
+    @GetMapping("")
+    @ResponseBody
+    public List<User> getUserAll() {
+        return userService.getAllUser();
+    }
 
-    @PutMapping("")
-    public void setUserById(@RequestBody User user) {
+    @PutMapping("/{id}")
+    public User setUserById(@RequestBody User user) {
         userService.setUserById(user);
+        return user;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable int id) {
+    public String deleteUserById(@PathVariable int id) {
         userService.deleteUserById(id);
+        return "Deleted user " + id;
     }
 
 
