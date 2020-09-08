@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("")
     @ResponseBody
-    public List<User> getUserAll() {
+    public List<User> getAllUsers() {
         return userService.getAllUser();
     }
 
