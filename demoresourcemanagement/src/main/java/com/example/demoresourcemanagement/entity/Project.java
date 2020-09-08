@@ -35,6 +35,14 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProjectColumn> projectColumns;
 
+    @ManyToMany
+    @JoinTable(
+            name = "project_resource",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id")
+    )
+    private List<Resource> resourceList;
+
 //    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<ProjectResource> projectResource;
 
@@ -90,7 +98,15 @@ public class Project {
 
 
 
-//    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public List<Resource> getResourceList() {
+        return resourceList;
+    }
+
+    public void setResourceList(List<Resource> resourceList) {
+        this.resourceList = resourceList;
+    }
+
+    //    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    public List<ProjectResource> getProjectResource() {
 //        return projectResource;
 //    }

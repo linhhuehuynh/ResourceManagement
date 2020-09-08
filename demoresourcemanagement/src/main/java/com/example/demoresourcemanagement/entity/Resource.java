@@ -36,6 +36,9 @@ public class Resource {
     @OneToMany(mappedBy = "resourceByParentResourceId")
     private List<Resource> resourcesByResourceId;
 
+    @ManyToMany(mappedBy = "resourceList")
+    private List<Project> projectList;
+
 
 //    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<ProjectResource> projectResource;
@@ -91,7 +94,15 @@ public class Resource {
         this.updateDate = updateDate;
     }
 
-//    public int getParentResourceId() {
+    public List<Project> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(List<Project> projectList) {
+        this.projectList = projectList;
+    }
+
+    //    public int getParentResourceId() {
 //        return parentResourceId;
 //    }
 //
