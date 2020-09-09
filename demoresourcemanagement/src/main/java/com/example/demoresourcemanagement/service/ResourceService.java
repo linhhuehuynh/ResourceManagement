@@ -1,35 +1,46 @@
 package com.example.demoresourcemanagement.service;
 
-import com.example.demoresourcemanagement.dao.ResourceDao;
 import com.example.demoresourcemanagement.entity.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
-@Service
-public class ResourceService {
+/**
+ * C:
+ * Public Resource CreateResource(Str name, Str code,int ParentId)
+ * Public List<Resource> CreateResources(List<Resource> Resources)?
+ * R:
+ * Public List<Resource> GetAllResources()
+ * Public Resource GetResourceById(int resource_id)
+ * Public Resource GetResourceByCreate_date(Date create_date)
+ * Public List<Resource> GetResourcesByParentId(int ParentId)
+ * U:
+ * Public void setResourceById(Resource resource)
+ * D:
+ * Public Resource RemoveResourceById(int resource_id)
+ * Public Resource RemoveResourceByName(Str name)
+ * Public Resource RemoveResourceByCode(Str Code)
+ * Public Resource RemoveResourceByCreate_date(Date create_date)
+ * Public List<Resource> RemoveResourcesByParentId(int ParentId)
+ * Public List<Resource> RemoveAllResources()
+ */
 
-    @Autowired
-    private ResourceDao resourceDao;
+public interface ResourceService {
 
-    public List<Resource> getAllResources() {
-        return resourceDao.findAll();
-    }
+    void addResource(Resource resource);
 
-    public Resource addResource(Resource resource){
-        return resourceDao.save(resource);
-    }
+    void addResourceList(List<Resource> resourceList);
 
-    public void deleteResourceById(int id){
-        resourceDao.deleteById(id);
-    }
+    List<Resource> getAllResources(); // 不需要传参数
 
-    public void deleteAllResources(){
-        resourceDao.deleteAll();
-    }
+    Resource getResourceById(int resource_id);
 
-    public Resource updateResource(Resource resource){
-        return resourceDao.save(resource);
-    }
+    Resource getResourceByCreateDate(Date createDate);
+
+    void setResourceById(Resource resource);
+
+    void deleteResourceById(int resourceId);
+
+    void deleteAllResources();
+
 }
