@@ -32,7 +32,7 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("")
     public User setUserById(@RequestBody User user) {
         userService.setUserById(user);
         return user;
@@ -43,6 +43,4 @@ public class UserController {
         userService.deleteUserById(id);
         return "Deleted user " + id;
     }
-
-
 }

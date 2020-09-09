@@ -1,7 +1,12 @@
 package com.example.demoresourcemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -16,9 +21,11 @@ public class User {
     @Column(name = "profile_pic")
     private String profilePic;
 
-    @Column(name = "create_date")
+    @CreationTimestamp
+    @Column(name = "create_date", nullable = false, updatable = false)
     private Date createDate;
 
+    @UpdateTimestamp
     @Column(name = "update_date")
     private Date updateDate;
 
@@ -35,10 +42,8 @@ public class User {
     public User() {
     }
 
-    public User(String profilePic, Date createDate, Date updateDate, String role) {
+    public User(String profilePic, String role) {
         this.profilePic = profilePic;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
         this.role = role;
     }
 
