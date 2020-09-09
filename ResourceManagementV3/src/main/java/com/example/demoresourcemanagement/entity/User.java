@@ -1,37 +1,49 @@
 package com.example.demoresourcemanagement.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
 
     @Column(name = "profile_pic")
     private String profilePic;
 
-    @Column(name = "create_date")
+    @CreationTimestamp
+    @Column(name = "create_date", nullable = false, updatable = false)
     private Date createDate;
 
+    @UpdateTimestamp
     @Column(name = "update_date")
     private Date updateDate;
 
     @Column(name = "role")
     private String role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserCredential userCredential;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Project> projects;
+
     public User() {
     }
 
-    public User(int id, String profilePic, Date createDate, Date updateDate, String role) {
-        this.id = id;
+    public User(String profilePic, String role) {
         this.profilePic = profilePic;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
         this.role = role;
     }
 
@@ -73,5 +85,21 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public UserCredential getUserCredential() {
+        return userCredential;
+    }
+
+    public void setUserCredential(UserCredential userCredential) {
+        this.userCredential = userCredential;
     }
 }
