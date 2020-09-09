@@ -22,11 +22,8 @@ public class User {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @Column(name = "role")
-    private String role;
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserCredential userCredential;
+    private SysUser sysUser;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -35,11 +32,10 @@ public class User {
     public User() {
     }
 
-    public User(String profilePic, Date createDate, Date updateDate, String role) {
+    public User(String profilePic, Date createDate, Date updateDate) {
         this.profilePic = profilePic;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.role = role;
     }
 
     public int getId() {
@@ -74,14 +70,6 @@ public class User {
         this.updateDate = updateDate;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public List<Project> getProjects() {
         return projects;
     }
@@ -90,11 +78,7 @@ public class User {
         this.projects = projects;
     }
 
-    public UserCredential getUserCredential() {
-        return userCredential;
-    }
+    public SysUser getSysUser() { return sysUser; }
 
-    public void setUserCredential(UserCredential userCredential) {
-        this.userCredential = userCredential;
-    }
+    public void setSysUser(SysUser sysUser) { this.sysUser = sysUser; }
 }

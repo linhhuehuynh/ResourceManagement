@@ -3,10 +3,13 @@ package com.example.demoresourcemanagement.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserCredential {
+public class SysUser implements Serializable {
+
+    static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "user_id")
@@ -22,10 +25,10 @@ public class UserCredential {
     @MapsId
     private User user;
 
-    public UserCredential() {
+    public SysUser() {
     }
 
-    public UserCredential(int id, String username, String password, User user) {
+    public SysUser(int id, String username, String password, User user) {
         this.id = id;
         this.username = username;
         this.password = password;
