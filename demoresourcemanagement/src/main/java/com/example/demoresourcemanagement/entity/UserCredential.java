@@ -1,5 +1,6 @@
 package com.example.demoresourcemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -24,13 +25,12 @@ public class UserCredential {
 
     public UserCredential() {
     }
-
-    public UserCredential(int id, String username, String password, User user) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.user = user;
-    }
+//
+//    public UserCredential(String username, String password, User user) {
+//        this.username = username;
+//        this.password = password;
+//        this.user = user;
+//    }
 
     public int getId() {
         return id;
@@ -56,6 +56,7 @@ public class UserCredential {
         this.password = password;
     }
 
+    @JsonBackReference
     public User getUser() {
         return user;
     }

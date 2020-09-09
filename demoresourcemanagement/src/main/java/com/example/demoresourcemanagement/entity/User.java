@@ -1,6 +1,7 @@
 package com.example.demoresourcemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,6 +41,10 @@ public class User {
     private List<Project> projects;
 
     public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public User(String profilePic, String role) {
@@ -95,6 +100,7 @@ public class User {
         this.projects = projects;
     }
 
+    @JsonManagedReference
     public UserCredential getUserCredential() {
         return userCredential;
     }
