@@ -19,18 +19,20 @@ public class ProjectColumn {
     @Column(name="column_type")
     private String columnType;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name = "project_id_fk"), nullable = false)
+//    @Column(name="project_id")
+//    private int projectId;
+
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name = "project_id_fk"), nullable = false, insertable = false, updatable = false)
     private Project project;
 
     public ProjectColumn() {
     }
 
-    public ProjectColumn(int id, String projectColumnName, String columnType, Project project) {
-        this.id = id;
+    public ProjectColumn(String projectColumnName, String columnType, Project projectId) {
         this.projectColumnName = projectColumnName;
         this.columnType = columnType;
-        this.project = project;
+        this.project = projectId;
     }
 
     public int getId() {
@@ -57,10 +59,17 @@ public class ProjectColumn {
         this.columnType = columnType;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name = "project_id_fk"), nullable = false)
-    public Project getProject() {
-        return project;
+//    public int getProjectId() {
+//        return projectId;
+//    }
+//
+//    public void setProjectId(int projectId) {
+//        this.projectId = projectId;
+//    }
+
+//    Commented out this to avoid infinite returning of json in Postman
+    public int getProject() {
+        return project.getId();
     }
 
     public void setProject(Project project) {

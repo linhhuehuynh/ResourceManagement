@@ -9,4 +9,5 @@ import java.util.Date;
 public interface ResourceDao extends JpaRepository<Resource, Integer> {
 
     Resource findByCreateDate(Date createDate);
+
 }
