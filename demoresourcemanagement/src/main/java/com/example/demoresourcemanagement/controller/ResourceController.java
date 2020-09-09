@@ -3,10 +3,12 @@ package com.example.demoresourcemanagement.controller;
 import com.example.demoresourcemanagement.entity.Resource;
 import com.example.demoresourcemanagement.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ResourceController {
@@ -14,12 +16,12 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @PostMapping("/resource")
-    void addResource(Resource resource) {
+    void addResource(@RequestBody Resource resource) {
         resourceService.addResource(resource);
     }
 
     @PostMapping("/resources")
-    public void addResourceList(List<Resource> resourceList) {
+    public void addResourceList(@RequestBody List<Resource> resourceList) {
         resourceService.addResourceList(resourceList);
     }
 
@@ -30,17 +32,23 @@ public class ResourceController {
 
     @GetMapping("/resource/{id}")
     public Resource getResourceById(@PathVariable Integer resourceId) {
-        return resourceService.getResourceById(resourceId);
+        return resourceService.getResourceById(resourceId).get();
     }
 
-    @GetMapping("/resource/{createDate}")
-    public Resource getResourceByCreateDate(@PathVariable Date createDate) {
-        return resourceService.getResourceByCreateDate(createDate);
-    }
+//    @GetMapping("/resource/{createDate}")
+//    public Resource getResourceByCreateDate(@PathVariable Date createDate) {
+//        return resourceService.getResourceByCreateDate(createDate);
+//    }
 
-    @PutMapping("/resource/{resource}")
-    public void setResourceById(@PathVariable Resource resource) {
-        resourceService.setResourceById(resource);
+    @PutMapping("/resource/{id}")
+    public ResponseEntity<?> setResourceById(@RequestBody Resource resource, @PathVariable Integer id) {
+        Optional<Resource> existResource = resourceService.getResourceById(id);
+        if (existResource.isPresent()) {
+            resource.setId(id);
+            resourceService.addResource(resource);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/resource/{resourceId}")

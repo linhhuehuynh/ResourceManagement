@@ -4,6 +4,7 @@ import com.example.demoresourcemanagement.entity.Resource;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * C:
@@ -33,7 +34,7 @@ public interface ResourceService {
 
     List<Resource> getAllResources(); // 不需要传参数
 
-    Resource getResourceById(int resource_id);
+    Optional<Resource> getResourceById(int resource_id);
 
     Resource getResourceByCreateDate(Date createDate);
 

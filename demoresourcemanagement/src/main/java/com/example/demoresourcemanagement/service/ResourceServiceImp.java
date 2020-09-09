@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResourceServiceImp implements ResourceService {
@@ -31,8 +32,8 @@ public class ResourceServiceImp implements ResourceService {
     }
 
     @Override
-    public Resource getResourceById(int resourceId) {
-        return resourceDao.getOne(resourceId);
+    public Optional<Resource> getResourceById(int resourceId) {
+        return resourceDao.findById(resourceId);
     }
 
     @Override

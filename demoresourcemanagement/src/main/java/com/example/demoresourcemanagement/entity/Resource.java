@@ -2,6 +2,7 @@ package com.example.demoresourcemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,8 +39,8 @@ public class Resource {
     @JsonIgnore
     @JoinColumn(name = "parent_resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"), insertable = false, updatable = false)
     private Resource resourceByParentResourceId;
-
-    @OneToMany(mappedBy = "resourceByParentResourceId", orphanRemoval = true)
+// remove "orphanremoval = true"
+    @OneToMany(mappedBy = "resourceByParentResourceId")
     private List<Resource> resourcesByResourceId;
 
 
