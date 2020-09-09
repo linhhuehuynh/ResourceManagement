@@ -5,40 +5,53 @@ import com.example.demoresourcemanagement.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/resource")
 public class ResourceController {
-
     @Autowired
     private ResourceService resourceService;
 
-    @GetMapping("")
-    public List<Resource> getAll(){
+    @PostMapping("/resource")
+    void addResource(Resource resource) {
+        resourceService.addResource(resource);
+    }
+
+    @PostMapping("/resources")
+    public void addResourceList(List<Resource> resourceList) {
+        resourceService.addResourceList(resourceList);
+    }
+
+    @GetMapping("/resources")
+    public List<Resource> getAllResources() {
         return resourceService.getAllResources();
     }
 
-    @PostMapping("")
-    public Resource addResource(@RequestBody Resource resource){
-        return resourceService.addResource(resource);
+    @GetMapping("/resource/{id}")
+    public Resource getResourceById(@PathVariable Integer resourceId) {
+        return resourceService.getResourceById(resourceId);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteResourceById(@PathVariable int id){
-        resourceService.deleteResourceById(id);
-        return "Deleted resource id " + id;
+    @GetMapping("/resource/{createDate}")
+    public Resource getResourceByCreateDate(@PathVariable Date createDate) {
+        return resourceService.getResourceByCreateDate(createDate);
     }
 
-    @DeleteMapping("")
-    public String deleteAll(){
+    @PutMapping("/resource/{resource}")
+    public void setResourceById(@PathVariable Resource resource) {
+        resourceService.setResourceById(resource);
+    }
+
+    @DeleteMapping("/resource/{resourceId}")
+    public void deleteResourceById(@PathVariable int resourceId) {
+        resourceService.deleteResourceById(resourceId);
+    }
+
+    @DeleteMapping("/reources")
+    public void deleteAllResources() {
         resourceService.deleteAllResources();
-        return "Deleted all resources succesfully!";
+
     }
 
-    @PutMapping("")
-    public Resource updateResource(Resource resource){
-        return resourceService.updateResource(resource);
-    }
 }
-
