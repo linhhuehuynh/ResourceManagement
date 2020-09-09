@@ -2,6 +2,8 @@ package com.example.demoresourcemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.*;
@@ -15,13 +17,15 @@ public class Project {
     @Column(name = "project_id")
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NotNull
     private String name;
 
+    @CreationTimestamp
     @Column(name = "create_date")
     private Date createDate;
 
+    @UpdateTimestamp
     @Column(name = "update_date")
     private Date updateDate;
 
@@ -41,10 +45,8 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, Date createDate, Date updateDate, int userId) {
+    public Project(String name, int userId) {
         this.name = name;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
         this.userId = userId;
     }
 
@@ -89,23 +91,25 @@ public class Project {
     }
 
 
-
+//Waiting for ProjectResource entity
 //    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    public List<ProjectResource> getProjectResource() {
 //        return projectResource;
 //    }
-//
+
 //    public void setProjectResource(List<ProjectResource> projectResource) {
 //        this.projectResource = projectResource;
 //    }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    //Commented out this one so POSTMAN will not return an infinite loop between user and project
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<ProjectColumn> getProjectColumns() {
