@@ -15,7 +15,7 @@ public class ProjectServiceImp implements ProjectService {
     private ProjectDao projectDao;
 
     @Override
-    public Project addProjet(Project project) {
+    public Project addProject(Project project) {
         return projectDao.save(project);
     }
 

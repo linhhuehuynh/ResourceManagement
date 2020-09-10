@@ -1,5 +1,6 @@
 package com.example.demoresourcemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -19,20 +20,17 @@ public class ProjectColumn {
     @Column(name="column_type")
     private String columnType;
 
-//    @Column(name="project_id")
-//    private int projectId;
-
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
-    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name = "project_id_fk"), nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name = "project_id_fk"), nullable = false)
     private Project project;
 
     public ProjectColumn() {
     }
 
-    public ProjectColumn(String projectColumnName, String columnType, Project projectId) {
+    public ProjectColumn(String projectColumnName, String columnType, Project project) {
         this.projectColumnName = projectColumnName;
         this.columnType = columnType;
-        this.project = projectId;
+        this.project = project;
     }
 
     public int getId() {
@@ -59,17 +57,9 @@ public class ProjectColumn {
         this.columnType = columnType;
     }
 
-//    public int getProjectId() {
-//        return projectId;
-//    }
-//
-//    public void setProjectId(int projectId) {
-//        this.projectId = projectId;
-//    }
-
-//    Commented out this to avoid infinite returning of json in Postman
-    public int getProject() {
-        return project.getId();
+    @JsonBackReference
+    public Project getProject() {
+        return project;
     }
 
     public void setProject(Project project) {
