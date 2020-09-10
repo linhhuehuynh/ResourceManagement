@@ -32,14 +32,14 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/projects/{name}")
-    public ResponseEntity<Project> get(@PathVariable String name) {
-        Optional<Project> project = projectService.findByName(name);
-        if (project.isPresent()) {
-            return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("/projects/{name}")
+//    public ResponseEntity<Project> get(@PathVariable String name) {
+//        Optional<Project> project = projectService.findByName(name);
+//        if (project.isPresent()) {
+//            return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
     @PostMapping("/projects")
     public void add(@RequestBody Project project) {
