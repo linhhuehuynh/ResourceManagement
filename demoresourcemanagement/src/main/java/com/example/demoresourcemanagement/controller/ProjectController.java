@@ -3,71 +3,53 @@ package com.example.demoresourcemanagement.controller;
 import com.example.demoresourcemanagement.entity.Project;
 import com.example.demoresourcemanagement.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
+@RequestMapping("/project")
 public class ProjectController {
-
     @Autowired
     private ProjectService projectService;
 
-    @GetMapping("/projects")
-    public List<Project> findAll() {
-        return projectService.findAll();
+    @GetMapping("")
+    public List<Project> getAllProjects() {
+        return projectService.getAllProjects();
     }
 
-    @GetMapping("/projects/{id}")
-    public ResponseEntity<Project> get(@PathVariable Integer id) {
-        try {
-            Optional<Project> project = projectService.findById(id);
-            return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<Project>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getProjectsById(@PathVariable Integer id) {
+        return projectService.getProjectById(id);
     }
 
-//    @GetMapping("/projects/{name}")
-//    public ResponseEntity<Project> get(@PathVariable String name) {
-//        Optional<Project> project = projectService.findByName(name);
-//        if (project.isPresent()) {
-//            return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-
-    @PostMapping("/projects")
-    public void add(@RequestBody Project project) {
+    @PostMapping("")
+    public void addProject(@RequestBody Project project) {
         projectService.addProject(project);
     }
 
-    @PutMapping("/projects/{id}")
-    public ResponseEntity<?> update(@RequestBody Project project, @PathVariable Integer id) {
-        Optional<Project> existProject = projectService.findById(id);
-        if (existProject.isPresent()) {
-            project.setId(id);
-            projectService.addProject(project);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> updateProject(@RequestBody Project project, @PathVariable Integer id) {
+        return projectService.updateProject(project, id);
     }
 
-    @DeleteMapping("/projects/{id}")
-    public void delete(@PathVariable Integer id) {
-        Optional<Project> existProject = projectService.findById(id);
-        if (existProject.isPresent()) {
-            projectService.delete(existProject.get().getId());
-        }
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        return projectService.deleteProjectById(id);
     }
 
-    @DeleteMapping("/projects")
-    public void deleteAll() {
-        projectService.deleteAll();
+    @DeleteMapping("")
+    @ResponseBody
+    public ResponseEntity<?> deleteAll() {
+        return projectService.deleteAllProjects();
     }
 
+    @GetMapping("/resource/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getProjectsByResourceId(@PathVariable Integer id) {
+        return projectService.getProjectsByResourceId(id);
+    }
 }

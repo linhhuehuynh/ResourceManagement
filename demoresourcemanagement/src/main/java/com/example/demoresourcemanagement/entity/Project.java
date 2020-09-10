@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -38,7 +38,7 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProjectColumn> projectColumns;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "project_resource",
             joinColumns = @JoinColumn(name = "project_id"),
@@ -52,6 +52,10 @@ public class Project {
     public Project(String name, User user) {
         this.name = name;
         this.user = user;
+    }
+
+    public void addResource(Resource resource) {
+        this.resourceList.add(resource);
     }
 
     public int getId() {

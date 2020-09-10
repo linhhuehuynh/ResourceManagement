@@ -2,12 +2,12 @@ package com.example.demoresourcemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -15,38 +15,37 @@ public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name ="resource_id")
+    @Column(name = "resource_id")
     private int id;
 
-    @Column (name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column (name="code")
+    @Column(name = "code")
     private String code;
 
     @Column(name = "parent_resource_id")
     private int parentResourceId;
 
     @CreationTimestamp
-    @Column (name="create_date")
+    @Column(name = "create_date")
     private Date createDate;
 
     @UpdateTimestamp
-    @Column (name="update_date")
+    @Column(name = "update_date")
     private Date updateDate;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "parent_resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"), insertable = false, updatable = false)
+    @JoinColumn(name = "parent_resource_id", foreignKey = @ForeignKey(name = "parent_resource_id_fk"), insertable = false, updatable = false)
     private Resource resourceByParentResourceId;
-// remove "orphanremoval = true"
+    // remove "orphanremoval = true"
     @OneToMany(mappedBy = "resourceByParentResourceId")
     private List<Resource> resourcesByResourceId;
 
-
-    @ManyToMany(mappedBy = "resourceList")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "resourceList", fetch = FetchType.LAZY)
     private List<Project> projectList;
-
 
 
 //    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -138,7 +137,7 @@ public class Resource {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "parent_resource_id",  foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
+    @JoinColumn(name = "parent_resource_id", foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
     public Resource getResourceByParentResourceId() {
         return resourceByParentResourceId;
     }
@@ -146,6 +145,7 @@ public class Resource {
     public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
         this.resourceByParentResourceId = resourceByParentResourceId;
     }
+
 
     //Commented out to avoid infinite return of JSON objects in Postman
 //    @OneToMany(mappedBy = "resourceByParentResourceId")
