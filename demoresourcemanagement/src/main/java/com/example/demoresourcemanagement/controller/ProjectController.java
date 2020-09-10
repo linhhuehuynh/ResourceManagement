@@ -43,7 +43,7 @@ public class ProjectController {
 
     @PostMapping("/projects")
     public void add(@RequestBody Project project) {
-        projectService.addProjet(project);
+        projectService.addProject(project);
     }
 
     @PutMapping("/projects/{id}")
@@ -51,7 +51,7 @@ public class ProjectController {
         Optional<Project> existProject = projectService.findById(id);
         if (existProject.isPresent()) {
             project.setId(id);
-            projectService.addProjet(project);
+            projectService.addProject(project);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

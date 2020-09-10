@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ProjectService {
 
 
-    Project addProjet(Project project);
+    Project addProject(Project project);
 
     //List<Project> saveAll(List<Project> projects);
 

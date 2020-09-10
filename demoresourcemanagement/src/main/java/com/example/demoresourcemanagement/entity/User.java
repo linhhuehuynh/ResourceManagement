@@ -92,6 +92,7 @@ public class User {
         this.role = role;
     }
 
+    @JsonManagedReference
     public List<Project> getProjects() {
         return projects;
     }
