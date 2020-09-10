@@ -146,6 +146,7 @@ public class Resource {
         this.resourceByParentResourceId = resourceByParentResourceId;
     }
 
+
     //Commented out to avoid infinite return of JSON objects in Postman
 //    @OneToMany(mappedBy = "resourceByParentResourceId")
 //    public List<Resource> getResourcesByResourceId() {
