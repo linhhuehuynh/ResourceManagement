@@ -1,6 +1,7 @@
 package com.example.demoresourcemanagement.service;
 
 import com.example.demoresourcemanagement.dao.UserDao;
+import com.example.demoresourcemanagement.entity.Project;
 import com.example.demoresourcemanagement.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,20 +22,19 @@ public class UserService {
         userDao.save(user);
     }
 
-    public ResponseEntity<User> getUserById(int id) {
+    public ResponseEntity<?> getUserById(int id) {
         try{
             Optional<User> user = userDao.findById(id);
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
         }
     }
-
-    public List<User> getAllUser() {return userDao.findAll();};
 
     public ResponseEntity<?> setUserById(int id, User user) {
         Optional<User> existUser = userDao.findById(id);
         if(existUser.isPresent()) {
+            user.setId(id);
             userDao.save(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
@@ -49,4 +49,18 @@ public class UserService {
         }
         return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
     }
+
+    public ResponseEntity<?> getUserAll() {
+        try {
+            List<User> userList = userDao.findAll();
+            return new ResponseEntity<>(userList, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>("No User List Found!", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+//    public ResponseEntity<?> getAllProjectByUserId(int id) {
+//        Optional<List<Project>> existUser = userDao.findAllProjectByUserId(id);
+//    }
 }

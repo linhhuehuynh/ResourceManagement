@@ -23,14 +23,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("")
     @ResponseBody
-    public List<User> getAllUsers() {
-        return userService.getAllUser();
+    public ResponseEntity<?> getUserAll() {
+        return userService.getUserAll();
     }
 
     @PutMapping("/{id}")
@@ -42,4 +42,10 @@ public class UserController {
     public ResponseEntity<?> deleteUserById(@PathVariable int id) {
         return userService.deleteUserById(id);
     }
+
+//    @GetMapping("/{id}/project")
+//    public ResponseEntity<?> getAllProjectByUserId(@PathVariable int id) {
+//        return userService.getAllProjectByUserId(id);
+//    }
+
 }

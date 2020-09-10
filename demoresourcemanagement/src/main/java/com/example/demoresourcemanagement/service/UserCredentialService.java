@@ -30,11 +30,13 @@ public class UserCredentialService {
         }
     }
 
-    public void setUserCredential(UserCredential userCredential) {
-        userCredentialDao.equals(userCredential);
-    }
-
-    public void deleteUserCredential(int id) {
-        userCredentialDao.deleteById(id);
+    public ResponseEntity<?> setUserCredential(int id, UserCredential userCredential) {
+        Optional<UserCredential> existUserCredential1 = userCredentialDao.findById(id);
+        if(existUserCredential1.isPresent()) {
+            userCredential.setId(id);
+            userCredentialDao.save(userCredential);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

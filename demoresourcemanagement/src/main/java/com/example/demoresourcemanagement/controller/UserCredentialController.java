@@ -29,8 +29,8 @@ public class UserCredentialController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> setUserCredential(@RequestBody UserCredential userCredential) {
-        return userCredentialService.setUserCredential(userCredential);
+    public ResponseEntity<?> setUserCredential(@PathVariable int id, @RequestBody UserCredential userCredential) {
+        return userCredentialService.setUserCredential(id, userCredential);
     }
 
     @DeleteMapping("/{id}")
