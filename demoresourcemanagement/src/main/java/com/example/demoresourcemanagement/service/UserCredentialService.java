@@ -34,8 +34,8 @@ public class UserCredentialService {
         Optional<UserCredential> existUserCredential1 = userCredentialDao.findById(id);
         if(existUserCredential1.isPresent()) {
             userCredential.setId(id);
-            userCredentialDao.save(userCredential);
-            return new ResponseEntity<>(HttpStatus.OK);
+            userCredential = userCredentialDao.save(userCredential);
+            return new ResponseEntity<>(userCredential, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
