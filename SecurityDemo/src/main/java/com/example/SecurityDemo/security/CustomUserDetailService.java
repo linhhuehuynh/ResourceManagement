@@ -1,19 +1,26 @@
 package com.example.SecurityDemo.security;
 
 import com.example.SecurityDemo.entity.SysRole;
+import com.example.SecurityDemo.entity.SysUser;
 import com.example.SecurityDemo.entity.SysUserRole;
 import com.example.SecurityDemo.service.SysRoleService;
+import com.example.SecurityDemo.service.SysRoleUserService;
 import com.example.SecurityDemo.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service("userDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private SysUserService userService;
 
@@ -21,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private SysRoleService roleService;
 
     @Autowired
-    private SysUserRoleService userRoleService;
+    private SysRoleUserService userRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,11 +44,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 添加权限
         List<SysUserRole> userRoles = userRoleService.listByUserId(user.getId());
         for (SysUserRole userRole : userRoles) {
-            SysRole role = roleService.selectById(userRole.getRoleId());
+            SysRole role = roleService.selectById(userRole.getRole_id());
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
 
         // 返回UserDetails实现类
-        return new User(user.getName(), user.getPassword(), authorities);
+        return new User(user.getUsername(), user.getPassword(), authorities);
     }
 }

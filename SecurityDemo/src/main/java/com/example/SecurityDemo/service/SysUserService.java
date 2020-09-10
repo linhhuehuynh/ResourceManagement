@@ -14,4 +14,7 @@ public class SysUserService {
         return userMapper.selectById(id);
     }
 
+    public SysUser selectByName(String name) {
+        return userMapper.selectByName(name);
+    }
 }

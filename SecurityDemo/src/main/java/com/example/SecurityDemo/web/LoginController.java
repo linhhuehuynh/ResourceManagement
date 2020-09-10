@@ -1,6 +1,17 @@
+package com.example.SecurityDemo.web;
+
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.logging.Logger;
+
 @Controller
 public class LoginController {
-    private Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private Logger logger = (Logger) LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping("/")
     public String showHome() {

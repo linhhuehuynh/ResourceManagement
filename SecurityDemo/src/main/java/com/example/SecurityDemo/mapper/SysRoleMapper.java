@@ -1,6 +1,8 @@
 package com.example.SecurityDemo.mapper;
 
 import com.example.SecurityDemo.entity.SysRole;
+import org.springframework.web.bind.annotation.Mapping;
+
 
 @Mapper
 public interface SysRoleMapper {
