@@ -3,7 +3,7 @@ package com.example.demoresourcemanagement.controller;
 import com.example.demoresourcemanagement.entity.User;
 import com.example.demoresourcemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +15,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
-    public User addUser(@RequestBody User user) {
-        userService.addUser(user);
-        return user;
-    }
+//    @PostMapping("")
+//    public User addUser(@RequestBody User user) {
+//        userService.addUser(user);
+//        return user;
+//    }
 
     @GetMapping("/{id}")
-    public @ResponseBody User getUserById(@PathVariable int id) {
+    @ResponseBody
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("")
     @ResponseBody
-    public List<User> getAllUsers() {
-        return userService.getAllUser();
+    public ResponseEntity<?> getUserAll() {
+        return userService.getUserAll();
     }
 
-    @PutMapping("")
-    public User setUserById(@RequestBody User user) {
-        userService.setUserById(user);
-        return user;
+    @PutMapping("/{id}")
+    public ResponseEntity<?> setUserById(@PathVariable int id, @RequestBody User user) {
+        return userService.setUserById(id, user);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUserById(@PathVariable int id) {
-        userService.deleteUserById(id);
-        return "Deleted user " + id;
+    public ResponseEntity<?> deleteUserById(@PathVariable int id) {
+        return userService.deleteUserById(id);
     }
+
+//    @GetMapping("/{id}/project")
+//    public ResponseEntity<?> getAllProjectByUserId(@PathVariable int id) {
+//        return userService.getAllProjectByUserId(id);
+//    }
+
 }

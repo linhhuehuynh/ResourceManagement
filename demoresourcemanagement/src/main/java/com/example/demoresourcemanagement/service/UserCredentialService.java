@@ -2,8 +2,14 @@ package com.example.demoresourcemanagement.service;
 
 import com.example.demoresourcemanagement.dao.UserCredentialDao;
 import com.example.demoresourcemanagement.entity.UserCredential;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserCredentialService {
@@ -15,15 +21,22 @@ public class UserCredentialService {
         userCredentialDao.save(userCredential);
     }
 
-    public UserCredential getUserCredential(int id) {
-        return userCredentialDao.getOne(id);
+    public ResponseEntity<UserCredential> getUserCredential(int id) {
+        try {
+            Optional<UserCredential> existUserCredential = userCredentialDao.findById(id);
+            return new ResponseEntity<>(existUserCredential.get(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    public void setUserCredential(UserCredential userCredential) {
-        userCredentialDao.equals(userCredential);
-    }
-
-    public void deleteUserCredential(int id) {
-        userCredentialDao.deleteById(id);
+    public ResponseEntity<?> setUserCredential(int id, UserCredential userCredential) {
+        Optional<UserCredential> existUserCredential1 = userCredentialDao.findById(id);
+        if(existUserCredential1.isPresent()) {
+            userCredential.setId(id);
+            userCredentialDao.save(userCredential);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
