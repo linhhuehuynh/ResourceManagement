@@ -6,7 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -29,17 +30,17 @@ public class Project {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private int userId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_fk"), nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_fk"), nullable = false, insertable = false, updatable = false)
     private User user;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProjectColumn> projectColumns;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "project_resource",
             joinColumns = @JoinColumn(name = "project_id"),
@@ -47,15 +48,19 @@ public class Project {
     )
     private List<Resource> resourceList;
 
-//    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<ProjectResource> projectResource;
-
     public Project() {
     }
+
+//    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<ProjectResource> projectResource;
 
     public Project(String name, int userId) {
         this.name = name;
         this.userId = userId;
+    }
+
+    public void addResource(Resource resource) {
+        this.resourceList.add(resource);
     }
 
     public int getId() {
@@ -97,7 +102,6 @@ public class Project {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-
 
 
 //Waiting for ProjectResource entity

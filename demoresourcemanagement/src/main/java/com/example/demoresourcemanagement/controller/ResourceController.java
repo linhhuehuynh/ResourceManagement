@@ -3,63 +3,67 @@ package com.example.demoresourcemanagement.controller;
 import com.example.demoresourcemanagement.entity.Resource;
 import com.example.demoresourcemanagement.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@RequestMapping("/resource")
 public class ResourceController {
     @Autowired
     private ResourceService resourceService;
 
-    @PostMapping("/resource")
+    @PostMapping("")
     void addResource(@RequestBody Resource resource) {
         resourceService.addResource(resource);
     }
 
-    @PostMapping("/resources")
+    @PostMapping("/all")
     public void addResourceList(@RequestBody List<Resource> resourceList) {
         resourceService.addResourceList(resourceList);
     }
 
-    @GetMapping("/resources")
-    public List<Resource> getAllResources() {
+    @GetMapping("")
+    @ResponseBody
+    public ResponseEntity<?> getAllResources() {
         return resourceService.getAllResources();
     }
 
-    @GetMapping("/resource/{id}")
-    public Resource getResourceById(@PathVariable Integer resourceId) {
-        return resourceService.getResourceById(resourceId).get();
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getResourceById(@PathVariable Integer resourceId) {
+        return resourceService.getResourceById(resourceId);
     }
 
-//    @GetMapping("/resource/{createDate}")
-//    public Resource getResourceByCreateDate(@PathVariable Date createDate) {
-//        return resourceService.getResourceByCreateDate(createDate);
-//    }
-
-    @PutMapping("/resource/{id}")
+    @PutMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<?> setResourceById(@RequestBody Resource resource, @PathVariable Integer id) {
-        Optional<Resource> existResource = resourceService.getResourceById(id);
-        if (existResource.isPresent()) {
-            resource.setId(id);
-            resourceService.addResource(resource);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return resourceService.setResourceById(resource, id);
     }
 
-    @DeleteMapping("/resource/{resourceId}")
-    public void deleteResourceById(@PathVariable int resourceId) {
-        resourceService.deleteResourceById(resourceId);
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteResourceById(@PathVariable int id) {
+        return resourceService.deleteResourceById(id);
     }
 
-    @DeleteMapping("/reources")
-    public void deleteAllResources() {
-        resourceService.deleteAllResources();
+    @DeleteMapping("")
+    @ResponseBody
+    public ResponseEntity<?> deleteAllResources() {
+        return resourceService.deleteAllResources();
+    }
 
+    @GetMapping("/project/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getResourcesByProjectId(@PathVariable Integer id) {
+        return resourceService.getResourcesByProjectId(id);
+    }
+
+    @PostMapping("/project/{id}")
+    @ResponseBody
+    public void addResourcesToProject(@RequestBody List<Resource> resourceList, @PathVariable Integer id) {
+        resourceService.addResourcesToProject(resourceList, id);
     }
 
 }
