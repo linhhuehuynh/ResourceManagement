@@ -41,7 +41,7 @@ public class ProjectService {
         if (existProject.isPresent()) {
             project.setId(id);
             projectDao.save(project);
-            return new ResponseEntity<>("Updated Project Successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Updated Project Successfully!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
     }
@@ -50,14 +50,14 @@ public class ProjectService {
         Optional<Project> existProject = projectDao.findById(id);
         if (existProject.isPresent()) {
             projectDao.deleteById(id);
-            return new ResponseEntity<>("Deleted Project Successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Deleted Project Successfully!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<?> deleteAllProjects() {
         projectDao.deleteAll();
-        return new ResponseEntity<>("Deleted Project Successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted All Projects Successfully!", HttpStatus.OK);
     }
 
     public ResponseEntity<?> getProjectsByResourceId(int resouceId) {
