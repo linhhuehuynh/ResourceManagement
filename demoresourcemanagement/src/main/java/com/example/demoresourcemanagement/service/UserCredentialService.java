@@ -6,13 +6,15 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserCredentialService {
+public class UserCredentialService implements UserDetailsService {
 
     @Autowired
     private UserCredentialDao userCredentialDao;
@@ -38,5 +40,14 @@ public class UserCredentialService {
             return new ResponseEntity<>(userCredential, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public UserCredential loadUserByUsername(String name) throws UsernameNotFoundException {
+        UserCredential userCredential = userCredentialDao.findByUsername(name);
+        if (userCredential == null){
+            throw new UsernameNotFoundException("Username doesn't exist!");
+        }
+        return userCredential;
     }
 }
