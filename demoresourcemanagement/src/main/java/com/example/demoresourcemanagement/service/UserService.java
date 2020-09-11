@@ -35,7 +35,7 @@ public class UserService {
         Optional<User> existUser = userDao.findById(id);
         if(existUser.isPresent()) {
             user.setId(id);
-            userDao.save(user);
+            user = userDao.save(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
