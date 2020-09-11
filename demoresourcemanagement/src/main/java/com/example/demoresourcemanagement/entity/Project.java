@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -96,6 +97,23 @@ public class Project {
 
     public void setResourceList(List<Resource> resourceList) {
         this.resourceList = resourceList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return id == project.id &&
+                name.equals(project.name) &&
+                user.equals(project.user) &&
+                Objects.equals(projectColumns, project.projectColumns) &&
+                Objects.equals(resourceList, project.resourceList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, user, projectColumns, resourceList);
     }
 
     @JsonBackReference
