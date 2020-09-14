@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DemoresourcemanagementApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
