@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -17,39 +18,43 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("")
-//    public User addUser(@RequestBody User user) {
-//        userService.addUser(user);
-//        return user;
-//    }
-
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+        try{
+            Optional<User> user = userService.getUserById(id);
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("")
     @ResponseBody
     public ResponseEntity<?> getUserAll() {
-        return userService.getUserAll();
+        Optional<List<User>> existUserList = userService.getUserAll();
+        if(existUserList.isPresent()) {
+            return new ResponseEntity<>(existUserList.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No User List Found!", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> setUserById(@PathVariable int id, @RequestBody User user) {
         Optional<User> existUser = userService.setUserById(id, user);
-        if (existUser.isPresent())  { return new ResponseEntity<>(existUser.get(), HttpStatus.OK);}
+        if (existUser.isPresent()) {
+            return new ResponseEntity<>(existUser.get(), HttpStatus.OK);
+        }
         return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable int id) {
-        return userService.deleteUserById(id);
+        Optional<User> existUser = userService.deleteUserById(id);
+        if(existUser.isPresent()) {
+            return new ResponseEntity<>("Deleted User Successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
     }
-
-//    @GetMapping("/{id}/project")
-//    public ResponseEntity<?> getAllProjectByUserId(@PathVariable int id) {
-//        return userService.getAllProjectByUserId(id);
-//    }
-
 }

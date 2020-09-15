@@ -18,51 +18,36 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    public void addUser(User user) {
-        userDao.save(user);
+    public Optional<User> getUserById(int id) {
+        return userDao.findById(id);
     }
 
-    public ResponseEntity<?> getUserById(int id) {
-        try{
-            Optional<User> user = userDao.findById(id);
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    public Optional<List<User>> getUserAll() {
+        try {
+            List<User> userList = userDao.findAll();
+            return Optional.of(userList);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+            return Optional.empty();
         }
+
     }
 
     public Optional<User> setUserById(int id, User user) {
         Optional<User> existUser = userDao.findById(id);
         if(existUser.isPresent()) {
             user.setId(id);
-
             User savedUser = userDao.save(user);
-            Optional<User> result = Optional.of(savedUser);
-            return result;
+            return Optional.of(savedUser);
         }
         return Optional.empty();
     }
 
-    public ResponseEntity<?> deleteUserById(int id) {
+    public Optional<User> deleteUserById(int id) {
         Optional<User> existUser = userDao.findById(id);
         if(existUser.isPresent()) {
             userDao.deleteById(id);
-            return new ResponseEntity<>("Deleted User Successfully", HttpStatus.OK);
+            return Optional.of(existUser.get());
         }
-        return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        return Optional.empty();
     }
-
-    public ResponseEntity<?> getUserAll() {
-        try {
-            List<User> userList = userDao.findAll();
-            return new ResponseEntity<>(userList, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("No User List Found!", HttpStatus.NOT_FOUND);
-        }
-
-    }
-
-//    public ResponseEntity<?> getAllProjectByUserId(int id) {
-//        Optional<List<Project>> existUser = userDao.findAllProjectByUserId(id);
-//    }
 }
