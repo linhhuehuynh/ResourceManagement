@@ -1,5 +1,6 @@
 package com.example.demoresourcemanagement.controller;
 
+import com.example.demoresourcemanagement.entity.User;
 import com.example.demoresourcemanagement.entity.UserCredential;
 import com.example.demoresourcemanagement.security.util.JwtUtil;
 import com.example.demoresourcemanagement.service.UserCredentialService;
@@ -13,6 +14,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("")
@@ -32,8 +36,13 @@ public class UserCredentialController {
     private JwtUtil jwtTokenUtil;
 
     @PostMapping("/register")
-    public void addUserCredential(@RequestBody UserCredential userCredential) {
-        userCredentialService.addUserCredential(userCredential);
+    public ResponseEntity<?> addUserCredential(@RequestBody UserCredential userCredential) {
+        Optional<UserCredential> createdUserCredential = userCredentialService.addUserCredential(userCredential);
+        if (createdUserCredential.isPresent()) {
+            return new ResponseEntity<UserCredential>(createdUserCredential.get(),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(userCredential.getUsername() + " Has Been Registered!", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -45,7 +54,7 @@ public class UserCredentialController {
             );
         }
         catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new Exception("Incorrect Username Or Password", e);
         }
 
 
@@ -62,18 +71,34 @@ public class UserCredentialController {
 
     @GetMapping("/userCredential/{id}")
     @ResponseBody
-    public ResponseEntity<UserCredential> getUserCredential(@PathVariable int id) {
-        return userCredentialService.getUserCredential(id);
+    public ResponseEntity<?> getUserCredential(@PathVariable int id) {
+        Optional<UserCredential> existUserCredential =  userCredentialService.getUserCredential(id);
+        if(existUserCredential.isPresent()) {
+            return new ResponseEntity<>(existUserCredential.get(), HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/userCredential/{id}")
     public ResponseEntity<?> setUserCredential(@PathVariable int id, @RequestBody UserCredential userCredential) {
-        return userCredentialService.setUserCredential(id, userCredential);
+        Optional<UserCredential> existUserCredential = userCredentialService.setUserCredential(id, userCredential);
+        if (existUserCredential == null) {
+            return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        } else if(existUserCredential.isPresent()) {
+            return new ResponseEntity<>("Update User Credential Successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Username Has been Used, Please Use Another Username!", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/userCredential/{id}")
     public ResponseEntity<?> deleteUserCredentialById(@PathVariable int id) {
-        return userService.deleteUserById(id);
+        Optional<User> existUser = userService.deleteUserById(id);
+        if(existUser.isPresent()) {
+            return new ResponseEntity<>("Deleted User Successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
     }
 }
 
