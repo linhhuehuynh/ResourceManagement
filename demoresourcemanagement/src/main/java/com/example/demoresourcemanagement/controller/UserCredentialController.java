@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/userCredential")
+@RequestMapping("")
 public class UserCredentialController {
 
     @Autowired
@@ -17,23 +17,23 @@ public class UserCredentialController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+    @PostMapping("/register")
     public void addUserCredential(@RequestBody UserCredential userCredential) {
         userCredentialService.addUserCredential(userCredential);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/userCredential/{id}")
     @ResponseBody
     public ResponseEntity<UserCredential> getUserCredential(@PathVariable int id) {
         return userCredentialService.getUserCredential(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/userCredential/{id}")
     public ResponseEntity<?> setUserCredential(@PathVariable int id, @RequestBody UserCredential userCredential) {
         return userCredentialService.setUserCredential(id, userCredential);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/userCredential/{id}")
     public ResponseEntity<?> deleteUserCredentialById(@PathVariable int id) {
         return userService.deleteUserById(id);
     }
