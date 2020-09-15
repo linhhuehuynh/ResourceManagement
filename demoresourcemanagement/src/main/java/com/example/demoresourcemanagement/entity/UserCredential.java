@@ -4,16 +4,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserCredential {
+public class UserCredential implements Serializable {
 
     @Id
     @Column(name = "user_id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -25,13 +26,11 @@ public class UserCredential {
 
     public UserCredential() {
     }
-//
-//    public UserCredential(String username, String password, User user) {
-//        this.username = username;
-//        this.password = password;
-//        this.user = user;
-//    }
 
+    public UserCredential(String username, String password) {
+        this.setUsername(username);
+        this.setPassword(password);
+    }
     public int getId() {
         return id;
     }
