@@ -92,32 +92,32 @@ public class UserServiceTest {
 
     }
 
-    @Test
-    public void setUserById() {
-        /* Right case */
-        // Given
-        int id = 1;
-        User user1 = new User();
-        user1.setProfilePic("myProfile.jpg");
-        user1.setRole("manager");
-        // When
-        ResponseEntity<?> entity = userService.setUserById(id, user1);
-        HttpStatus hs = entity.getStatusCode();
-        // Actual
-        assertThat(hs).isEqualTo(HttpStatus.OK);
-
-        /* null case */
-        // Given
-        int id1 = 3;
-        User user2 = new User();
-        user2.setProfilePic("YourProfile.jpg");
-        user2.setRole("staff");
-        // When
-        ResponseEntity<?> entity1 = userService.setUserById(id1, user2);
-        HttpStatus hs1 = entity1.getStatusCode();
-        // Actual
-        assertThat(hs1).isEqualTo(HttpStatus.NOT_FOUND);
-    }
+//    @Test
+//    public void setUserById() {
+//        /* Right case */
+//        // Given
+//        int id = 1;
+//        User user1 = new User();
+//        user1.setProfilePic("myProfile.jpg");
+//        user1.setRole("manager");
+//        // When
+//        ResponseEntity<?> entity = userService.setUserById(id, user1);
+//        HttpStatus hs = entity.getStatusCode();
+//        // Actual
+//        assertThat(hs).isEqualTo(HttpStatus.OK);
+//
+//        /* null case */
+//        // Given
+//        int id1 = 3;
+//        User user2 = new User();
+//        user2.setProfilePic("YourProfile.jpg");
+//        user2.setRole("staff");
+//        // When
+//        ResponseEntity<?> entity1 = userService.setUserById(id1, user2);
+//        HttpStatus hs1 = entity1.getStatusCode();
+//        // Actual
+//        assertThat(hs1).isEqualTo(HttpStatus.NOT_FOUND);
+//    }
 
 
     @Test

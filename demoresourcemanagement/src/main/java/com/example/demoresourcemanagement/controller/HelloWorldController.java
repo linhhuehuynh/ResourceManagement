@@ -34,11 +34,11 @@ class HelloWorldController {
     }
 
 
-    @RequestMapping(value ="/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String returnLoginPage() {
         return "Please Login!";
     }
-
+}
 //    @RequestMapping(value = "/login", method = RequestMethod.POST)
 //    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserCredential userCredential) throws Exception {
 //
