@@ -24,6 +24,7 @@ public class UserCredentialController {
     @Autowired
     private UserService userService;
 
+
     @Autowired
     private AuthenticationManager authenticationManager;
 

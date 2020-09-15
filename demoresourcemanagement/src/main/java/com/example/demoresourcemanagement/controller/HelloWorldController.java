@@ -33,6 +33,7 @@ class HelloWorldController {
         return "Welcome to Resource Management Application!";
     }
 
+
     @RequestMapping(value ="/login", method = RequestMethod.GET)
     public String returnLoginPage() {
         return "Please Login!";
@@ -62,6 +63,6 @@ class HelloWorldController {
 //        return new ResponseEntity<>(headers, HttpStatus.OK);
 //    }
 
-}
+
 
 //ResponseEntity.ok(new AuthenticationResponse(jwt))
