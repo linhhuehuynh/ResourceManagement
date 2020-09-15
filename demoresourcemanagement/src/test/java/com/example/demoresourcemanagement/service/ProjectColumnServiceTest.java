@@ -27,9 +27,9 @@
 //public class ProjectColumnServiceTest {
 //
 //    @TestConfiguration
-//    static class ProjectColumnServiceTextContextConfiguration{
+//    static class ProjectColumnServiceTextContextConfiguration {
 //        @Bean
-//        public ProjectColumnService projectColumnService(){
+//        public ProjectColumnService projectColumnService() {
 //            return new ProjectColumnService();
 //        }
 //    }
@@ -46,10 +46,10 @@
 //    @Before
 //    public void setUp() {
 //
-//    //Set up for getAllColumnsByProjectIdTest
+//        //Set up for getAllColumnsByProjectIdTest
 //        ProjectColumn columnOne = new ProjectColumn();
 //        ProjectColumn columnTwo = new ProjectColumn();
-//        List<ProjectColumn> list = new ArrayList<>(Arrays.asList(columnOne,columnTwo));
+//        List<ProjectColumn> list = new ArrayList<>(Arrays.asList(columnOne, columnTwo));
 //
 //        Project project = new Project();
 //        project.setId(1);
@@ -60,7 +60,7 @@
 //        Mockito.when(projectColumnDao.getAllByProjectId(project.getId())).thenReturn(optionalProjectColumnList);
 //
 //
-//    //Set up for getProjectColumnByIdTest
+//        //Set up for getProjectColumnByIdTest
 //        ProjectColumn projectColumn = new ProjectColumn();
 //        projectColumn.setId(1);
 //        projectColumn.setColumnType("Text");
@@ -71,9 +71,11 @@
 //
 //    }
 //
+//
 //    @Test
 //    public void getAllColumnsByProjectIdTest1(){
 //        int id = 1;
+//
 //        ResponseEntity<?> found = projectColumnService.getAllColumnsByProjectId(id);
 //
 //        assertThat(found.hasBody());
