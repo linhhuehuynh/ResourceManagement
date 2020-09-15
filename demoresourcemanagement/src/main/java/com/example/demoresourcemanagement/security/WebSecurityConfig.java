@@ -42,15 +42,25 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/","/register","/login").permitAll().
-                anyRequest().authenticated()
 
-//                .and().formLogin().loginPage("/login").defaultSuccessUrl("/welcome")
-//                .permitAll()
+            .authorizeRequests()
+                .antMatchers("/","/register", "/login").permitAll()
+                .anyRequest().authenticated()
+//                .and()
 
+                //Figuring out this
+//                .formLogin()
+//                .loginPage("/login")
 
-//                .and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
-//                .and().formLogin().loginPage("/login")
+                //add logic in login to find user's first project
+//                .defaultSuccessUrl("/project")
+                .and()
+
+            .logout()
+                .permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                .logoutSuccessUrl("/login")
+
 
                 .and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -61,12 +71,3 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 }
 
-//.logout().permitAll()
-//.logoutRequestMatcher(new AntPathRequestMatcher("/users/logout", "POST")).and()
-////redirect to the login page
-//.formLogin().loginPage("/users/login").
-
-//                .permitAll().and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
-//                .and().formLogin().loginPage("/login").and().
-//                exceptionHandling().and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

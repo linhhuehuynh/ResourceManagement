@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("")
 class HelloWorldController {
 
     @Autowired
@@ -27,40 +28,41 @@ class HelloWorldController {
     @Autowired
     private UserCredentialService userCredentialService;
 
-    @RequestMapping({ "/welcome" })
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String firstPage() {
         return "Welcome to Resource Management Application!";
     }
 
-//    @GetMapping("/login")
-//    public String returnLoginPage() {
-//        return "Please Login!";
-//    }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserCredential userCredential) throws Exception {
-
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userCredential.getUsername(), userCredential.getPassword())
-            );
-        }
-        catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
-        }
-
-
-        final UserDetails userDetails = userCredentialService
-                .loadUserByUsername(userCredential.getUsername());
-
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("TOKEN", jwt);
-
-        return new ResponseEntity<>(new AuthenticationResponse(jwt), headers, HttpStatus.OK);
+    @RequestMapping(value ="/login", method = RequestMethod.GET)
+    public String returnLoginPage() {
+        return "Please Login!";
     }
 
-}
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserCredential userCredential) throws Exception {
+//
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(userCredential.getUsername(), userCredential.getPassword())
+//            );
+//        }
+//        catch (BadCredentialsException e) {
+//            throw new Exception("Incorrect username or password", e);
+//        }
+//
+//
+//        final UserDetails userDetails = userCredentialService
+//                .loadUserByUsername(userCredential.getUsername());
+//
+//        final String jwt = jwtTokenUtil.generateToken(userDetails);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("TOKEN", jwt);
+//
+//        return new ResponseEntity<>(headers, HttpStatus.OK);
+//    }
+
+
 
 //ResponseEntity.ok(new AuthenticationResponse(jwt))

@@ -119,6 +119,7 @@ public class UserServiceTest {
         assertThat(hs1).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+
     @Test
     public void deleteUserById() {
         /* Right case */

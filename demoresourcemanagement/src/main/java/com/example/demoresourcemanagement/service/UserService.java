@@ -31,14 +31,16 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> setUserById(int id, User user) {
+    public Optional<User> setUserById(int id, User user) {
         Optional<User> existUser = userDao.findById(id);
         if(existUser.isPresent()) {
             user.setId(id);
-            userDao.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+
+            User savedUser = userDao.save(user);
+            Optional<User> result = Optional.of(savedUser);
+            return result;
         }
-        return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        return Optional.empty();
     }
 
     public ResponseEntity<?> deleteUserById(int id) {
