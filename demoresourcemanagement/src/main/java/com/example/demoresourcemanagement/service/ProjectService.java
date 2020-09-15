@@ -57,7 +57,7 @@ public class ProjectService {
 
     public ResponseEntity<?> deleteAllProjects() {
         projectDao.deleteAll();
-        return new ResponseEntity<>("Deleted Project Successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted All Projects Successfully!", HttpStatus.OK);
     }
 
     public ResponseEntity<?> getProjectsByResourceId(int resouceId) {
