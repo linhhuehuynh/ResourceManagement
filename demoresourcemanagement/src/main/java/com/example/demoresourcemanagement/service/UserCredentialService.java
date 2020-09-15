@@ -21,27 +21,36 @@ public class UserCredentialService implements UserDetailsService {
     @Autowired
     private UserCredentialDao userCredentialDao;
 
-    public void addUserCredential(UserCredential userCredential) {
-        userCredentialDao.save(userCredential);
-    }
-
-    public ResponseEntity<UserCredential> getUserCredential(int id) {
-        try {
-            Optional<UserCredential> existUserCredential = userCredentialDao.findById(id);
-            return new ResponseEntity<>(existUserCredential.get(), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public Optional<UserCredential> addUserCredential(UserCredential userCredential) {
+        UserCredential existUserCredential = userCredentialDao.findByUsername(userCredential.getUsername());
+        if(existUserCredential != null) {
+            return Optional.empty();
+        } else {
+            userCredentialDao.save(userCredential);
+            UserCredential createdUserCredential = userCredentialDao.findByUsername(userCredential.getUsername());
+            createdUserCredential.setPassword("");
+            return Optional.of(createdUserCredential);
         }
     }
 
-    public ResponseEntity<?> setUserCredential(int id, UserCredential userCredential) {
+    public Optional<UserCredential> getUserCredential(int id) {
+        return userCredentialDao.findById(id);
+    }
+
+    public Optional<UserCredential> setUserCredential(int id, UserCredential userCredential) {
         Optional<UserCredential> existUserCredential1 = userCredentialDao.findById(id);
         if(existUserCredential1.isPresent()) {
+            UserCredential checkUserCredential = userCredentialDao.findByUsername(userCredential.getUsername());
+            if(checkUserCredential != null) {
+                if(checkUserCredential.getId() != id) {
+                    return Optional.empty();
+                }
+            }
             userCredential.setId(id);
-            userCredentialDao.save(userCredential);
-            return new ResponseEntity<>(HttpStatus.OK);
+            UserCredential savedUser = userCredentialDao.save(userCredential);
+            return Optional.of(savedUser);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return null;
     }
 
     @Override
