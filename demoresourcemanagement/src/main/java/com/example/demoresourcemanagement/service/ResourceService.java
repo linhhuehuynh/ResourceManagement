@@ -6,15 +6,12 @@ import com.example.demoresourcemanagement.entity.Project;
 import com.example.demoresourcemanagement.entity.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,52 +30,38 @@ public class ResourceService {
         resourceDao.saveAll(resourceList);
     }
 
-    public ResponseEntity<?> getAllResources() {
-        try {
-            List<Resource> resourceList = resourceDao.findAll();
-            return new ResponseEntity<>(resourceList, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("No Resource List Found!", HttpStatus.NOT_FOUND);
-        }
+    public List<Resource> getAllResources() {
+        return resourceDao.findAll();
     }
 
-    public ResponseEntity<?> getResourceById(int resourceId) {
-        try {
-            Optional<Resource> resource = resourceDao.findById(resourceId);
-            return new ResponseEntity<>(resource.get(), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("Resource Not Found!", HttpStatus.NOT_FOUND);
-        }
+    public Optional<Resource> getResourceById(int id) {
+        return resourceDao.findById(id);
     }
 
-    public ResponseEntity<?> setResourceById(Resource resource, int resourceId) {
+    public Optional<Resource> setResourceById(Resource resource, int resourceId) {
         Optional<Resource> existResource = resourceDao.findById(resourceId);
         if (existResource.isPresent()) {
             resource.setId(resourceId);
-            resourceDao.save(resource);
-            return new ResponseEntity<>("Updated Resource Successfully", HttpStatus.OK);
+            resourceDao.save(resource);;
         }
-        return new ResponseEntity<>("Resource Not Found!", HttpStatus.NOT_FOUND);
+        return existResource;
     }
 
-    public ResponseEntity<?> deleteResourceById(int resourceId) {
+    public Optional<Resource> deleteResourceById(int resourceId) {
         Optional<Resource> existResource = resourceDao.findById(resourceId);
         if (existResource.isPresent()) {
             resourceDao.deleteById(resourceId);
-            return new ResponseEntity<>("Deleted Resource Successfully", HttpStatus.OK);
         }
-        return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);
+        return existResource;
     }
 
-    public ResponseEntity<?> deleteAllResources() {
+    public void deleteAllResources() {
         resourceDao.deleteAll();
-        return new ResponseEntity<>("Deleted Resources Successfully", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getResourcesByProjectId(int projectId) {
+    public List<Resource> getResourcesByProjectId(int projectId) {
         Specification<Resource> specification = queryResourceCriteria(projectId);
-        List<Resource> resources = resourceDao.findAll(specification);
-        return new ResponseEntity<>(resources, HttpStatus.OK);
+        return resourceDao.findAll(specification);
     }
 
     private Specification<Resource> queryResourceCriteria(int projectId) {
@@ -93,19 +76,17 @@ public class ResourceService {
         };
     }
 
-    public void addResourcesToProject(List<Resource> resourceList, int projectId) {
+    public Optional<Project> addResourcesToProject(List<Resource> resourceList, int projectId) {
         Optional<Project> existProject = projectDao.findById(projectId);
-        if (!existProject.isPresent()) {
-            return;
+        if (existProject.isPresent()) {
+            Project project = existProject.get();
+            for (Resource resource : resourceList) {
+                project.addResource(resource);
+            }
+            resourceDao.saveAll(resourceList);
+            projectDao.save(project);
         }
-
-        Project project = existProject.get();
-        for (Resource resource : resourceList) {
-            project.addResource(resource);
-        }
-
-        resourceDao.saveAll(resourceList);
-        projectDao.save(project);
+        return existProject;
     }
 
 }
