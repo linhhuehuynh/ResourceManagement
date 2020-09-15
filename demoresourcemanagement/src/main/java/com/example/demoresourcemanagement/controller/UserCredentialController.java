@@ -14,9 +14,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("")
@@ -35,9 +39,17 @@ public class UserCredentialController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
+     @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/register")
     public ResponseEntity<?> addUserCredential(@RequestBody UserCredential userCredential) {
+        
+        //DOUBLE CHECK
+        String encodedPassword = passwordEncoder.encode(userCredential.getPassword());
+        userCredential.setPassword(encodedPassword);
         Optional<UserCredential> createdUserCredential = userCredentialService.addUserCredential(userCredential);
+        
         if (createdUserCredential.isPresent()) {
             return new ResponseEntity<UserCredential>(createdUserCredential.get(),HttpStatus.OK);
         } else {
@@ -45,7 +57,7 @@ public class UserCredentialController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody UserCredential userCredential) throws Exception {
 
         try {
@@ -54,7 +66,8 @@ public class UserCredentialController {
             );
         }
         catch (BadCredentialsException e) {
-            throw new Exception("Incorrect Username Or Password", e);
+//            throw new Exception("Incorrect username or password", e);
+            return new ResponseEntity<>("Incorrect username or password!", HttpStatus.NOT_FOUND);
         }
 
 
@@ -63,10 +76,18 @@ public class UserCredentialController {
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("TOKEN", jwt);
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.add("TOKEN", jwt);
 
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        Map<String,String> map = new HashMap<>();
+        map.put("jwt",jwt);
+        map.put("username",userCredential.getUsername());
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+        @GetMapping("/login")
+    public ResponseEntity<?> redirectLoginAfterLogOut() throws IOException {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/userCredential/{id}")

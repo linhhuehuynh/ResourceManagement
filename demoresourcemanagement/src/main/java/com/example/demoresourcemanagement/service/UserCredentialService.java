@@ -54,8 +54,8 @@ public class UserCredentialService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        UserCredential userCredential = userCredentialDao.findByUsername(name);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserCredential userCredential = userCredentialDao.findByUsername(username);
         if (userCredential == null){
             throw new UsernameNotFoundException("Username doesn't exist!");
         }
