@@ -57,10 +57,13 @@ public class UserCredentialController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserCredential userCredential) throws Exception {
+    //@PostMapping
+    @GetMapping("/login")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody(required=false)  UserCredential userCredential) throws Exception {
+        if (userCredential == null) {return new ResponseEntity<>("Please sign in!", HttpStatus.OK);}
 
         try {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userCredential.getUsername(), userCredential.getPassword())
             );
@@ -85,10 +88,10 @@ public class UserCredentialController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-        @GetMapping("/login")
-    public ResponseEntity<?> redirectLoginAfterLogOut() throws IOException {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//        @GetMapping("/login")
+//    public ResponseEntity<?> redirectLoginAfterLogOut() throws IOException {
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @GetMapping("/userCredential/{id}")
     @ResponseBody

@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -63,21 +64,28 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
             .authorizeRequests()
-            .antMatchers("/","/register", "/login").permitAll()
+            .antMatchers("/","/register").permitAll()
             .anyRequest().authenticated()
             .and()
 
-            .logout()
-            .permitAll()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+            .formLogin().loginPage("/login").permitAll()
+            .and()
 
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+            .permitAll()
+            .and()
+            .formLogin().loginPage("/login")
+//            .logoutSuccessHandler((request, response, authentication) -> {
+//                response.setStatus(HttpServletResponse.SC_OK);
+//            })
             .and().exceptionHandling().and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }
