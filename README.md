@@ -1,7 +1,7 @@
 # Resource Management Application
 
 # Project Introduction
-TeamLSYJ developed this project as part of a requirement of Java Cloud Application Developer Training with ITlize Global. 
+We developed this project as part of a requirement of Java Cloud Application Developer Training with ITlize Global. 
 The ultimate goal of this project is to develop an efficient tool for user to manage and manipulate resources based on individual preferences. 
 With a valid account and depending on a specific roles, user can update their personal information, view resources, create and add new projects/ resources.
 As of now, basic features of the back-end have been completed. The most updated version can be found at https://github.com/linhhuehuynh/ResourceManagement/tree/master/ResourceManagementBackend
