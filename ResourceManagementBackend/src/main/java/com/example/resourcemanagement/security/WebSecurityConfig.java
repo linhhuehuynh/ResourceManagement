@@ -32,9 +32,15 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder (){
         return new PasswordEncoder() {
+<<<<<<< Updated upstream
             @Override
             public String encode(CharSequence rawPassword) {
                 System.out.println(rawPassword);
+=======
+
+            @Override
+            public String encode(CharSequence rawPassword) {
+>>>>>>> Stashed changes
                 return BCrypt.hashpw(rawPassword.toString(), BCrypt.gensalt(4));
             }
             @Override
