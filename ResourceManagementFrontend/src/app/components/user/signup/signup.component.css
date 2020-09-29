@@ -1,0 +1,21 @@
+.width{
+    width: 20em;
+}
+
+.typeface{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.titleColor{
+    color: orange;
+}
+
+:host ::ng-deep .p-button {
+        background: orangered;
+        border: none;
+        margin-top: 0.9em;
+}
+
+:host ::ng-deep .p-inputtext{
+    background: lightyellow;
+}

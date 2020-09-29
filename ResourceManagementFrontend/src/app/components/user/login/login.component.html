@@ -1,0 +1,26 @@
+<div class="width typeface">
+    <form #signupForm="ngForm" (submit)="onLogin(signupForm)">
+            <h1 class="p-text-italic p-text-center titleColor">Login</h1>
+    
+            <div class="p-field">
+                <label class="p-text-bold p-d-block" for="username">Username</label>
+                <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required>  
+            </div>
+    
+            <div class="p-field form-group">
+                <label class="p-text-bold p-d-block" for="password">Password</label>
+                <input id="password" name="username" type="password" pInputText ngModel #passwordInput="ngModel" required> 
+            </div>
+    
+            <p-button label="Log In" type="submit" [disabled]="!signupForm.valid"></p-button>
+
+            <div class="p-field-checkbox" style="margin-top: 0.9em">
+                <p-checkbox name="rememberMe" value="Remember me" [(ngModel)]="rememberMe" inputId="rememberMe"></p-checkbox>
+                <label for="rememberMe">Remember Me</label>
+            </div>
+    
+            <p-button label="Sign Up" styleClass="signupButton" class="p-d-inline-flex" routerLink="/signup"></p-button>
+            <p class="p-d-inline-flex" style="float: right">Forgot Password?</p>
+    
+        </form>
+    </div>
