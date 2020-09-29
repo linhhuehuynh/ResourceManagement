@@ -1,5 +1,6 @@
 package com.example.resourcemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,6 +52,12 @@ public class User {
         this.role = role;
     }
 
+    public static User fromId(int userId) {
+        User user = new User();
+        user.setId(userId);
+        return user;
+    }
+
     public int getId() {
         return id;
     }
@@ -100,7 +107,7 @@ public class User {
         this.projects = projects;
     }
 
-    @JsonManagedReference
+    @JsonBackReference
     public UserCredential getUserCredential() {
         return userCredential;
     }

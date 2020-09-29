@@ -29,14 +29,13 @@ public class UserCredentialController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-     @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")

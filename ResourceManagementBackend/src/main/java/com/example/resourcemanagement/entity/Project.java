@@ -1,10 +1,10 @@
 package com.example.resourcemanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
@@ -32,11 +32,18 @@ public class Project {
     private Date updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_fk"), nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
+//    @JsonProperty("userId")
     private User user;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProjectColumn> projectColumns;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProjectRow> projectRows;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -107,6 +114,11 @@ public class Project {
         this.user = user;
     }
 
+//    @JsonProperty("userId")
+//    public void setUserById(int userId) {
+//        user = User.fromId(userId);
+//    }
+
     @JsonManagedReference
     public List<ProjectColumn> getProjectColumns() {
         return projectColumns;
@@ -114,6 +126,15 @@ public class Project {
 
     public void setProjectColumns(List<ProjectColumn> projectColumns) {
         this.projectColumns = projectColumns;
+    }
+
+    public List<ProjectRow> getProjectRows() {
+        return projectRows;
+    }
+
+    @JsonManagedReference
+    public void setProjectRows(List<ProjectRow> projectRows) {
+        this.projectRows = projectRows;
     }
 }
 
