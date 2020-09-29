@@ -9,13 +9,13 @@
 
         <div class="p-field form-group">
             <label class="p-text-bold p-d-block" for="password">Password</label>
-            <input id="password" name="username" type="text" pInputText ngModel #passwordInput="ngModel" required> 
+            <input id="password" name="username" type="password" pInputText ngModel #passwordInput="ngModel" required> 
 
         </div>
 
         <div class="p-field form-group">
             <label class="p-text-bold p-d-block" for="confirmPassword">Confirm Password</label>
-            <input id="confirmPassword" name="confirmPassword" type="text" pInputText ngModel #confirmPasswordInput="ngModel" required> 
+            <input id="confirmPassword" name="confirmPassword" type="password" pInputText ngModel #confirmPasswordInput="ngModel" required> 
         </div>
 
         <p-button label="Sign Up" type="submit" [disabled]="!signupForm.valid"></p-button>

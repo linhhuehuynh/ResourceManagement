@@ -38,7 +38,7 @@ export class AuthService {
 
   createUser(username: string, password: string) {
     const authData: AuthData ={username, password};
-    this.http.post(BACKEND_URL + "signup", authData).subscribe(
+    this.http.post(BACKEND_URL + "/signup", authData).subscribe(
       () => {
         this.router.navigate(["/"]);
       },

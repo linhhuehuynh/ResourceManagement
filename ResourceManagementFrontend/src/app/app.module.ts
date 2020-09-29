@@ -11,8 +11,8 @@ import {InputTextModule} from 'primeng/inputtext';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignupComponent } from './components/user/signup/signup.component';
-import { LoginComponent } from './components/user/login/login.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,8 @@ import { LoginComponent } from './components/user/login/login.component';
     LoginComponent
   ],
   imports: [
-  BrowserModule,
+
+BrowserModule,
     AppRoutingModule,
     CheckboxModule,
     ButtonModule,
