@@ -37,7 +37,7 @@ public class Resource {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "parent_resource_id", foreignKey = @ForeignKey(name = "parent_resource_id_fk"), insertable = false, updatable = false)
+    @JoinColumn(name = "parent_resource_id", insertable = false, updatable = false)
     private Resource resourceByParentResourceId;
     // remove "orphanremoval = true"
     @OneToMany(mappedBy = "resourceByParentResourceId")

@@ -11,34 +11,22 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProjectColumn {
+public class ProjectRow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="project_column_id")
+    @Column(name="project_row_id")
     private int id;
-
-    @Column(name="project_column_name")
-    private String projectColumnName;
-
-    @Column(name="column_type")
-    private String columnType;
 
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
-    @OneToMany(mappedBy = "projectColumn", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "projectRow", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProjectItem> projectItemList;
 
-    public ProjectColumn() {
-    }
-
-    public ProjectColumn(String projectColumnName, String columnType, Project project) {
-        this.projectColumnName = projectColumnName;
-        this.columnType = columnType;
-        this.project = project;
+    public ProjectRow() {
     }
 
     public int getId() {
@@ -47,22 +35,6 @@ public class ProjectColumn {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getProjectColumnName() {
-        return projectColumnName;
-    }
-
-    public void setProjectColumnName(String projectColumnName) {
-        this.projectColumnName = projectColumnName;
-    }
-
-    public String getColumnType() {
-        return columnType;
-    }
-
-    public void setColumnType(String columnType) {
-        this.columnType = columnType;
     }
 
     @JsonBackReference
@@ -74,7 +46,7 @@ public class ProjectColumn {
         this.project = project;
     }
 
-
+//    @JsonManagedReference
 //    public List<ProjectItem> getProjectItemList() {
 //        return projectItemList;
 //    }
