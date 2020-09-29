@@ -1,0 +1,25 @@
+<div class="width typeface">
+<form #signupForm="ngForm" (submit)="onSignup(signupForm)">
+        <h1 class="p-text-italic p-text-center titleColor">Sign Up</h1>
+
+        <div class="p-field">
+            <label class="p-text-bold p-d-block" for="username">Username</label>
+            <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required>  
+        </div>
+
+        <div class="p-field form-group">
+            <label class="p-text-bold p-d-block" for="password">Password</label>
+            <input id="password" name="username" type="text" pInputText ngModel #passwordInput="ngModel" required> 
+
+        </div>
+
+        <div class="p-field form-group">
+            <label class="p-text-bold p-d-block" for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" name="confirmPassword" type="text" pInputText ngModel #confirmPasswordInput="ngModel" required> 
+        </div>
+
+        <p-button label="Sign Up" type="submit" [disabled]="!signupForm.valid"></p-button>
+
+        <p-button label="Log In" routerLink="/login"></p-button>
+    </form>
+</div>
