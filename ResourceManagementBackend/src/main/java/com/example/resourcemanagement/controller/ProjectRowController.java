@@ -41,12 +41,18 @@ public class ProjectRowController {
     @PostMapping("")
     public ResponseEntity<?> createProjectRow(@RequestBody ProjectRow projectRow) {
         Optional<ProjectRow> result = projectRowService.createRow(projectRow);
-        return new ResponseEntity<>(result.get(), HttpStatus.OK);
+        if(result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProjectRow(@RequestBody ProjectRow projectRow, @PathVariable int id) {
         Optional<ProjectRow> result = projectRowService.updateProjectRow(projectRow, id);
+        if(result == null) {
+            return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
+        }
         if(result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
