@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,7 +31,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder (){
-        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                System.out.println(rawPassword);
+                return BCrypt.hashpw(rawPassword.toString(), BCrypt.gensalt(4));
+            }
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
+            }
+        };
     }
 
     @Override
@@ -66,7 +77,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
             .authorizeRequests()
-            .antMatchers("/","/register").permitAll()
+            .antMatchers("/","/signup").permitAll()
             .anyRequest().authenticated()
             .and()
 

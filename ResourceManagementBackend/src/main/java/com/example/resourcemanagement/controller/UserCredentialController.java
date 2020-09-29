@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("")
 public class UserCredentialController {
@@ -39,14 +40,14 @@ public class UserCredentialController {
      @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ResponseEntity<?> addUserCredential(@RequestBody UserCredential userCredential) {
         
         //DOUBLE CHECK
         String encodedPassword = passwordEncoder.encode(userCredential.getPassword());
         userCredential.setPassword(encodedPassword);
         Optional<UserCredential> createdUserCredential = userCredentialService.addUserCredential(userCredential);
-        
+
         if (createdUserCredential.isPresent()) {
             return new ResponseEntity<UserCredential>(createdUserCredential.get(),HttpStatus.OK);
         } else {
