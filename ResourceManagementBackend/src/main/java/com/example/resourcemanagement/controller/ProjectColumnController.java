@@ -20,8 +20,11 @@ public class ProjectColumnController {
     @GetMapping("/project/{projectId}")
     public ResponseEntity<?> getAllProjectColumns(@PathVariable int projectId) {
         Optional<List<ProjectColumn>> result = projectColumnService.getAllColumnsByProjectId(projectId);
+        if(result == null) {
+            return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
+        }
         if(result.isPresent()) {return new ResponseEntity<>(result.get(), HttpStatus.OK);}
-        return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("No Columns In Project!", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
@@ -34,13 +37,18 @@ public class ProjectColumnController {
     @PostMapping ("")
     public ResponseEntity<?> createProjectColumn(@RequestBody ProjectColumn projectColumn) {
         Optional<ProjectColumn> res = projectColumnService.createColumn(projectColumn);
-        return new ResponseEntity<>(res.get(), HttpStatus.OK);
-//        return new ResponseEntity<>("Column Not Created!", HttpStatus.NOT_FOUND);
+        if(res.isPresent()) {
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{columnId}")
     public ResponseEntity<?> updateProjectColumn(@RequestBody ProjectColumn projectColumn, @PathVariable int columnId) {
         Optional<ProjectColumn> res = projectColumnService.updateColumn(projectColumn,columnId);
+        if(res == null) {
+            return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
+        }
         if(res.isPresent()) {return new ResponseEntity<>(res.get(), HttpStatus.OK);}
         return new ResponseEntity<>("Column Not Found!", HttpStatus.NOT_FOUND);
     }

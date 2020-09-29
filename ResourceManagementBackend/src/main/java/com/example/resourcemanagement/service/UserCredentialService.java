@@ -33,6 +33,10 @@ public class UserCredentialService implements UserDetailsService {
         return userCredentialDao.findById(id);
     }
 
+    public Optional<UserCredential> getUserCredentialByName(String username) {
+        return Optional.of(userCredentialDao.findByUsername(username));
+    }
+
     public Optional<UserCredential> setUserCredential(int id, UserCredential userCredential) {
         Optional<UserCredential> existUserCredential1 = userCredentialDao.findById(id);
         if(existUserCredential1.isPresent()) {

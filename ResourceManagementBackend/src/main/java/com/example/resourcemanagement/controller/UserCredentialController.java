@@ -80,7 +80,7 @@ public class UserCredentialController {
 
         Map<String,String> map = new HashMap<>();
         map.put("jwt",jwt);
-        map.put("username",userCredential.getUsername());
+        map.put("id",Integer.toString(userCredentialService.getUserCredentialByName(userCredential.getUsername()).get().getId()));
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
@@ -102,6 +102,8 @@ public class UserCredentialController {
 
     @PutMapping("/userCredential/{id}")
     public ResponseEntity<?> setUserCredential(@PathVariable int id, @RequestBody UserCredential userCredential) {
+        String encodedPassword = passwordEncoder.encode(userCredential.getPassword());
+        userCredential.setPassword(encodedPassword);
         Optional<UserCredential> existUserCredential = userCredentialService.setUserCredential(id, userCredential);
         if (existUserCredential == null) {
             return new ResponseEntity<>("User Not Found!", HttpStatus.NOT_FOUND);

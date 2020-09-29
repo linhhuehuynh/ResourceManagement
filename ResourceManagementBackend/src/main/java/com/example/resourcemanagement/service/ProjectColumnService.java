@@ -21,9 +21,11 @@ public class ProjectColumnService {
 
     public Optional<List<ProjectColumn>> getAllColumnsByProjectId(int id) {
         Optional<Project> project = projectDao.findById(id);
+        if (!project.isPresent()) {
+            return null;
+        }
         Optional<List<ProjectColumn>> projectColumns = projectColumnDao.getAllByProjectId(id);
-
-        if (project.isPresent() && projectColumns.isPresent())
+        if (projectColumns.isPresent())
         {
             return projectColumns;
         }
@@ -39,6 +41,10 @@ public class ProjectColumnService {
     }
 
     public Optional<ProjectColumn> createColumn(ProjectColumn projectColumn) {
+        Optional<Project> project = projectDao.findById(projectColumn.getProject().getId());
+        if(!project.isPresent()) {
+            return Optional.empty();
+        }
         ProjectColumn createdProjectColumn = projectColumnDao.save(projectColumn);
         Optional<ProjectColumn> result = Optional.of(createdProjectColumn);
         if(result.isPresent()) {
@@ -48,6 +54,10 @@ public class ProjectColumnService {
     }
 
     public Optional<ProjectColumn> updateColumn(ProjectColumn projectColumn, int id) {
+        Optional<Project> project = projectDao.findById(projectColumn.getProject().getId());
+        if(!project.isPresent()) {
+            return null;
+        }
         Optional<ProjectColumn> column = projectColumnDao.findById(id);
         if (column.isPresent()) {
             projectColumn.setId(id);
