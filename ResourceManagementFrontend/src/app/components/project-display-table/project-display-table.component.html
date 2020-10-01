@@ -1,19 +1,19 @@
-<div class="display-table">
-    <h3 id="table-name">QUANTITY SURVEY</h3>
+<div id="display-table">
+    <p id="table-name">QUANTITY SURVEY</p>
     <p-table [value]="projectRowDisplayList" dataKey="id" >
         <ng-template pTemplate="header">
             <tr>
-                <th class="col-name" *ngFor = "let col of projectColList">
-                    {{ col.projectColumnName }}
+                <th class="col-name p-text-center" *ngFor = "let col of projectColList" >
+                    {{ col.projectColumnName | uppercase }}
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-projectRow>
             <tr>
-                <td pEditableColumn *ngFor = "let item of projectRow.itemList">
+                <td class="item-data" pEditableColumn *ngFor = "let item of projectRow.itemList">
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="item.value" (change)="itemUpdated(item)" (keyup.enter)="onEnter(item)">
+                            <input pInputText type="text" [(ngModel)]="item.value" (keyup)="itemUpdated(item)">
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{item.value}}
@@ -24,4 +24,8 @@
         </ng-template>
     </p-table>
 </div>
-<button (click)="save()">Submit</button>
+<div id="bottom-area">
+    <a id="template-router">Edit Quantity Survey Template</a>
+    <button pButton type="button" label="Submit" icon="pi pi-check" iconPos="left" (click)="save()"></button>
+</div>
+

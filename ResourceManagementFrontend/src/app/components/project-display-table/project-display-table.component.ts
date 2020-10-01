@@ -36,11 +36,12 @@ export class ProjectDisplayTableComponent implements OnInit {
   }
 
   itemUpdated(item: ProjectItem) {
-    console.log(item);
-    item.changed = true;
+    if(!item.changed) {
+      item.changed = true;
+    }
   }
-  onEnter(item: ProjectItem) {
-    console.log(item);
-    item.changed = true;
+
+  chickMe() {
+    console.log(this.projectRowDisplayList);
   }
 }

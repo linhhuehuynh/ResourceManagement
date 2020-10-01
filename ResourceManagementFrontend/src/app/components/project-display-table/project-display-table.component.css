@@ -1,0 +1,57 @@
+#display-table {
+    margin: 3vw 3vw 1.5vw 3vw;
+
+    border-style: solid;
+    border-width: 0.1vw;
+    border-color: #c7c7c7;
+}
+
+#table-name {
+    margin: 0;
+    padding: 1vw;
+    height: 4vw;
+
+    background-color: #828282;
+    color: white;
+    font-size: 1.2vw;
+}
+
+:host ::ng-deep .p-datatable .col-name {
+    padding: 0.7vw;
+    background-color: #ebecf0;
+    border-color: #c7c7c7;
+    border-width: 0 0 0.1vw 0.1vw;
+}
+
+:host ::ng-deep .p-datatable .item-data {
+    border-width: 0 0 0 0;
+}
+
+#bottom-area {
+    padding: 0 6vw 0 6vw;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+}
+
+:host ::ng-deep .p-button {
+    padding: 0.5vw 1vw 0.5vw 1vw;
+    width: 8vw;
+
+    background-color: #f27724;
+    border-color: #f27724;
+    border-radius: 0;
+
+    margin-left: auto;
+}
+
+:host ::ng-deep .p-button:hover {
+    background-color: #cf6117;
+    border-color: #cf6117;
+}
+
+#template-router {
+    color: steelblue;
+
+    cursor: pointer;
+}
