@@ -4,6 +4,8 @@ import { ProjectItem } from 'src/app/model/project-item.model';
 import { ProjectRow } from 'src/app/model/project-row.model';
 import { ProjectDisplayService } from './project-display.service';
 import { ProjectRowDisplay } from './project-row-display.model';
+import { Subscription } from 'rxjs';
+import { AuthService } from './../auth/auth.service';
 
 @Component({
   selector: 'app-project-display-table',
@@ -11,6 +13,8 @@ import { ProjectRowDisplay } from './project-row-display.model';
   styleUrls: ['./project-display-table.component.css']
 })
 export class ProjectDisplayTableComponent implements OnInit {
+  isLoading = false;
+  private authStatusSub: Subscription;
 
   private projectId = 1;
 
@@ -19,9 +23,15 @@ export class ProjectDisplayTableComponent implements OnInit {
   projectRowList: ProjectRow[];
   word = "sdsds";
 
-  constructor(private projectDisplayService: ProjectDisplayService) { }
+  constructor(private projectDisplayService: ProjectDisplayService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    )
+
     this.projectDisplayService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
     this.projectDisplayService.getProjectRowList(this.projectId)
     .then(data => {
