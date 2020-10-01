@@ -15,10 +15,12 @@
       </div>   -->
 <!-- </nav> -->
 <!-- </mat-toolbar> -->
-<p-toolbar [style]="{'background':'white','border-left':'none','border-right':'none','border-top':'none','border-bottom-color':'black','height':'100px'}" >
-    <div class="p-toolbar-group-left" [style]="{'height':'100%'}">
-        <i id="icon1" class="pi pi-microsoft" ></i>
-        <span>Resource Management</span>
+<p-toolbar [style]="{'background':'white','border-left':'none','border-right':'none','border-top':'none','border-bottom-color':'black','height':'100px','padding':'0','left':'1em'}" >
+    <div class="p-toolbar-group-left" [style]="{'align-items':'center'}">
+        <div [style]="{'align-items':'flex-end'}">
+            <i id="icon1" class="pi pi-microsoft" ></i>
+            <span [style]="{'font-size':'20px','color':'white'}">Resource Management</span>
+        </div>
     </div>
     <div class="p-toolbar-group-middle">
         <span>{{projectname}}</span>

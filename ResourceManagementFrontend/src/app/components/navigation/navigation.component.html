@@ -1,6 +1,7 @@
 
-<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000" [style]="{'background-color':'black'}">
+<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000" [style]="{'background-color':'black','top':'6.7em','left':'0.5em','width':'16.2em'}">
     <!-- <h4 style="font-weight:normal">Left Sidebar</h4> -->
+
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Resource</h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Project</h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Formula</h4>
@@ -12,4 +13,4 @@
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Approved Change</h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Summary</h4>
 </p-sidebar>
-<p-button type="button" (click)="visibleSidebar1 = true" icon="pi pi-angle-right" [style]="{'background-color':'black','border':'none'}"></p-button>
+<p-button type="button" (click)="visibleSidebar1 = true" icon="pi pi-angle-right" [style]="{'background-color':'black','border':'none','border-left':'1em'}"></p-button>

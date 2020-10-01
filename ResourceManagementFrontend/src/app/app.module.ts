@@ -10,6 +10,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
+import {TableModule } from 'primeng/table';
+
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
@@ -25,6 +27,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { HeaderComponent } from './components/header/header.component';
+import { TemplatetableComponent } from './components/template/templatetable/templatetable.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { HeaderComponent } from './components/header/header.component';
     SignupComponent,
     LoginComponent,
     NavigationComponent,
-    HeaderComponent
+    HeaderComponent,
+    TemplatetableComponent
   ],
   imports: [
 
@@ -54,7 +58,8 @@ import { HeaderComponent } from './components/header/header.component';
     ToolbarModule,
     SidebarModule,
     MenuModule,
-    RippleModule
+    RippleModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
