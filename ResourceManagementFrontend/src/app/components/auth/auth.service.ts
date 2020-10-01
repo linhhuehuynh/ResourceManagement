@@ -64,14 +64,14 @@ export class AuthService {
             const expirationDate = new Date(
               now.getTime() + expiresInDuration * 1000
             );
-            console.log(expirationDate);
-            this.saveAuthData(token, expirationDate, this.userId);
-            this.router.navigate(["/"]);
+            this.saveAuthData(this.token, expirationDate, this.userId);
+            this.router.navigate(["/project"]);
           }
           return res;
         },
         error => {
           this.message = error.error;
+          console.log(error)
           this.authStatusListener.next(false);
         }
       );
@@ -111,21 +111,22 @@ export class AuthService {
   }
 
   private saveAuthData(token:string, expirationDate: Date, userId: string) {
-    localStorage.setItem("token", "Bearer " + token);
+    localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
-    localStorage.setItem("userId", userId);
+    localStorage.setItem("id", userId);
+    console.log(localStorage);
   }
 
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
-    localStorage.removeItem("userId");
+    localStorage.removeItem("id");
   }
 
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("id");
     if(!token || !expirationDate) {return;}
     return {
       token,

@@ -8,6 +8,7 @@ import { ProjectItem } from 'src/app/model/project-item.model';
 import {environment} from '../../../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { ProjectRowDisplay } from './project-row-display.model';
+import { AuthService } from './../auth/auth.service';
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -15,25 +16,26 @@ const BACKEND_URL = environment.apiUrl;
   providedIn: 'root'
 })
 export class ProjectDisplayService {
-
-  jwt = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMzMiLCJleHAiOjE2MDE2MDEwNzYsImlhdCI6MTYwMTU2NTA3Nn0.cuEcs-MVYo5tvVgc0qplUy--7ShVuIjts1Lcjv8yo40';
-
-  header = new HttpHeaders().set('Authorization', this.jwt);
+  token: any;
+  header: any;
+  userIsAuthenticated=false;
 
   private project: Project;
   private projectRowList: ProjectRow[];
   private projectColList: ProjectColumn[];
   private projectRowDisplayList: ProjectRowDisplay[];
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { 
     this.project = null;
     this.projectRowList = [];
     this.projectColList = [];
     this.projectRowDisplayList = [];
+    //Not sure if this is correct, need to double check
+    this.userIsAuthenticated = this.authService.getIsAuth();
   };
 
   getProjectRowList(projectId: number) {
-    return this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString(), {'headers': this.header})
+    return this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString())
     .toPromise()
     .then(res => {
       this.projectRowList = res;
@@ -54,7 +56,7 @@ export class ProjectDisplayService {
   }
 
   getProjectColList(projectId: number) {
-    return this.http.get<ProjectColumn[]>(BACKEND_URL + '/projectcolumn/project/' + projectId.toString(), {'headers': this.header})
+    return this.http.get<ProjectColumn[]>(BACKEND_URL + '/projectcolumn/project/' + projectId.toString())
     .toPromise()
     .then(res => {
       this.projectColList = res;
@@ -78,7 +80,7 @@ export class ProjectDisplayService {
     for(let projectRow of this.projectRowList) {
       let tmp = new ProjectRowDisplay();
       tmp.id = projectRow.id;
-      this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString(), {'headers': this.header}).subscribe(
+      this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString()).subscribe(
         data => {
           for(let item of data) {
             item.changed = false;
@@ -126,8 +128,8 @@ export class ProjectDisplayService {
             value: item.value,
             projectRow: {id: item.projectRow.id},
             projectColumn: {id: item.projectColumn.id}
-          }, 
-          {'headers': this.header}).subscribe(data => {alert("Update Successfully!")});
+          }
+          ).subscribe(data => {alert("Update Successfully!")});
           item.changed = false;
         }
       }
