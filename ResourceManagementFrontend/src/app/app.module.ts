@@ -1,13 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule }    from '@angular/forms';
+import { PasswordValidatorDirective } from './components/auth/password.directive';
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
-import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
+
+import {PasswordModule} from 'primeng/password';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {DialogModule} from 'primeng/dialog';
+
+
 import {TableModule} from 'primeng/table';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,16 +30,24 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
     AppComponent,
     SignupComponent,
     LoginComponent,
+    
+    PasswordValidatorDirective,
     ProjectDisplayTableComponent
   ],
   imports: [
 
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+
     CheckboxModule,
     ButtonModule,
-    CardModule,
     InputTextModule,
+    MessageModule,
+    MessagesModule,
+    DialogModule,
+    PasswordModule,
+
     FormsModule,
     HttpClientModule,
     TableModule

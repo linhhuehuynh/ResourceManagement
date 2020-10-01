@@ -1,25 +1,40 @@
 <div class="width typeface">
-<form #signupForm="ngForm" (submit)="onSignup(signupForm)">
+<form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)" appPassword>
+    <p-dialog [header]="title" [(visible)]="display">{{message}}</p-dialog>  
+    <!-- <p-message *ngIf="success" severity="success" [text]="message" styleClass="p-mr-2"></p-message>   -->
         <h1 class="p-text-italic p-text-center titleColor">Sign Up</h1>
 
         <div class="p-field">
             <label class="p-text-bold p-d-block" for="username">Username</label>
-            <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required>  
+            <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required minlength=5>
+            <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="p-invalid">
+                <small *ngIf="usernameInput.errors.required">Username is required.</small>
+                <small *ngIf="usernameInput.errors.minlength">Username must be at least 5 characters long.</small>
+            </div>
         </div>
 
-        <div class="p-field form-group">
+        <div class="p-field">
             <label class="p-text-bold p-d-block" for="password">Password</label>
-            <input id="password" name="username" type="password" pInputText ngModel #passwordInput="ngModel" required> 
-
+            <input id="password" pPassword name="password" type="password" pInputText ngModel #passwordInput="ngModel" required> 
+            <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="p-invalid">
+                <small *ngIf="passwordInput.errors.required">Password is required.</small>
+            </div>
         </div>
 
-        <div class="p-field form-group">
+        <div class="p-field">
             <label class="p-text-bold p-d-block" for="confirmPassword">Confirm Password</label>
             <input id="confirmPassword" name="confirmPassword" type="password" pInputText ngModel #confirmPasswordInput="ngModel" required> 
+            <small *ngIf="signupForm.errors?.passwordsNotEqual && confirmPasswordInput.dirty" class="p-invalid">
+                Password does not match.
+            </small>
         </div>
 
-        <p-button label="Sign Up" type="submit" [disabled]="!signupForm.valid"></p-button>
+        <p-button label="Sign Up" type="submit" [disabled]="!signupForm.valid" (click)="showDialog()"></p-button>
+        <!-- <p-dialog *ngIf="isLoadingtrue" header="Message" [(visible)]="displayBasic" [style]="{width: '50vw'}">
+            <p>You have signed up successfully! Please log in.</p>
+        </p-dialog> -->
 
         <p-button label="Log In" routerLink="/login"></p-button>
+        
     </form>
 </div>
