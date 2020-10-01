@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule }    from '@angular/forms';
 import { PasswordValidatorDirective } from './components/auth/password.directive';
+import { AuthInterceptor } from './components/auth/auth-interceptors';
+
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
@@ -24,6 +26,7 @@ import { AppComponent } from './app.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
     HttpClientModule,
     TableModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
