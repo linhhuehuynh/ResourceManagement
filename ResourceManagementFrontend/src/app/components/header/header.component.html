@@ -1,0 +1,43 @@
+<!-- <p>header works!</p> -->
+<!-- <nav class="navbar"> -->
+<!-- <mat-toolbar color="primary" class="example-toolbar">
+    <div id="box2" class="p-d-inline-flex" >
+        <i id="icon1" class="pi pi-microsoft" ></i>
+        <span>Resource Management</span>
+      </div>
+      <div id="box3" class="p-d-inline-flex">
+        <i id="icon2" class="pi pi-user" ></i>
+        <span id="user" style="visibility: hidden;" >{{username}}</span> -->
+        <!-- <span id="user" style="visibility: hidden;" *ngIf = "isLogin; then 'show'">{{username}}</span> -->
+        <!-- <ng-template #thenBlock style="visibility: visible;">{{username}}</ng-template>
+        <ng-template #elseBlock style="visibility: hidden;">{{username}}</ng-template> -->
+        <!-- <i id="icon3" class="pi pi-question-circle" ></i>
+      </div>   -->
+<!-- </nav> -->
+<!-- </mat-toolbar> -->
+<p-toolbar [style]="{'background':'white','border-left':'none','border-right':'none','border-top':'none','border-bottom-color':'black','height':'100px','padding':'0','left':'1em'}" >
+    <div class="p-toolbar-group-left" [style]="{'align-items':'center'}">
+        <div [style]="{'align-items':'flex-end'}">
+            <i id="icon1" class="pi pi-microsoft" ></i>
+            <span [style]="{'font-size':'20px','color':'white'}">Resource Management</span>
+        </div>
+    </div>
+    <div class="p-toolbar-group-middle">
+        <span>{{projectname}}</span>
+    </div>
+    <div class="p-toolbar-group-right">
+        <p-button id="icon2" icon="pi pi-user" (click)="menu.toggle($event)" [style]="{'color':'black','background-color':'white','border-style':'none'}"></p-button>
+        <p-menu #menu [popup]="true" [model]="items">
+            <!-- <div class="p-menu-left">
+                <button type="button">profile</button>
+            </div>
+            <div class="p-menu-right">
+                <button type="button">sign out</button>
+            </div> -->
+        </p-menu>
+        <span id="user" style="visibility: hidden;" >{{username}}</span>
+        <p-button id="icon3" icon="pi pi-question-circle" [style]="{'color':'black','background-color':'white','border-style':'none'}"></p-button>
+    </div>
+</p-toolbar>
+<!-- <button type="button" pButton pRipple icon="pi pi-bars" label="Show" (click)="menu.toggle($event)"></button>
+<p-menu #menu [popup]="true" [model]="items"></p-menu> -->
