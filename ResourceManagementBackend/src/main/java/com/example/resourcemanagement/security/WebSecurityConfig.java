@@ -76,18 +76,18 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
             .authorizeRequests()
-            .antMatchers("/","/signup").permitAll()
+            .antMatchers("/","/signup", "/login").permitAll()
             .anyRequest().authenticated()
             .and()
 
-            .formLogin().loginPage("/login").permitAll()
-            .and()
+//            .formLogin().loginPage("/login").permitAll()
+//            .and()
 
             .logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
             .permitAll()
-            .and()
-            .formLogin().loginPage("/login")
+//            .and()
+//            .formLogin().loginPage("/login")
 //            .logoutSuccessHandler((request, response, authentication) -> {
 //                response.setStatus(HttpServletResponse.SC_OK);
 //            })

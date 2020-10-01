@@ -4,15 +4,22 @@
     
             <div class="p-field">
                 <label class="p-text-bold p-d-block" for="username">Username</label>
-                <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required>  
+                <input id="username" name="username" type="text" pInputText ngModel #usernameInput="ngModel" required>
+                <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="p-invalid">
+                    <small *ngIf="usernameInput.errors.required">Username is required.</small>
+                </div>  
             </div>
     
             <div class="p-field form-group">
                 <label class="p-text-bold p-d-block" for="password">Password</label>
-                <input id="password" name="username" type="password" pInputText ngModel #passwordInput="ngModel" required> 
+                <input id="password" name="password" type="password" pInputText ngModel #passwordInput="ngModel" required> 
+                <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="p-invalid">
+                    <small *ngIf="passwordInput.errors.required">Password is required.</small>
+                </div>  
             </div>
     
-            <p-button label="Log In" type="submit" [disabled]="!signupForm.valid"></p-button>
+            <p-button label="Log In" (click)="showDialog()"type="submit" [disabled]="!signupForm.valid"></p-button>
+            <p-dialog [header]="title" [(visible)]="display">{{message}}</p-dialog>  
 
             <div class="p-field-checkbox" style="margin-top: 0.9em">
                 <p-checkbox name="rememberMe" value="Remember me" [(ngModel)]="rememberMe" inputId="rememberMe"></p-checkbox>

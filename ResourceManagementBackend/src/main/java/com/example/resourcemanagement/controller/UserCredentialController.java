@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,8 +42,7 @@ public class UserCredentialController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> addUserCredential(@RequestBody UserCredential userCredential) {
-        
-        //DOUBLE CHECK
+
         String encodedPassword = passwordEncoder.encode(userCredential.getPassword());
         userCredential.setPassword(encodedPassword);
         Optional<UserCredential> createdUserCredential = userCredentialService.addUserCredential(userCredential);
@@ -50,12 +50,12 @@ public class UserCredentialController {
         if (createdUserCredential.isPresent()) {
             return new ResponseEntity<UserCredential>(createdUserCredential.get(),HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(userCredential.getUsername() + " Has Been Registered!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(userCredential.getUsername() + " already exists. Please choose a unique username.", HttpStatus.BAD_REQUEST);
         }
     }
 
     //@PostMapping
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody(required=false)  UserCredential userCredential) throws Exception {
         if (userCredential == null) {return new ResponseEntity<>("Please sign in!", HttpStatus.OK);}
 
@@ -81,6 +81,8 @@ public class UserCredentialController {
 
         Map<String,String> map = new HashMap<>();
         map.put("jwt",jwt);
+        map.put("expiresIn", jwtTokenUtil.extractExpiration(jwt).toString());
+        System.out.println(jwtTokenUtil.extractExpiration(jwt));
         map.put("id",Integer.toString(userCredentialService.getUserCredentialByName(userCredential.getUsername()).get().getId()));
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
