@@ -18,7 +18,9 @@ export class TemplatetableComponent implements OnInit {
 
   constructor() { }
 
-  public columns = ["name","cost_code","ediable","item_id"];
+  public columns = ["name","cost_code","ediable","item_id"];//column name,column_id
+
+  //projectcolumn getall by projectid,name->project name,cost_code->project_code saved 
 
   public selectedColumns: any[] = [];
 
@@ -27,4 +29,5 @@ export class TemplatetableComponent implements OnInit {
     this.fields = ["quantity","price","total price"];
   }
 
+  //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
 }
