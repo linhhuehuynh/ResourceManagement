@@ -17,6 +17,7 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
   private authStatusListener = new Subject<boolean>();
+   message: string;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -38,33 +39,26 @@ export class AuthService {
 
   createUser(username: string, password: string) {
     const authData: AuthData ={username, password, user: {} };
-    this.http.post(BACKEND_URL + "/signup", authData).subscribe(
-      () => {
-        console.log(authData)
-        this.router.navigate(["/login"]);
-      },
-      error => {
-        this.authStatusListener.next(false);
-      }
-    )
+    return this.http.post(BACKEND_URL + "/signup", authData);
   }
 
   login(username: string, password: string) {
     const authData: AuthData= {username, password, user: {}};
     this.http
-      .post<{token: string; expiresIn: number; userId: string}>(
-        BACKEND_URL + "login",
+      .post<{jwt: string; expiresIn: string, id: string}>(
+        BACKEND_URL + "/login",
         authData
     )
       .subscribe(
         res => {
-          const token = res.token;
+          const token = res.jwt;
           this.token = token;
           if (token) {
-            const expiresInDuration = res.expiresIn;
+            //change expiresIn to String or number
+            const expiresInDuration = Date.parse(res.expiresIn);
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
-            this.userId = res.userId;
+            this.userId = res.id;
             this.authStatusListener.next(true);
             const now = new Date();
             const expirationDate = new Date(
@@ -74,8 +68,10 @@ export class AuthService {
             this.saveAuthData(token, expirationDate, this.userId);
             this.router.navigate(["/"]);
           }
+          return res;
         },
         error => {
+          this.message = error.error;
           this.authStatusListener.next(false);
         }
       );
@@ -115,7 +111,7 @@ export class AuthService {
   }
 
   private saveAuthData(token:string, expirationDate: Date, userId: string) {
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", "Bearer " + token);
     localStorage.setItem("expiration", expirationDate.toISOString());
     localStorage.setItem("userId", userId);
   }
