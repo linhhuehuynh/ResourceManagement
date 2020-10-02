@@ -43,6 +43,7 @@
                         <h5>Formula</h5>
                         <input type="text" pInputText [(ngModel)]="template.formulaValue" >
                     </td>
+                    <td><i id="icon" class="pi pi-trash"></i></td>
                 </tr>
             </ng-template>
             <!-- <ng-template pTemplate ="body" let-type>
@@ -53,6 +54,10 @@
                 </tr>
             </ng-template> -->
         </p-table>
+        <div id="AddButton" [style]="{'align-content':'flex-end'}">
+            <span>Add Field</span>
+            <p-button id="icon2" icon="pi pi-plus"></p-button>
+        </div>
     </div>
 </div>
 <div class="box" id="box-group-bottom">
