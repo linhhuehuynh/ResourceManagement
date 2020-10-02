@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MessageService, PrimeNGConfig} from 'primeng/api';
+import { AuthService } from './../auth/auth.service';
 import { Router } from '@angular/router';
 
 
@@ -22,7 +23,9 @@ export class HeaderComponent implements OnInit {
   items:MenuItem[];
 
   constructor(private messageService: MessageService,
-    private primengConfig: PrimeNGConfig,private router:Router) { }
+
+    private primengConfig: PrimeNGConfig, private authService:AuthService) { }
+
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
@@ -53,6 +56,10 @@ export class HeaderComponent implements OnInit {
   }
   showProfile() {
     this.router.navigate(["/login"]);
+  }
+
+  logout() {
+this.authService.logout();
   }
 //microsoft container size
 }

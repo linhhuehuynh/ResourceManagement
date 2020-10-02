@@ -1,7 +1,6 @@
 <div class="width typeface">
 <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)" appPassword>
-    <p-dialog [header]="title" [(visible)]="display">{{message}}</p-dialog>  
-    <!-- <p-message *ngIf="success" severity="success" [text]="message" styleClass="p-mr-2"></p-message>   -->
+    <p-dialog header="Thank you!" [(visible)]="display">{{message}}</p-dialog>  
         <h1 class="p-text-italic p-text-center titleColor">Sign Up</h1>
 
         <div class="p-field">
@@ -30,9 +29,6 @@
         </div>
 
         <p-button label="Sign Up" type="submit" [disabled]="!signupForm.valid" (click)="showDialog()"></p-button>
-        <!-- <p-dialog *ngIf="isLoadingtrue" header="Message" [(visible)]="displayBasic" [style]="{width: '50vw'}">
-            <p>You have signed up successfully! Please log in.</p>
-        </p-dialog> -->
 
         <p-button label="Log In" routerLink="/login"></p-button>
         

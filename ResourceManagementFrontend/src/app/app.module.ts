@@ -8,14 +8,17 @@ import { FormsModule }    from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import { MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 
+
+
 import { PasswordValidatorDirective } from './components/auth/password.directive';
 import { AuthInterceptor } from './components/auth/auth-interceptors';
-
+import { ErrorInterceptor } from './error/error-interceptors';
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
@@ -44,7 +47,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { TemplatetableComponent } from './components/template/templatetable/templatetable.component';
 
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
-import { from } from 'rxjs';
+
+import { ErrorComponent } from './error/error.component';
+
 import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 
@@ -59,10 +64,15 @@ import { ProjectSelectorComponent } from './components/project-selector/project-
     TemplatetableComponent,
     PasswordValidatorDirective,
     ProjectDisplayTableComponent,
+
+    ErrorComponent
+
     ProjectSelectorComponent
+
 
   ],
   imports: [
+
 
     BrowserModule,
     AppRoutingModule,
@@ -78,6 +88,7 @@ import { ProjectSelectorComponent } from './components/project-selector/project-
     FormsModule,
     HttpClientModule,
     MatSidenavModule,
+    MatDialogModule,
     MatToolbarModule,
     MatIconModule,
     MatSlideToggleModule,
@@ -93,7 +104,9 @@ import { ProjectSelectorComponent } from './components/project-selector/project-
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
