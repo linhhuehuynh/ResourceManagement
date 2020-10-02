@@ -13,8 +13,8 @@ const routes: Routes = [
   // {path:'', component: PostsComponent},
   {path:'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'project', component: ProjectDisplayTableComponent },
-  {path:'templatetable',component:TemplatetableComponent},
+  {path: 'project', component: ProjectDisplayTableComponent, canActivate:[AuthGuard] },
+  {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
   // {path:'**', component: ErrorComponent}
 ];
 
