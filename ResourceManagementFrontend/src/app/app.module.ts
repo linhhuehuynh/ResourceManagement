@@ -8,13 +8,16 @@ import { FormsModule }    from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import { MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
 
+
+
 import { PasswordValidatorDirective } from './components/auth/password.directive';
 import { AuthInterceptor } from './components/auth/auth-interceptors';
-
+import { ErrorInterceptor } from './error/error-interceptors';
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
@@ -42,7 +45,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { TemplatetableComponent } from './components/template/templatetable/templatetable.component';
 
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
-import { from } from 'rxjs';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -55,10 +58,12 @@ import { from } from 'rxjs';
     HeaderComponent,
     TemplatetableComponent,
     PasswordValidatorDirective,
-    ProjectDisplayTableComponent
+    ProjectDisplayTableComponent,
+    ErrorComponent
 
   ],
   imports: [
+
 
     BrowserModule,
     AppRoutingModule,
@@ -74,6 +79,7 @@ import { from } from 'rxjs';
     FormsModule,
     HttpClientModule,
     MatSidenavModule,
+    MatDialogModule,
     MatToolbarModule,
     MatIconModule,
     MatSlideToggleModule,
@@ -88,7 +94,9 @@ import { from } from 'rxjs';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
