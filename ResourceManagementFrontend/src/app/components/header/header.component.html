@@ -27,14 +27,15 @@
     </div>
     <div class="p-toolbar-group-right">
         <p-button id="icon2" icon="pi pi-user" (click)="menu.toggle($event)" [style]="{'color':'black','background-color':'white','border-style':'none'}"></p-button>
-        <p-menu #menu [popup]="true" [model]="items" >
+        <p-menu #menu [popup]="true" [model]="items" ><button type="button" pButton label="profile" (click)="menu.toggle($event)"></button></p-menu>
+            
             <!-- <div class="p-menu-left">
                 <button type="button">profile</button>
             </div>
             <div class="p-menu-right">
                 <button type="button">sign out</button>
             </div> -->
-        </p-menu>
+        
         <span id="user" style="visibility: hidden;" >{{username}}</span>
         <p-button id="icon3" icon="pi pi-question-circle" [style]="{'color':'black','background-color':'white','border-style':'none'}"></p-button>
     </div>
