@@ -1,3 +1,7 @@
 .ng-tns-c103-1 ng-trigger ng-trigger-panelState p-sidebar p-sidebar-active p-sidebar-left {
     top:6.7em
 }
+
+:host ::ng-deep h4 {
+   color: white;
+}

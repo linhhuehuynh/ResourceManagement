@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule }    from '@angular/forms';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // import {MatSidenavModule} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -28,9 +27,6 @@ import {PasswordModule} from 'primeng/password';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {DialogModule} from 'primeng/dialog';
-
-
-import {TableModule} from 'primeng/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
