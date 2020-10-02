@@ -7,7 +7,7 @@ import {TemplatetableComponent} from './components/template/templatetable/templa
 
 import {ProjectDisplayTableComponent} from './components/project-display-table/project-display-table.component';
 import { AuthGuard } from './components/auth/auth.guard';
-
+import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 const routes: Routes = [
   // {path:'', component: PostsComponent},
@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'project', component: ProjectDisplayTableComponent, canActivate:[AuthGuard] },
   {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
+  {path: 'projectselector', component: ProjectSelectorComponent},
   // {path:'**', component: ErrorComponent}
 ];
 
