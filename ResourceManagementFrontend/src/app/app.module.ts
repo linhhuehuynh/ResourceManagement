@@ -11,6 +11,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { PasswordValidatorDirective } from './components/auth/password.directive';
 import { AuthInterceptor } from './components/auth/auth-interceptors';
@@ -43,6 +44,7 @@ import { TemplatetableComponent } from './components/template/templatetable/temp
 
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
 import { from } from 'rxjs';
+import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 
 @NgModule({
@@ -55,7 +57,8 @@ import { from } from 'rxjs';
     HeaderComponent,
     TemplatetableComponent,
     PasswordValidatorDirective,
-    ProjectDisplayTableComponent
+    ProjectDisplayTableComponent,
+    ProjectSelectorComponent
 
   ],
   imports: [
@@ -84,7 +87,8 @@ import { from } from 'rxjs';
     SidebarModule,
     MenuModule,
     RippleModule,
-    TableModule
+    TableModule,
+    DropdownModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
