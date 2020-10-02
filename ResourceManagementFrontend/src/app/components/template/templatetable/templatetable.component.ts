@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Template } from './template.model'
+
 
 @Component({
   selector: 'app-templatetable',
@@ -18,16 +20,29 @@ export class TemplatetableComponent implements OnInit {
 
   constructor() { }
 
-  public columns = ["name","cost_code","ediable","item_id"];//column name,column_id
+  public columns = [{columnName:"name",columnId:null},{columnName:"cost_code",columnId:null},{columnName:"ediable",columnId:null},{columnName:"item_id",columnId:null}];//column name,column_id
 
   //projectcolumn getall by projectid,name->project name,cost_code->project_code saved 
 
+  public newColumns: any[];
+
   public selectedColumns: any[] = [];
 
+  public templates: Template[];
+
+  public types = ["Text","Number","Formula"];
+
+  // public newTypes: any[];
+
+  public items = [{"field":"","type":"","isFormula":false},{"field":"","type":"","isFormula":false},{"field":"","type":"","isFormula":true}]
+
+  public selectedTypes: any[] = [];
+
   ngOnInit(): void {
-    this.selectedColumns.push(this.columns[0]);
-    this.fields = ["quantity","price","total price"];
+    this.selectedColumns.push(this.columns[0].columnName);
+    // this.fields = ["quantity","price","total price"];
   }
 
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
+  //multiselect sametime, return value, check repeat, show calculate drop down and regular check
 }

@@ -3,3 +3,18 @@
     justify-content: center;
     align-items: center;
 }
+:host ::ng-deep #formula.show {
+    visibility: visible;
+}
+/* :host ::ng-deep #AddButton {
+    align-items: center;
+} */
+:host ::ng-deep #box-group-top {
+    align-items: flex-start;
+}
+:host ::ng-deep #box-group-left {
+    width: 30em;
+}
+:host ::ng-deep #box-group-right {
+    width: fit-content;
+}

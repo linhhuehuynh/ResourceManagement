@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 
@@ -31,6 +32,7 @@ import {PasswordModule} from 'primeng/password';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 import {TableModule} from 'primeng/table';
@@ -45,7 +47,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { TemplatetableComponent } from './components/template/templatetable/templatetable.component';
 
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
+
 import { ErrorComponent } from './error/error.component';
+
+import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 
 @NgModule({
@@ -59,7 +64,11 @@ import { ErrorComponent } from './error/error.component';
     TemplatetableComponent,
     PasswordValidatorDirective,
     ProjectDisplayTableComponent,
+
     ErrorComponent
+
+    ProjectSelectorComponent
+
 
   ],
   imports: [
@@ -90,7 +99,8 @@ import { ErrorComponent } from './error/error.component';
     SidebarModule,
     MenuModule,
     RippleModule,
-    TableModule
+    TableModule,
+    DropdownModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

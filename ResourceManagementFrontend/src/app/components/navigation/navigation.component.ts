@@ -16,4 +16,4 @@ export class NavigationComponent implements OnInit {
   }
 
 }
-//let
+//let//navigate router

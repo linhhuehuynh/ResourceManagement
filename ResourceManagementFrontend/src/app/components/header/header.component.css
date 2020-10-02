@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
     display: -webkit-flex;
     width: 100%;
     border-style: solid;
@@ -9,25 +9,16 @@
     background-color: white;
     border-width: 1px;
     justify-content: space-between;
-    /* height:25%; */
-}
-#box2 {
-    /* display: -webkit-inline-flex; */
+} */
+/* #box2 {
     height: 10%;
     background-color:#f27724;
     width: fit-content;
     justify-content: flex-start;
-    /* align-items: flex-end; */
-    /* padding-top: 8px;
-    padding-bottom: 8px; */
-    /* flex-direction: column;
-    justify-content: center; */
-    /* margin-top: 2px;
-    margin-bottom: 2px; */
 }
 #box3 {
     width: 100px;
-}
+}  */
 #icon1 {
     font-size: 3.5rem;
     color: whitesmoke;
@@ -71,7 +62,7 @@ p-toolbar {
     /* height: 140px; */
 }
 .p-toolbar-group-left {
-    background-color: orangered;
+    background-color: #f27724;
     height: 100%;
 }
 
