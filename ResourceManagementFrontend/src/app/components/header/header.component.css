@@ -14,7 +14,7 @@
 #box2 {
     /* display: -webkit-inline-flex; */
     height: 10%;
-    background-color: orangered;
+    background-color:#f27724;
     width: fit-content;
     justify-content: flex-start;
     /* align-items: flex-end; */

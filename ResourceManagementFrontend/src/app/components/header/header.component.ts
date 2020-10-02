@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   // showSubmenu: boolean = false;
 
   items:MenuItem[];
+
   constructor(private messageService: MessageService,
     private primengConfig: PrimeNGConfig) { }
 
@@ -30,6 +31,12 @@ export class HeaderComponent implements OnInit {
     },
     {
       label:'Member since '+this.createtime
+    },
+    {
+      label:"profile"
+    },
+    {
+      label:"sign out"
     }
     ]
   }
