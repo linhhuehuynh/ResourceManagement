@@ -26,8 +26,7 @@ export class AuthService {
   }
 
   getIsAuth() {
-    if(this.getAuthData())
-    return this.isAuthenticated=true;
+    return this.isAuthenticated;
   }
 
   getUserId(){
