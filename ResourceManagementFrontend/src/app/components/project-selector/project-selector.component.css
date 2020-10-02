@@ -1,0 +1,9 @@
+.placeholderFieldInvisible{
+    border:solid 1px red;
+    z-index: -1;
+    position:absolute !important;
+    height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+  }

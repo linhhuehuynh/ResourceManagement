@@ -6,20 +6,22 @@ import {LoginComponent} from './components/auth/login/login.component';
 import {TemplatetableComponent} from './components/template/templatetable/templatetable.component'
 
 import {ProjectDisplayTableComponent} from './components/project-display-table/project-display-table.component';
-
+import { AuthGuard } from './components/auth/auth.guard';
+import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 const routes: Routes = [
   // {path:'', component: PostsComponent},
   {path:'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-
-  {path:'templatetable',component:TemplatetableComponent},
-  {path: 'project', component: ProjectDisplayTableComponent},
+  {path: 'project', component: ProjectDisplayTableComponent, canActivate:[AuthGuard] },
+  {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
+  {path: 'projectselector', component: ProjectSelectorComponent},
   // {path:'**', component: ErrorComponent}
 ];
 
 @NgModule({
 imports: [RouterModule.forRoot(routes)],
-exports: [RouterModule]
+exports: [RouterModule],
+providers: [AuthGuard]
 })
 export class AppRoutingModule { }

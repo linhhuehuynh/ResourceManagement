@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule }    from '@angular/forms';
 
 // import {MatSidenavModule} from '@angular/material';
@@ -11,9 +11,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
-import {TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { PasswordValidatorDirective } from './components/auth/password.directive';
+import { AuthInterceptor } from './components/auth/auth-interceptors';
+
 
 import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
@@ -29,6 +31,9 @@ import {MessageModule} from 'primeng/message';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
 
+
+import {TableModule} from 'primeng/table';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -39,6 +44,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { TemplatetableComponent } from './components/template/templatetable/templatetable.component';
 
 import { ProjectDisplayTableComponent } from './components/project-display-table/project-display-table.component';
+import { from } from 'rxjs';
+import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 
 
 @NgModule({
@@ -51,7 +58,8 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
     HeaderComponent,
     TemplatetableComponent,
     PasswordValidatorDirective,
-    ProjectDisplayTableComponent
+    ProjectDisplayTableComponent,
+    ProjectSelectorComponent
 
   ],
   imports: [
@@ -83,7 +91,9 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
     TableModule,
     DropdownModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
