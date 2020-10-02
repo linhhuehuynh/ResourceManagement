@@ -7,9 +7,9 @@
             </ng-template>
             <ng-template pTemplate="body" let-column >
                 <tr>
-                    <td>{{column}}</td>
-                    <td><p-checkbox value="column" [value]="column" [(ngModel)]="selectedColumns"
-                        [inputId]="column" [disabled]="column==='name'"></p-checkbox></td>
+                    <td>{{column.columnName}}</td>
+                    <td><p-checkbox [value]="column.columnName" [(ngModel)]="selectedColumns"
+                        [inputId]="column.columnName" [disabled]="column.columnName==='name'"></p-checkbox></td>
                     <!-- <td><div class="p-field-checkbox">
                         <p-checkbox [(ngModel)]="checkedList" binary="true" inputId="binary"></p-checkbox>
                         <label for="binary"></label>
@@ -24,19 +24,40 @@
         </p-table>
     </div>
     <div class="box" id="box-group-right">
-        <p-table [value]="fields" styleClass="p-datatable-gridlines">
+        <p-table [value]="templates" styleClass="p-datatable-gridlines">
             <ng-template pTemplate="caption">
                 Quantity Survey Fields
             </ng-template>
-            <ng-template pTemplate="body" let-field >
+            <ng-template pTemplate="body" let-template >
                 <tr>
                     <!-- <td>{{column}}</td> -->
-                    <td><h5>Field</h5>
-                    <input type="text" pInputText value="{{field}}">
+                    <td>
+                        <h5>Field</h5>
+                    <input type="text" pInputText [(ngModel)]="template.projectColumnName">
                     </td>
+                    <td>
+                        <h5>Type</h5>
+                        <p-dropdown [options]="types" [(ngModel)]="template.columnType" editable="false" [placeholder]="types[0]"></p-dropdown>
+                    </td>
+                    <td id="formula" *ngIf="template.columnType===types[2]; then'show'">
+                        <h5>Formula</h5>
+                        <input type="text" pInputText [(ngModel)]="template.formulaValue" >
+                    </td>
+                    <td><i id="icon" class="pi pi-trash"></i></td>
                 </tr>
             </ng-template>
+            <!-- <ng-template pTemplate ="body" let-type>
+                <tr>
+                    <td>{{type}}</td>
+                    <td>{{type}}</td>
+                    <td>{{type}}</td>
+                </tr>
+            </ng-template> -->
         </p-table>
+        <div id="AddButton" [style]="{'align-content':'flex-end'}">
+            <span>Add Field</span>
+            <p-button id="icon2" icon="pi pi-plus"></p-button>
+        </div>
     </div>
 </div>
 <div class="box" id="box-group-bottom">
