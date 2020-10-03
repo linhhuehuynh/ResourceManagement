@@ -11,7 +11,7 @@
 }
 
 :host ::ng-deep .p-button {
-        background: orangered;
+        background:  #f27724;
         border: none;
         margin-top: 0.9em;
 }
