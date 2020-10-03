@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private messageService: MessageService,
 
-    private primengConfig: PrimeNGConfig, private authService:AuthService) { }
+    private primengConfig: PrimeNGConfig, private authService:AuthService, private router:Router) { }
 
 
   ngOnInit(): void {
