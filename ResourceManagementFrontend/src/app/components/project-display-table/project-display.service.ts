@@ -32,7 +32,7 @@ export class ProjectDisplayService {
     this.projectRowDisplayList = [];
     //Not sure if this is correct, need to double check
     this.userIsAuthenticated = this.authService.getIsAuth();
-  };
+  }
 
   getProjectRowList(projectId: number) {
     return this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString())
