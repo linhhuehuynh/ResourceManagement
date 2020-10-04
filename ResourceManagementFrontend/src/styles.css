@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+:host ::ng-deep .p-button {
+    background-color: #f27724;
+    border: #f27724;
+}
