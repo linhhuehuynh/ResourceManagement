@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  title: string;
   message: any;
   success: boolean;
   private authStatusSub: Subscription;
@@ -36,14 +35,10 @@ export class SignupComponent implements OnInit, OnDestroy {
       res => {
         this.success = true;
         this.message = "You have registered successfully."
-        this.title="Thank you!"
         setTimeout(() => this.router.navigate(["/login"]), 2000)
       },
       error => {
-        console.log(error);
-        this.success=false;
-        this.title="An error occured!"
-        this.message = error.error;
+        this.display=false;
       }
     )
   }
