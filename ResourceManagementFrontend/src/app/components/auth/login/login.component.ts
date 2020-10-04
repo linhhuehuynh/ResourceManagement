@@ -9,13 +9,8 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  title: string;
-  message: any;
-  success: boolean;
   isLoading = false;
   private authStatusSub: Subscription;
-
-  display=false;
 
   rememberMe: string[] = [];
   constructor(private authService: AuthService) { }
@@ -32,16 +27,8 @@ export class LoginComponent implements OnInit {
     if(form.invalid){ return;}
     this.isLoading = true;
     this.authService.login(form.value.username, form.value.password);
-
-    //Get error message
-    this.message = this.authService.message;
   }
 
-  showDialog() {
-
-    this.display=true;
-  }
-  
   ngOnDestroy() {
     this.authStatusSub.unsubscribe();
   }
