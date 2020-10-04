@@ -1,65 +1,79 @@
 <!-- <p>table works!</p> -->
-<div class="container" id="box-group-top" [style]="{'flex-direction':'column','justify-content':'flex-start','align-item':'flex-start'}">
-    <div class="box" id="box-group-left">
-        <p-table [value]="columns" styleClass="p-datatable-gridlines">
-            <ng-template pTemplate="caption">
-                Project Scope Fields
-            </ng-template>
-            <ng-template pTemplate="body" let-column >
-                <tr>
-                    <td>{{column.columnName}}</td>
-                    <td><p-checkbox [value]="column.columnName" [(ngModel)]="selectedColumns"
-                        [inputId]="column.columnName" [disabled]="column.columnName==='name'"></p-checkbox></td>
-                    <!-- <td><div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="checkedList" binary="true" inputId="binary"></p-checkbox>
-                        <label for="binary"></label>
-                    </div></td> -->
-                    <!-- <td *ngFor="let column of columns" class="p-field-checkbox">
-                        <p-checkbox name="group2" value="column" [value]="column"  [(ngModel)]="selectedCategories" [inputId]="column" ></p-checkbox>
-                        <label [for]="column">{{column}}</label>
-                    </td> -->
-                </tr>
-                
-            </ng-template>
-        </p-table>
-    </div>
-    <div class="box" id="box-group-right">
-        <p-table [value]="templates" styleClass="p-datatable-gridlines">
-            <ng-template pTemplate="caption">
-                Quantity Survey Fields
-            </ng-template>
-            <ng-template pTemplate="body" let-template >
-                <tr>
-                    <!-- <td>{{column}}</td> -->
-                    <td>
-                        <h5>Field</h5>
-                    <input type="text" pInputText [(ngModel)]="template.projectColumnName">
-                    </td>
-                    <td>
-                        <h5>Type</h5>
-                        <p-dropdown [options]="types" [(ngModel)]="template.columnType" editable="false" [placeholder]="types[0]"></p-dropdown>
-                    </td>
-                    <td id="formula" *ngIf="template.columnType===types[2]; then'show'">
-                        <h5>Formula</h5>
-                        <input type="text" pInputText [(ngModel)]="template.formulaValue" >
-                    </td>
-                    <td><i id="icon" class="pi pi-trash"></i></td>
-                </tr>
-            </ng-template>
-            <!-- <ng-template pTemplate ="body" let-type>
-                <tr>
-                    <td>{{type}}</td>
-                    <td>{{type}}</td>
-                    <td>{{type}}</td>
-                </tr>
-            </ng-template> -->
-        </p-table>
-        <div id="AddButton" [style]="{'align-content':'flex-end'}">
-            <span>Add Field</span>
-            <p-button id="icon2" icon="pi pi-plus"></p-button>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div class="container" id="box-group">
+    <div class="container" id="box-group-top">
+        <!-- <div class="container"> 
+            
+        </div> -->
+        <div class="box" id="box-group-left">
+            <p-table [value]="columns" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    Project Scope Fields
+                </ng-template>
+                <ng-template pTemplate="body" let-column >
+                    <tr>
+                        <td>{{column.columnName}}</td>
+                        <td><p-checkbox [value]="column.columnName" [(ngModel)]="selectedColumns"
+                            [inputId]="column.columnName" [disabled]="column.columnName==='name'"></p-checkbox></td>
+                        <!-- <td><div class="p-field-checkbox">
+                            <p-checkbox [(ngModel)]="checkedList" binary="true" inputId="binary"></p-checkbox>
+                            <label for="binary"></label>
+                        </div></td> -->
+                        <!-- <td *ngFor="let column of columns" class="p-field-checkbox">
+                            <p-checkbox name="group2" value="column" [value]="column"  [(ngModel)]="selectedCategories" [inputId]="column" ></p-checkbox>
+                            <label [for]="column">{{column}}</label>
+                        </td> -->
+                    </tr>
+                    
+                </ng-template>
+            </p-table>
         </div>
+    
+        <!-- <div class="container">
+            
+        </div> -->
+        <div class="box" id="box-group-right">
+                <p-table [value]="templates" styleClass="p-datatable-gridlines">
+                    <ng-template pTemplate="caption">
+                        Quantity Survey Fields
+                    </ng-template>
+                    <ng-template pTemplate="body" let-template >
+                        <tr>
+                            <!-- <td>{{column}}</td> -->
+                            <td>
+                                <h5>Field</h5>
+                            <input type="text" pInputText value="template.projectColumnName" [(ngModel)]="template.projectColumnName">
+                            </td>
+                            <td>
+                                <h5>Type</h5>
+                                <p-dropdown [options]="types" [(ngModel)]="template.columnType"  [placeholder]="types[0].columnType" optionalLabel="columnType"></p-dropdown>
+                            </td>
+                            <td id="formula" ng-show="template.columnType==='Formula'">
+                                <h5>Formula</h5>
+                                <input type="text" pInputText [(ngModel)]="template.formulaValue" >   
+                            </td>
+                            <td><p-button id="icon" icon="pi pi-trash" (click)="DeleteTheTemplate(template)"></p-button></td>
+                        </tr>
+                    </ng-template>
+                    <!-- <ng-template pTemplate ="body" let-type>
+                        <tr>
+                            <td>{{type}}</td>
+                            <td>{{type}}</td>
+                            <td>{{type}}</td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+                <div id="AddButton">
+                    <span>Add Field</span>
+                    <p-button id="icon2" icon="pi pi-plus" (click)="AddNewTemplate()"></p-button>
+                </div>
+            </div>
     </div>
-</div>
-<div class="box" id="box-group-bottom">
+    <div class="box" id="box-group-bottom">
+        <div id="empty"class="container"></div>
+    </div>
+    <div class="container" id="bottom" >
+        <p-button id="but" label="save" (click)="SaveNewTemplate(templates)" ></p-button>
+    </div>
     
 </div>
