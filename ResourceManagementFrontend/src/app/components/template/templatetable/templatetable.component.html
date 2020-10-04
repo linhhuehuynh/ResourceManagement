@@ -42,7 +42,7 @@
                             <!-- <td>{{column}}</td> -->
                             <td>
                                 <h5>Field</h5>
-                            <input type="text" pInputText value="template.projectColumnName" [(ngModel)]="template.projectColumnName">
+                                <input type="text" pInputText [(ngModel)]="template.projectColumnName">
                             </td>
                             <td>
                                 <h5>Type</h5>
@@ -73,7 +73,7 @@
         <div id="empty"class="container"></div>
     </div>
     <div class="container" id="bottom" >
-        <p-button id="but" label="save" (click)="SaveNewTemplate(templates)" ></p-button>
+        <p-button id="but" class="but" label="save" (click)="SaveNewTemplate(templates)" ></p-button>
     </div>
     
 </div>

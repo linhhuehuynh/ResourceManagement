@@ -31,7 +31,7 @@ export class TemplatetableComponent implements OnInit {
 
   // public types=['Text','Number','Formula'];
 
-  public newTemplate : Template = {projectColumnName:"",columnType:"",formulaValue:""};
+  // public newTemplate : Template = {projectColumnName:"",columnType:"",formulaValue:""};
 
   // public newTypes: any[];
 
@@ -50,19 +50,22 @@ export class TemplatetableComponent implements OnInit {
     }
 
   ngOnInit(): void {
+  // getcolumns,+columns(name,id)
+
     this.selectedColumns.push(this.columns[0].columnName);
+    
     
     // this.fields = ["quantity","price","total price"];
     // this.newTemplate = new Template;
   }
 
   AddNewTemplate() {
-    if(this.templates.length>=3) {
-      alert("Please delete some templates until three");
-    } else  {
-      this.templates.push(this.newTemplate);
-    }
-    
+    // if(this.templates.length>=3) {
+    //   alert("Please delete some templates until three");
+    // } else  {
+    //   this.templates.push(this.newTemplate);
+    // }
+    this.templates.push(new Template());
     
     // this.templates = this.items;
   }
@@ -79,14 +82,16 @@ export class TemplatetableComponent implements OnInit {
       this.columnNames.push(column.columnName);
     }
     for(let template of templates) {
-      if((template.formulaValue.length === 0)||(template.columnType == undefined)) {
+      if(template.projectColumnName.length === 0) {
         alert("Please fill the name of the column");
         signal = false;
+        break;
       }
       if(this.columnNames.includes(template.projectColumnName)) {
         alert("Please enter unexisted columns");
         this.DeleteTheTemplate(template);
         signal = false;
+        break;
       }
     }
     if((templates.length != 0)&&(signal)) {
@@ -106,8 +111,12 @@ export class TemplatetableComponent implements OnInit {
         }
       )
     }
+    console.log(this.templates);
+
+    //delete all,alert=>dialog
   }
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
   // return value, check repeat, show calculate drop down and regular check,hide
   //save/delete same time,save to db,ngshow,left
+  //dialog
 }

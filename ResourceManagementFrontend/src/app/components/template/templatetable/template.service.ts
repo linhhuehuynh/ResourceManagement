@@ -19,6 +19,8 @@ export class TemplateService {
     header: any;
     userIsAuthenticated=false;
 
+    projectId = 1;
+
     public templateList: Template[];
 
     public types = ["Text","Number","Formula"];
@@ -30,9 +32,11 @@ export class TemplateService {
 
     saveTemplates(templateList:Template[]):Observable<Template[]>{
         for(let template of templateList) {
-            this.http.post(BACKEND_URL+'/projectcolumn',template);
+            this.http.post(BACKEND_URL+'/projectcolumn',{projectColumnName:template.projectColumnName,columnType:template.columnType,project:{id:this.projectId}});
         }
         return of(templateList);
     }
+
+    // getColumns()
 }
 

@@ -66,6 +66,7 @@
 :host ::ng-deep #bottom {
     text-align: right;
     float: right;
+    justify-content: flex-end;
 }
 :host ::ng-deep #but {
     /* text-align: right; */
