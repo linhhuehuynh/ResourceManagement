@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ResourceDisplay } from './resource-display.model';
 import {MenuItem} from 'primeng/api';
+import { ResourceCol } from '../resource/resource-col/resource-col.model';
+import { ResourceColService } from '../resource/resource-col/resource-col.service';
+import { ResourceItemService } from '../resource/resource-item/resource-item.service';
+import { Resource } from '../resource/resource-data.model';
 
 @Component({
   selector: 'app-resource-select',
@@ -11,40 +15,33 @@ export class ResourceSelectComponent implements OnInit {
 
   resourceList: ResourceDisplay[];
   resourceSelectedList: ResourceDisplay[];
-  resourceColumnList: any[];
+  resourceColumnList: ResourceCol[];
+  resourceRowList: Resource[];
   items: MenuItem[];
 
-  constructor() { }
+  constructor(private resourceColService: ResourceColService, private resourceItemService: ResourceItemService) { }
 
   ngOnInit(): void {
     this.resourceList = [];
     this.resourceSelectedList = [];
-    let r1 = new ResourceDisplay;
-    r1.id = 1;
-    r1.itemList = ["00", "01"];
-    r1.chosen = false;
-    let r2 = new ResourceDisplay;
-    r2.id = 2;
-    r2.itemList = ["10", "11"];
-    r2.chosen = false;
-    let r3 = new ResourceDisplay;
-    r3.id = 3;
-    r3.itemList = ["20", "21"];
-    r3.chosen = false;
-    let r4 = new ResourceDisplay;
-    r4.id = 4;
-    r4.itemList = ["30", "31"];
-    r4.chosen = false;
-    let r5 = new ResourceDisplay;
-    r5.id = 5;
-    r5.itemList = ["40", "41"];
-    r5.chosen = false;
-    this.resourceList.push(r1);
-    this.resourceList.push(r2);
-    this.resourceList.push(r3);
-    this.resourceList.push(r4);
-    this.resourceList.push(r5);
+    this.resourceRowList = [];
+    this.resourceColumnList = [];
 
+    this.resourceColService.getAllResourceColumnName().subscribe(data => this.resourceColumnList = data);
+    this.resourceItemService.getResource().then(data => {
+      console.log(data);
+      this.resourceRowList = data;
+      this.resourceItemService.getResourceItemList().then(data => {
+        for(let row of data) {
+          let res = new ResourceDisplay();
+          res.id = row.id;
+          res.itemList = row.itemList;
+          res.chosen = false;
+          this.resourceList.push(res);
+        }
+        console.log(this.resourceList);
+      });
+    })
     this.items = [
       {
         label: "Select all",

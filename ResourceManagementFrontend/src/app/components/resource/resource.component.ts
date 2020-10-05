@@ -35,7 +35,7 @@ export class ResourceComponent implements OnInit {
 
     this.resourceCol.getAllResourceColumnName().subscribe(columns => this.headers = columns);
     this.resourceItem.getResource().then(data => {
-      this.resourceDisplayList = this.resourceItem.getResourceItemList();
+      this.resourceItem.getResourceItemList().then(data => {this.resourceDisplayList = data});
       // console.log(this.resourceDisplayList)
     })
 
