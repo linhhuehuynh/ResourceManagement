@@ -13,6 +13,7 @@ import { MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 
 import { PasswordValidatorDirective } from './components/auth/password.directive';
@@ -49,6 +50,7 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
 import { ErrorComponent } from './error/error.component';
 
 import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
+import { ResourceSelectComponent } from './components/resource-select/resource-select.component';
 import { ResourceComponent } from './components/resource/resource.component';
 
 
@@ -68,6 +70,7 @@ import { ResourceComponent } from './components/resource/resource.component';
 
     ProjectSelectorComponent,
 
+    ResourceSelectComponent
     ResourceComponent
 
 
@@ -83,6 +86,7 @@ import { ResourceComponent } from './components/resource/resource.component';
     MessagesModule,
     DialogModule,
     PasswordModule,
+    TieredMenuModule,
 
     FormsModule,
     HttpClientModule,

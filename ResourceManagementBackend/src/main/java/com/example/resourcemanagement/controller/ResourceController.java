@@ -38,7 +38,7 @@ public class ResourceController {
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{resourceId}")
     @ResponseBody
     public ResponseEntity<?> getResourceById(@PathVariable Integer resourceId) {
         Optional<Resource> resource = resourceService.getResourceById(resourceId);
