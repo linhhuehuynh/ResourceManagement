@@ -34,6 +34,7 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //    @JsonIdentityReference(alwaysAsId = true)
 //    @JsonProperty("userId")
@@ -63,6 +64,10 @@ public class Project {
 
     public void addResource(Resource resource) {
         this.resourceList.add(resource);
+    }
+
+    public void removeResource(Resource resource) {
+        this.resourceList.remove(resource);
     }
 
     public int getId() {
