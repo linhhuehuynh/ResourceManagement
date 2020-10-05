@@ -5,6 +5,9 @@ import { Resource } from './resource-data.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { MenuItem } from 'primeng/api';
+import { ResourceItemService } from './resource-item/resource-item.service';
+import { ResourceColService } from './resource-col/resource-col.service';
+import { ResourceRow } from './resource-row/resource-row.model';
 
 @Component({
   selector: 'app-resource',
@@ -14,13 +17,13 @@ import { MenuItem } from 'primeng/api';
 export class ResourceComponent implements OnInit {
   isLoading = false;
   private authStatusSub: Subscription;
-  resource: any
+  resourceDisplayList: ResourceRow[];
   cols: any[];
   items: MenuItem[];
 
   @ViewChild('dt') table: Table;
 
-  constructor(private resourceService: ResourceService, private authService: AuthService) { }
+  constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) { }
 
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -58,6 +61,12 @@ export class ResourceComponent implements OnInit {
   }
     ],
 
-      this.resourceService.getAllResources().subscribe(res => this.resource = res);
+      // this.resourceService.getAllResources().subscribe(res => this.resource = res);
+      this.resourceCol.getAllResourceColumnName();
+      this.resourceItem.getResource().then(data => {
+        console.log(data);
+        this.resourceDisplayList = this.resourceItem.getResourceItemList();
+        console.log(this.resourceDisplayList);
+      })
   }
 }
