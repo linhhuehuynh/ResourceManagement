@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MessageService, PrimeNGConfig} from 'primeng/api';
+import { AuthService } from './../auth/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class HeaderComponent implements OnInit {
   items:MenuItem[];
 
   constructor(private messageService: MessageService,
-    private primengConfig: PrimeNGConfig) { }
+
+    private primengConfig: PrimeNGConfig, private authService:AuthService, private router:Router) { }
+
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
@@ -33,12 +37,29 @@ export class HeaderComponent implements OnInit {
       label:'Member since '+this.createtime
     },
     {
-      label:"profile"
+      label:'profile',
+      command:() => {
+        this.showProfile();
+      }
     },
     {
-      label:"sign out"
+      label:"sign out",
+      command:() => {
+        this.signout();
+      }
     }
     ]
+
+  }
+  signout() {
+    throw new Error('Method not implemented.');
+  }
+  showProfile() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout() {
+this.authService.logout();
   }
 //microsoft container size
 }

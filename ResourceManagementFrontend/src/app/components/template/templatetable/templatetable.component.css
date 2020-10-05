@@ -1,5 +1,78 @@
 .container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+}
+:host ::ng-deep #box-group {
+    flex-wrap: wrap;
+    /* border-style:groove;
+    border-color:gray ;
+    border-width: 1px; */
+}
+:host ::ng-deep #formula.show {
+    visibility: visible;
+}
+/* :host ::ng-deep #AddButton {
+    align-items: center;
+} */
+:host ::ng-deep #box-group-top {
+    /* display: -webkit-flex; */
+    /* flex-wrap: nowrap; */
+    align-items: flex-start;
+    border-style:groove;
+    border-color:gray ;
+    border-width: 1px;
+    height: 77%;
+}
+:host ::ng-deep #box-group-left {
+    padding: 5%;
+    border-style:groove;
+    border-color:gray ;
+    border-width: 1px;
+    width:30%;
+}
+:host ::ng-deep #box-group-right {
+    padding: 5%;
+    border-style:groove;
+    border-color:gray ;
+    border-width: 1px;
+    width:70%;
+    height: 100%;
+    /* align-content: flex-start; */
+    /* justify-content: space-around;
+    flex-direction: row; */
+}
+:host ::ng-deep #AddButton {
+    /* align-items: baseline; */
+    text-align: right;
+    float: right;
+}
+/* :host ::ng-deep #formula {
+    
+} */
+:host ::ng-deep #icon {
+    font-size: 3em;
+}
+/* :host ::ng-deep #icon2 {
+    color: #f27724;
+} */
+:host ::ng-deep #empty {
+    height: 22%;
+    border-color:grey ;
+    border-left: groove;
+    border-right: groove;
+    border-bottom: groove;
+}
+:host ::ng-deep #bottom {
+    text-align: right;
+    float: right;
+    /* justify-content: flex-end; */
+}
+:host ::ng-deep #but {
+    /* text-align: right; */
+    float: right;
+}
+:host ::ng-deep .p-button {
+    background-color: #f27724;
+    border: none;
 }

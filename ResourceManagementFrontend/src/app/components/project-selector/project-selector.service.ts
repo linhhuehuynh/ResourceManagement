@@ -32,6 +32,7 @@ export class ProjectSelectorService {
     })
   }
 
+
   setSelectedProject(selectedProject: Project) {
     this.selectedProject = selectedProject;
   }
@@ -40,5 +41,6 @@ export class ProjectSelectorService {
     console.log(this.selectedProject.id);
     return this.selectedProject.id;
   }
+
 
 }

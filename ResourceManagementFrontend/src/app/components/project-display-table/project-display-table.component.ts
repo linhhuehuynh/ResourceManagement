@@ -21,7 +21,6 @@ export class ProjectDisplayTableComponent implements OnInit {
   projectRowDisplayList: ProjectRowDisplay[];
   projectColList: ProjectColumn[];
   projectRowList: ProjectRow[];
-  word = "sdsds";
 
   constructor(private projectDisplayService: ProjectDisplayService, private authService: AuthService) { }
 
@@ -31,13 +30,22 @@ export class ProjectDisplayTableComponent implements OnInit {
         this.isLoading = false;
       }
     )
+    if(!this.projectDisplayService.loaded) {
+      this.projectDisplayService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
+      this.projectDisplayService.getProjectRowList(this.projectId)
+      .then(data => {
+        this.projectRowList = data;
+        this.projectRowDisplayList = this.projectDisplayService.getProjectItemList();
+      });
+      this.projectDisplayService.loaded = true;
+    } else {
+      this.projectColList = this.projectDisplayService.getLoadedProjectColumnList();
+      this.projectRowList = this.projectDisplayService.getLoadedProjectRowList();
+      this.projectRowDisplayList = this.projectDisplayService.getLoadedProjectRowDisplayList();
+      console.log("Not getting data");
+    }
 
-    this.projectDisplayService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
-    this.projectDisplayService.getProjectRowList(this.projectId)
-    .then(data => {
-      this.projectRowList = data;
-      this.projectRowDisplayList = this.projectDisplayService.getProjectItemList();
-    });
+    
     
   }
 
@@ -52,6 +60,6 @@ export class ProjectDisplayTableComponent implements OnInit {
   }
 
   chickMe() {
-    console.log(this.projectRowDisplayList);
+    console.log(this.projectDisplayService.getLoadedProjectRowDisplayList());
   }
 }

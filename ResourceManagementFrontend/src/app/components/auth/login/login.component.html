@@ -18,8 +18,7 @@
                 </div>  
             </div>
     
-            <p-button label="Log In" (click)="showDialog()"type="submit" [disabled]="!signupForm.valid"></p-button>
-            <p-dialog [header]="title" [(visible)]="display">{{message}}</p-dialog>  
+            <p-button label="Log In" type="submit" [disabled]="!signupForm.valid"></p-button>
 
             <div class="p-field-checkbox" style="margin-top: 0.9em">
                 <p-checkbox name="rememberMe" value="Remember me" [(ngModel)]="rememberMe" inputId="rememberMe"></p-checkbox>

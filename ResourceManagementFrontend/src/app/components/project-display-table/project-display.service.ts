@@ -24,15 +24,18 @@ export class ProjectDisplayService {
   private projectRowList: ProjectRow[];
   private projectColList: ProjectColumn[];
   private projectRowDisplayList: ProjectRowDisplay[];
+  loaded: boolean;
+
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { 
     this.project = null;
     this.projectRowList = [];
     this.projectColList = [];
     this.projectRowDisplayList = [];
+    this.loaded = false;
     //Not sure if this is correct, need to double check
     this.userIsAuthenticated = this.authService.getIsAuth();
-  };
+  }
 
   getProjectRowList(projectId: number) {
     return this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString())
@@ -135,5 +138,17 @@ export class ProjectDisplayService {
       }
     }
     return projectRowDisplayList;
+  }
+
+  getLoadedProjectColumnList() {
+    return this.projectColList;
+  }
+
+  getLoadedProjectRowList() {
+    return this.projectRowList;
+  }
+
+  getLoadedProjectRowDisplayList() {
+    return this.projectRowDisplayList;
   }
 }
