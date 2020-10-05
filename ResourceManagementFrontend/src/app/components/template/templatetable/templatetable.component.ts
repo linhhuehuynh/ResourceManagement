@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Template } from './template.model'
+import { Column } from './template.model'
 import { TemplateService } from './template.service'
-import { Observable } from 'rxjs'
+import { ProjectDisplayService } from '../../project-display-table/project-display.service'
+import { ProjectColumn } from '../../../model/project-col.model'
 
 @Component({
   selector: 'app-templatetable',
@@ -15,7 +17,8 @@ export class TemplatetableComponent implements OnInit {
 
   fields = [];
 
-  public columns = [{columnName:"name",columnId:null},{columnName:"cost_code",columnId:null},{columnName:"ediable",columnId:null},{columnName:"item_id",columnId:null}];//column name,column_id
+  // public columns = [{columnName:"name",columnId:null},{columnName:"cost_code",columnId:null},{columnName:"ediable",columnId:null},{columnName:"item_id",columnId:null}];//column name,column_id
+  public columns:Column[];
 
   public columnNames:string[] = [];
   
@@ -23,7 +26,7 @@ export class TemplatetableComponent implements OnInit {
 
   public newColumns: any[];
 
-  public selectedColumns: any[] = [];
+  public selectedColumns: any[];
 
   public templates: Template[]=[];
 
@@ -31,7 +34,7 @@ export class TemplatetableComponent implements OnInit {
 
   // public types=['Text','Number','Formula'];
 
-  public newTemplate : Template = {projectColumnName:"",columnType:"",formulaValue:""};
+  // public newTemplate : Template = {projectColumnName:"",columnType:"",formulaValue:""};
 
   // public newTypes: any[];
 
@@ -40,29 +43,42 @@ export class TemplatetableComponent implements OnInit {
   public selectedTypes: any[] = [];
 
   success:boolean;
-
   message:any;
-
   title:string;
 
-  constructor(private templateService:TemplateService, private router:Router) {
+  public projectId = 1;
+  projectColList: ProjectColumn[];
+
+  constructor(private templateService:TemplateService, private router:Router,private projectDisplayService: ProjectDisplayService) {
     // this.types= [{name:'Text'},{name:'Number'},{name:'Formula'}];
+    this.columns = [];
+    this.selectedColumns = [];
     }
 
   ngOnInit(): void {
-    this.selectedColumns.push(this.columns[0].columnName);
-    
-    // this.fields = ["quantity","price","total price"];
-    // this.newTemplate = new Template;
+  // getcolumns,+columns(name,id)
+    // this.selectedColumns.push(this.columns[0]);
+    // this.templateService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
+    this.templateService.getProjectColList(this.projectId).subscribe(
+      res=>{for(let projectcolumn of res) {
+        if(projectcolumn.projectColumnName==='name') {
+          this.selectedColumns.push(projectcolumn.projectColumnName);
+        }
+        this.columns.push({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id});
+      }
+      
+      // this.selectedColumns.push(this.columns[0]);
+    });
+    console.log(this.selectedColumns);
   }
 
   AddNewTemplate() {
-    if(this.templates.length>=3) {
-      alert("Please delete some templates until three");
-    } else  {
-      this.templates.push(this.newTemplate);
-    }
-    
+    // if(this.templates.length>=3) {
+    //   alert("Please delete some templates until three");
+    // } else  {
+    //   this.templates.push(this.newTemplate);
+    // }
+    this.templates.push(new Template());
     
     // this.templates = this.items;
   }
@@ -79,25 +95,29 @@ export class TemplatetableComponent implements OnInit {
       this.columnNames.push(column.columnName);
     }
     for(let template of templates) {
-      if((template.formulaValue.length === 0)||(template.columnType == undefined)) {
+      if(template.projectColumnName.length === 0) {
         alert("Please fill the name of the column");
         signal = false;
+        break;
       }
       if(this.columnNames.includes(template.projectColumnName)) {
         alert("Please enter unexisted columns");
         this.DeleteTheTemplate(template);
         signal = false;
+        break;
       }
     }
     if((templates.length != 0)&&(signal)) {
-      this.templateService.saveTemplates(templates).subscribe(
+      this.templateService.saveTemplates(templates,this.projectId).subscribe(
         res=>{
           for(let template of templates) {
             this.columns.push({columnName:template.projectColumnName,columnId:null});
+            this.DeleteTheTemplate(template);
           }
           this.success=true;
           this.message="You have saved templates successfully.";
           this.title="Thank you";
+          
         },
         error =>{
           this.success=false;
@@ -106,8 +126,12 @@ export class TemplatetableComponent implements OnInit {
         }
       )
     }
+    console.log(this.templates);
+
+    //delete all,alert=>dialog
   }
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
   // return value, check repeat, show calculate drop down and regular check,hide
-  //save/delete same time,save to db,ngshow,left
+  //save to db,ngshow,left
+  //dialog
 }

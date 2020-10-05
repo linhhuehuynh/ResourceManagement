@@ -3,3 +3,7 @@ export class Template {
     columnType: string;
     formulaValue: string;
 } 
+export class Column {
+    columnName: string;
+    columnId: number;
+}

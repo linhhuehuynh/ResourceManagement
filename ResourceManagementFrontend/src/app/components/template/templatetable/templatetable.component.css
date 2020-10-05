@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
 :host ::ng-deep #box-group {
@@ -66,6 +66,7 @@
 :host ::ng-deep #bottom {
     text-align: right;
     float: right;
+    /* justify-content: flex-end; */
 }
 :host ::ng-deep #but {
     /* text-align: right; */
