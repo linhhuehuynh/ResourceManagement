@@ -1,3 +1,4 @@
 export class ResourceCol {
-    resourceColumnName : string
+    id: number;
+    resourceColumnName : string;
 }

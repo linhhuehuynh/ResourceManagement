@@ -32,18 +32,23 @@ export class ResourceItemService {
   //  return this.http.get(BACKEND_URL + 'resourceitem');
   // }
 
-  getResourceItemList() {
+  async getResourceItemList() {
     for (let resource of this.resources) {
       let row = new ResourceRow();
       row.id = resource.id;
-      this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).subscribe(
-        response => {
-          console.log(response);
-          row.itemList = response;
-          this.resourceRowList.push(row);
-        }
-    );
+      await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).toPromise()
+      .then(response => {
+        row.itemList = response;
+        this.resourceRowList.push(row);
+      });
+      // .subscribe(
+        // response => {
+        //   row.itemList = response;
+        //   this.resourceRowList.push(row);
+        // }
+      // );
+    }
+    console.log(this.resourceRowList);
+    return this.resourceRowList;
   }
-  return this.resourceRowList;
-}
 }
