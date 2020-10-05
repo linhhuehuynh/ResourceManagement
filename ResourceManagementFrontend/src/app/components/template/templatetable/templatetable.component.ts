@@ -132,6 +132,6 @@ export class TemplatetableComponent implements OnInit {
   }
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
   // return value, check repeat, show calculate drop down and regular check,hide
-  //save/delete same time,save to db,ngshow,left
+  //save to db,ngshow,left
   //dialog
 }
