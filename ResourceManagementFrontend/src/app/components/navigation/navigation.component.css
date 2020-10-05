@@ -5,3 +5,8 @@
 :host ::ng-deep h4 {
    color: white;
 }
+
+.nav-item {
+    text-decoration: none;
+    color: #FFFFFF;
+}

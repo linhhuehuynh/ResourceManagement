@@ -39,6 +39,7 @@ export class ResourceItemService {
       row.id = resource.id;
       await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).toPromise()
       .then(response => {
+
         row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
         this.resourceRowList.push(row);
       });

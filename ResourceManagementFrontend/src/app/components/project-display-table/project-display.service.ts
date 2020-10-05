@@ -41,7 +41,7 @@ export class ProjectDisplayService {
     return this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString())
     .toPromise()
     .then(res => {
-      this.projectRowList = res;
+      this.projectRowList = res.sort((a, b) => {return a.id - b.id});
       return this.projectRowList;
     })
     // .catch(error => {console.error(error.error)});
@@ -62,7 +62,7 @@ export class ProjectDisplayService {
     return this.http.get<ProjectColumn[]>(BACKEND_URL + '/projectcolumn/project/' + projectId.toString())
     .toPromise()
     .then(res => {
-      this.projectColList = res;
+      this.projectColList = res.sort((a, b) => {return a.id - b.id});
       return this.projectColList;
     })
     // .catch(error => {console.error(error.error)});
@@ -83,15 +83,21 @@ export class ProjectDisplayService {
     for(let projectRow of this.projectRowList) {
       let tmp = new ProjectRowDisplay();
       tmp.id = projectRow.id;
-      this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString()).subscribe(
-        data => {
-          for(let item of data) {
-            item.changed = false;
+      try{
+        this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString()).subscribe(
+          data => {
+            for(let item of data) {
+              item.changed = false;
+            }
+            tmp.itemList = data.sort((a, b) => {return a.projectColumn.id - b.projectColumn.id});
+            console.log(tmp);
+            this.projectRowDisplayList.push(tmp);
           }
-          tmp.itemList = data;
-          this.projectRowDisplayList.push(tmp);
-        }
-      );
+        );
+      } catch(err) {
+        console.error(err);
+      }
+      
     }
     return this.projectRowDisplayList;
     // let promise = new Promise<ProjectRowDisplay[]>((resolve, reject) => {
