@@ -70,7 +70,7 @@ import { ResourceComponent } from './components/resource/resource.component';
 
     ProjectSelectorComponent,
 
-    ResourceSelectComponent
+    ResourceSelectComponent,
     ResourceComponent
 
 
