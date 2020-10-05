@@ -16,7 +16,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 
 
-
 import { PasswordValidatorDirective } from './components/auth/password.directive';
 import { AuthInterceptor } from './components/auth/auth-interceptors';
 import { ErrorInterceptor } from './error/error-interceptors';
@@ -52,6 +51,7 @@ import { ErrorComponent } from './error/error.component';
 
 import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 import { ResourceSelectComponent } from './components/resource-select/resource-select.component';
+import { ResourceComponent } from './components/resource/resource.component';
 
 
 @NgModule({
@@ -71,12 +71,11 @@ import { ResourceSelectComponent } from './components/resource-select/resource-s
     ProjectSelectorComponent,
 
     ResourceSelectComponent
+    ResourceComponent
 
 
   ],
   imports: [
-
-
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -104,7 +103,7 @@ import { ResourceSelectComponent } from './components/resource-select/resource-s
     MenuModule,
     RippleModule,
     TableModule,
-    DropdownModule
+    DropdownModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
