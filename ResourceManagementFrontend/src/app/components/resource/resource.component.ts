@@ -19,7 +19,8 @@ export class ResourceComponent implements OnInit {
   isLoading = false;
   private authStatusSub: Subscription;
   resourceDisplayList: ResourceRow[];
-  headers: any;
+  headers: ResourceCol[];
+  row: any;
   items: MenuItem[];
 
   @ViewChild('dt') table: Table;
@@ -33,7 +34,7 @@ export class ResourceComponent implements OnInit {
       }
     )
 
-    this.resourceCol.getAllResourceColumnName().subscribe(columns => this.headers = columns);
+    this.resourceCol.getAllResourceColumnName().subscribe(columns => this.headers = columns.sort((a, b) => {return a.id - b.id}));
     this.resourceItem.getResource().then(data => {
       this.resourceItem.getResourceItemList().then(data => {this.resourceDisplayList = data});
       // console.log(this.resourceDisplayList)
