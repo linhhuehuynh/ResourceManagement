@@ -27,10 +27,10 @@ public class ResourceColumnController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllReourceColumnName() {
-        List<ResourceColumn> result = resourceColumnService.getAllReourceColumnName();
-        if (result.size() != 0) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<?> getAllResourceColumnName() {
+        Optional<List<ResourceColumn>> result = resourceColumnService.getAllResourceColumnName();
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>("ResourceColumns Not Found!", HttpStatus.NOT_FOUND);
     }

@@ -23,12 +23,12 @@ public class ResourceColumnService {
         return Optional.empty();
     }
 
-    public List<ResourceColumn>getAllReourceColumnName() {
+    public Optional<List<ResourceColumn>> getAllResourceColumnName() {
         List<ResourceColumn> resourceColumnList = resourceColumnDao.findAll();
         if (resourceColumnList.size() != 0) {
-            return resourceColumnList;
+            return Optional.of(resourceColumnList);
         }
-        return null;
+        return Optional.empty();
     }
 
     public Optional<ResourceColumn> createColumnName(ResourceColumn resourceColumn) {
