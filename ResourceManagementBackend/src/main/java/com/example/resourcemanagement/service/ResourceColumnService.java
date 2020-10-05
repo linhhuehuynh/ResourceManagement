@@ -6,6 +6,7 @@ import com.example.resourcemanagement.entity.ResourceColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,14 @@ public class ResourceColumnService {
             return resourceColumn;
         }
         return Optional.empty();
+    }
+
+    public List<ResourceColumn>getAllReourceColumnName() {
+        List<ResourceColumn> resourceColumnList = resourceColumnDao.findAll();
+        if (resourceColumnList.size() != 0) {
+            return resourceColumnList;
+        }
+        return null;
     }
 
     public Optional<ResourceColumn> createColumnName(ResourceColumn resourceColumn) {
@@ -51,4 +60,6 @@ public class ResourceColumnService {
         }
         return Optional.empty();
     }
+
+
 }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,15 @@ public class ResourceColumnController {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Column Not Found!", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getAllReourceColumnName() {
+        List<ResourceColumn> result = resourceColumnService.getAllReourceColumnName();
+        if (result.size() != 0) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("ResourceColumns Not Found!", HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("")
