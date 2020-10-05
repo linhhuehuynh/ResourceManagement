@@ -64,7 +64,6 @@ export class ResourceSelectComponent implements OnInit {
       resource.chosen = false;
     }
     this.resourceSelectedList = this.resourceSelectedList.concat(selected);
-    console.log(this.resourceSelectedList);
   }
 
   unselect() {
@@ -74,7 +73,6 @@ export class ResourceSelectComponent implements OnInit {
       resource.chosen = false;
     }
     this.resourceList = this.resourceList.concat(selected);
-    console.log(this.resourceList);
   }
 
   selectAll() {
