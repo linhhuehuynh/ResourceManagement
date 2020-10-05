@@ -3,9 +3,9 @@
         <div class="table-name-area">
             <span class="table-name p-text-center">Resource Catalog</span>
             <!-- <button pButton class="top-button" type="button" icon="pi pi-bars"></button> -->
-            <button #btn type="button" pButton class="top-button" icon="pi pi-bars" (click)="menu.toggle($event)"></button>
+            <button #btn type="button" pButton class="top-button" icon="fas fa-list-ul" (click)="menu.toggle($event)"></button>
             <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
-            <button pButton class="top-button" type="button" icon="pi pi-chevron-right" (click)="select()"></button>
+            <button pButton class="top-button" type="button" icon="fas fa-share" (click)="select()"></button>
         </div>
         <p-table [value]="resourceList" dataKey="id" >
             <ng-template pTemplate="header">
