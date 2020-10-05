@@ -89,4 +89,16 @@ public class ResourceService {
         return existProject;
     }
 
+    public void deleteAllResourcesFromProject(Integer projectId) {
+        Optional<Project> existProject = projectDao.findById(projectId);
+        if (existProject.isPresent()) {
+            Project project = existProject.get();
+            List<Resource> resourceList = this.getResourcesByProjectId(projectId);
+            for (Resource resource : resourceList) {
+                project.removeResource(resource);
+                resource.removeProject(project);
+            }
+            this.projectDao.save(project);
+        }
+    }
 }

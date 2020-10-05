@@ -54,12 +54,19 @@ public class Resource {
     public Resource() {
     }
 
-
-    public Resource(String name, String code, int parentResourceId) {
-        this.name = name;
-        this.code = code;
-//        this.parentResourceId = parentResourceId;
+    public void addProject(Project project) {
+        this.projectList.add(project);
     }
+
+    public void removeProject(Project project) {
+        this.projectList.remove(project);
+    }
+
+//    public Resource(String name, String code, int parentResourceId) {
+//        this.name = name;
+//        this.code = code;
+//        this.parentResourceId = parentResourceId;
+//    }
 
     public int getId() {
         return id;
@@ -88,8 +95,8 @@ public class Resource {
 //    public int getParentResourceId() {
 //        return parentResourceId;
 //    }
-//
-//    public void setParentResourceId(int parentResourceId) {
+
+//  //  public void setParentResourceId(int parentResourceId) {
 //        this.parentResourceId = parentResourceId;
 //    }
 
@@ -145,7 +152,6 @@ public class Resource {
 //    public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
 //        this.resourceByParentResourceId = resourceByParentResourceId;
 //    }
-
 
     //Commented out to avoid infinite return of JSON objects in Postman
 //    @OneToMany(mappedBy = "resourceByParentResourceId")
