@@ -1,0 +1,27 @@
+:host ::ng-deep .p-toolbar{
+    border-radius: 0;
+    padding: 0 1%;
+    background-color: gray;
+}
+
+:host ::ng-deep .p-datatable-header {
+    padding: 0;
+}
+
+:host ::ng-deep .p-button{
+    background-color: #f27724;
+    border-radius: 0;
+    border: none
+}
+
+:host ::ng-deep .p-paginator-pages .p-paginator-page.p-highlight {
+    background:  #f27724;
+}
+:host ::ng-deep .p-menu{
+    border-radius: 0;
+    width: max-content;
+}
+
+:host ::ng-deep .ng-tringger .ng-trigger-overlayAnimation .p-menu-overlay{
+    position: fixed;
+}
