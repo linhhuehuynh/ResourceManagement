@@ -2,9 +2,9 @@
 <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000" [style]="{'background-color':'black','top':'6.7em','left':'0.5em','width':'16.2em'}">
     <!-- <h4 style="font-weight:normal">Left Sidebar</h4> -->
 
-    <h4 [style]="{'font-weight':'normal','font-color':'white'}">Resource</h4>
-    <h4 [style]="{'font-weight':'normal','font-color':'white'}">Project</h4>
-    <h4 [style]="{'font-weight':'normal','font-color':'white'}">Formula</h4>
+    <h4 [style]="{'font-weight':'normal','font-color':'white'}"><a class="nav-item" routerLink="/resource" (click)="visibleSidebar1 = false">Resource</a></h4>
+    <h4 [style]="{'font-weight':'normal','font-color':'white'}"><a class="nav-item" routerLink="/project" (click)="visibleSidebar1 = false">Project</a></h4>
+    <h4 [style]="{'font-weight':'normal','font-color':'white'}"><a class="nav-item" routerLink="/templatetable" (click)="visibleSidebar1 = false">Formula</a></h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Change Request</h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Budget</h4>
     <h4 [style]="{'font-weight':'normal','font-color':'white'}">Prime Supplier</h4>

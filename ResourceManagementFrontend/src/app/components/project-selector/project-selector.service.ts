@@ -15,6 +15,7 @@ export class ProjectSelectorService {
   userIsAuthenticated=false;
 
   private projectList: Project[];
+  private selectedProject: Project;
 
   constructor(private http: HttpClient, private authService: AuthService) { 
     this.projectList = [];
@@ -29,6 +30,15 @@ export class ProjectSelectorService {
       console.log(this.projectList);
       return this.projectList;
     })
+  }
+
+  setSelectedProject(selectedProject: Project) {
+    this.selectedProject = selectedProject;
+  }
+
+  getCurrentProjectId() {
+    console.log(this.selectedProject.id);
+    return this.selectedProject.id;
   }
 
 }
