@@ -17,15 +17,15 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th *ngFor="let col of cols">
-                    {{col.header}}
+                <th *ngFor="let header of headers">
+                    {{header.resourceColumnName}}
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-resourceDisplay>
             <tr>
-                <td *ngFor="let item of resourceDisplay.itemList">
-                    {{item.resourceExtraItemValue}}
+                <td *ngFor="let item of resourceDisplayList">
+                    {{item.itemList}}
             </td>
             </tr>
         </ng-template>

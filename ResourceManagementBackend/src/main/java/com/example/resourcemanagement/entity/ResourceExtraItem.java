@@ -55,11 +55,11 @@ public class ResourceExtraItem {
         this.id = id;
     }
 
-    public String getResourceColumnName() {
+    public String getResourceExtraItemValue() {
         return resourceExtraItemValue;
     }
 
-    public void setResourceColumnName(String resourceColumnName) {
+    public void setResourceExtraItemValue(String resourceExtraItemValue) {
         this.resourceExtraItemValue = resourceExtraItemValue;
     }
 
