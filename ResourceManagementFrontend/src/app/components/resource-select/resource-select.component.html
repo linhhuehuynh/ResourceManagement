@@ -1,0 +1,64 @@
+<div id="display-area">
+    <div class="display-table" id="source-div">
+        <div class="table-name-area">
+            <span class="table-name p-text-center">Resource Catalog</span>
+            <!-- <button pButton class="top-button" type="button" icon="pi pi-bars"></button> -->
+            <button #btn type="button" pButton class="top-button" icon="pi pi-bars" (click)="menu.toggle($event)"></button>
+            <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+            <button pButton class="top-button" type="button" icon="pi pi-chevron-right" (click)="select()"></button>
+        </div>
+        <p-table [value]="resourceList" dataKey="id" >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 2vw;"></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th class="col-name p-text-center" *ngFor = "let col of resourceColumnList" >
+                        <!-- {{ col.projectColumnName | uppercase }} -->
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-resource>
+                <tr>
+                    <td class="item-data" style="width: 2vw;">
+                        <input type="checkbox" [(ngModel)]="resource.chosen">
+                    </td>
+                    <td class="item-data" pEditableColumn *ngFor = "let item of resource.itemList">
+                        {{ item }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="display-table" id="target-div">
+        <div class="table-name-area">
+            <span class="table-name p-text-center">Project</span>
+            <button pButton class="top-button" type="button" icon="pi pi-trash" (click)="unselect()"></button>
+        </div>
+        <p-table [value]="resourceSelectedList" dataKey="id" >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 2vw;"></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th class="col-name p-text-center" *ngFor = "let col of resourceColumnList" >
+                        <!-- {{ col.projectColumnName | uppercase }} -->
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-resource>
+                <tr>
+                    <td class="item-data" style="width: 2vw;">
+                        <input type="checkbox" [(ngModel)]="resource.chosen">
+                    </td>
+                    <td class="item-data" pEditableColumn *ngFor = "let item of resource.itemList">
+                        {{ item }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<div id="bottom-area">
+    <button pButton class="submit-button" type="button" label="Submit" icon="pi pi-check" iconPos="left" (click)="save()"></button>
+</div>

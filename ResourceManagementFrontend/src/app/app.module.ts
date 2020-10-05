@@ -13,6 +13,7 @@ import { MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToolbarModule} from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 
 
@@ -50,6 +51,7 @@ import { ProjectDisplayTableComponent } from './components/project-display-table
 import { ErrorComponent } from './error/error.component';
 
 import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
+import { ResourceSelectComponent } from './components/resource-select/resource-select.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { ProjectSelectorComponent } from './components/project-selector/project-
 
     ErrorComponent,
 
-    ProjectSelectorComponent
+    ProjectSelectorComponent,
+
+    ResourceSelectComponent
 
 
   ],
@@ -83,6 +87,7 @@ import { ProjectSelectorComponent } from './components/project-selector/project-
     MessagesModule,
     DialogModule,
     PasswordModule,
+    TieredMenuModule,
 
     FormsModule,
     HttpClientModule,
