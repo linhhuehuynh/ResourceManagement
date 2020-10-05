@@ -24,8 +24,8 @@ public class Resource {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "parent_resource_id")
-    private int parentResourceId;
+//    @Column(name = "parent_resource_id")
+//    private int parentResourceId;
 
     @CreationTimestamp
     @Column(name = "create_date")
@@ -35,13 +35,13 @@ public class Resource {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "parent_resource_id", insertable = false, updatable = false)
-    private Resource resourceByParentResourceId;
-    // remove "orphanremoval = true"
-    @OneToMany(mappedBy = "resourceByParentResourceId")
-    private List<Resource> resourcesByResourceId;
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "parent_resource_id", insertable = false, updatable = false)
+//    private Resource resourceByParentResourceId;
+//    // remove "orphanremoval = true"
+//    @OneToMany(mappedBy = "resourceByParentResourceId")
+//    private List<Resource> resourcesByResourceId;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "resourceList", fetch = FetchType.LAZY)
@@ -58,7 +58,7 @@ public class Resource {
     public Resource(String name, String code, int parentResourceId) {
         this.name = name;
         this.code = code;
-        this.parentResourceId = parentResourceId;
+//        this.parentResourceId = parentResourceId;
     }
 
     public int getId() {
@@ -85,13 +85,13 @@ public class Resource {
         this.code = code;
     }
 
-    public int getParentResourceId() {
-        return parentResourceId;
-    }
-
-    public void setParentResourceId(int parentResourceId) {
-        this.parentResourceId = parentResourceId;
-    }
+//    public int getParentResourceId() {
+//        return parentResourceId;
+//    }
+//
+//    public void setParentResourceId(int parentResourceId) {
+//        this.parentResourceId = parentResourceId;
+//    }
 
     public Date getCreateDate() {
         return createDate;
@@ -135,16 +135,16 @@ public class Resource {
 //        this.projectResource = projectResource;
 //    }
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "parent_resource_id", foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
-    public Resource getResourceByParentResourceId() {
-        return resourceByParentResourceId;
-    }
-
-    public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
-        this.resourceByParentResourceId = resourceByParentResourceId;
-    }
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "parent_resource_id", foreignKey = @ForeignKey(name = "parent_resource_id_fk"))
+//    public Resource getResourceByParentResourceId() {
+//        return resourceByParentResourceId;
+//    }
+//
+//    public void setResourceByParentResourceId(Resource resourceByParentResourceId) {
+//        this.resourceByParentResourceId = resourceByParentResourceId;
+//    }
 
 
     //Commented out to avoid infinite return of JSON objects in Postman

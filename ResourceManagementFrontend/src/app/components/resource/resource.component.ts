@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { ResourceItemService } from './resource-item/resource-item.service';
 import { ResourceColService } from './resource-col/resource-col.service';
 import { ResourceRow } from './resource-row/resource-row.model';
+import { ResourceCol } from './resource-col/resource-col.model';
 
 @Component({
   selector: 'app-resource',
@@ -18,7 +19,7 @@ export class ResourceComponent implements OnInit {
   isLoading = false;
   private authStatusSub: Subscription;
   resourceDisplayList: ResourceRow[];
-  cols: any[];
+  headers: any;
   items: MenuItem[];
 
   @ViewChild('dt') table: Table;
@@ -32,10 +33,12 @@ export class ResourceComponent implements OnInit {
       }
     )
 
-    this.cols = [
-      { field: 'name', header: 'Resource Name' },
-      { field: 'code', header: 'Resource Code' },
-  ];
+    this.resourceCol.getAllResourceColumnName().subscribe(columns => this.headers = columns);
+    this.resourceItem.getResource().then(data => {
+      this.resourceDisplayList = this.resourceItem.getResourceItemList();
+      // console.log(this.resourceDisplayList)
+    })
+
 
   this.items = [
     {
@@ -59,14 +62,6 @@ export class ResourceComponent implements OnInit {
           console.log("delete")
       }
   }
-    ],
-
-      // this.resourceService.getAllResources().subscribe(res => this.resource = res);
-      this.resourceCol.getAllResourceColumnName();
-      this.resourceItem.getResource().then(data => {
-        console.log(data);
-        this.resourceDisplayList = this.resourceItem.getResourceItemList();
-        console.log(this.resourceDisplayList);
-      })
+    ]
   }
 }

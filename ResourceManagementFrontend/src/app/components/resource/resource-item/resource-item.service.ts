@@ -38,8 +38,8 @@ export class ResourceItemService {
       row.id = resource.id;
       this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).subscribe(
         response => {
+          console.log(response);
           row.itemList = response;
-          console.log(row);
           this.resourceRowList.push(row);
         }
     );

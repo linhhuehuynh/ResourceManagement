@@ -30,6 +30,7 @@ public class ResourceExtraItemController {
     public ResponseEntity<?> getResourceExtraItemByResourceId(@PathVariable int resourcesId) {
         Optional<List<ResourceExtraItem>> result = resourceExtraItemService.getResourceExtraItemListByResourceId(resourcesId);
         if (result.isPresent()) {
+            System.out.println(result.get());
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Resource Item Not Found!", HttpStatus.NOT_FOUND);
