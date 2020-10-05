@@ -38,7 +38,7 @@ public class ResourceController {
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @GetMapping("/{resourceId}")
+    @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> getResourceById(@PathVariable Integer resourceId) {
         Optional<Resource> resource = resourceService.getResourceById(resourceId);
@@ -93,5 +93,12 @@ public class ResourceController {
             return new ResponseEntity<>("Added Resource Successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Project Not Found!", HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/project/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteAllResourcesFromProject(@PathVariable Integer id) {
+        resourceService.deleteAllResourcesFromProject(id);
+        return new ResponseEntity<>("Deleted All Resources Successfully under the Project!", HttpStatus.OK);
     }
 }

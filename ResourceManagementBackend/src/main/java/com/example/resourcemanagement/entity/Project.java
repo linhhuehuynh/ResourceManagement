@@ -65,6 +65,10 @@ public class Project {
         this.resourceList.add(resource);
     }
 
+    public void removeResource(Resource resource) {
+        this.resourceList.remove(resource);
+    }
+
     public int getId() {
         return id;
     }
