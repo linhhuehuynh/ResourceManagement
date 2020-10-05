@@ -22,13 +22,15 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-resourceDisplay>
+        <ng-template pTemplate="body" let-resourceRow>
             <tr>
-                <td *ngFor="let item of resourceDisplayList">
-                    {{item.itemList}}
-            </td>
+                <td class="item-data" *ngFor="let item of resourceRow.itemList">
+                    {{item.resourceExtraItemValue}}
+                </td>
             </tr>
         </ng-template>
+
+
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="6">No data found.</td>

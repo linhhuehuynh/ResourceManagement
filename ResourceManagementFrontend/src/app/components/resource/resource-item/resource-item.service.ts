@@ -5,6 +5,7 @@ import { ResourceItem } from './resource-item.model';
 import { Resource } from './../resource-data.model';
 import { ResourceRow } from './../resource-row/resource-row.model';
 import { ResourceService } from './../resource.service';
+import { Observable } from 'rxjs';
 
 const BACKEND_URL = environment.apiUrl;
 @Injectable({
@@ -28,22 +29,27 @@ export class ResourceItemService {
     })
   }
 
-  // getAllResourcesExtraItem(){
-  //  return this.http.get(BACKEND_URL + 'resourceitem');
+  // getAllResourcesExtraItem(): Observable<ResourceItem[]>{
+  //  return this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem');
   // }
 
-  getResourceItemList() {
+  async getResourceItemList() {
     for (let resource of this.resources) {
       let row = new ResourceRow();
       row.id = resource.id;
-      this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).subscribe(
-        response => {
-          console.log(response);
-          row.itemList = response;
-          this.resourceRowList.push(row);
-        }
-    );
+      await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).toPromise()
+      .then(response => {
+        row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
+        this.resourceRowList.push(row);
+      });
+      // .subscribe(
+        // response => {
+        //   row.itemList = response;
+        //   this.resourceRowList.push(row);
+        // }
+      // );
+    }
+    console.log(this.resourceRowList);
+    return this.resourceRowList;
   }
-  return this.resourceRowList;
-}
 }
