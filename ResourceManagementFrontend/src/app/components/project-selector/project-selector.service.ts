@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { Project } from 'src/app/model/project.model';
 import {environment} from '../../../environments/environment';
 import { AuthService } from './../auth/auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -15,11 +16,22 @@ export class ProjectSelectorService {
   userIsAuthenticated=false;
 
   private projectList: Project[];
-  private selectedProject: Project;
+  private selectedProjectId : BehaviorSubject<number>  = new BehaviorSubject<number>(0);
+  selectedProjectIdObservable: Observable<number>  = this.selectedProjectId.asObservable();
 
   constructor(private http: HttpClient, private authService: AuthService) { 
     this.projectList = [];
     this.userIsAuthenticated = this.authService.getIsAuth();
+    this.initselectedProjectId();
+  }
+
+  initselectedProjectId() {
+    this.getProjectList()
+      .then(data => {
+          this.projectList = data;
+          let defaultId = this.projectList.length > 0 ? this.projectList[0].id : undefined;
+          this.setSelectedProjectId(defaultId);
+      });
   }
 
   getProjectList() {
@@ -27,20 +39,12 @@ export class ProjectSelectorService {
     .toPromise()
     .then(res => {
       this.projectList = res;
-      console.log(this.projectList);
       return this.projectList;
     })
   }
 
 
-  setSelectedProject(selectedProject: Project) {
-    this.selectedProject = selectedProject;
+  setSelectedProjectId(id: number) {
+    this.selectedProjectId.next(id);
   }
-
-  getCurrentProjectId() {
-    console.log(this.selectedProject.id);
-    return this.selectedProject.id;
-  }
-
-
 }

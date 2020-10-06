@@ -5,6 +5,7 @@ import { ResourceCol } from '../resource/resource-col/resource-col.model';
 import { ResourceColService } from '../resource/resource-col/resource-col.service';
 import { ResourceItemService } from '../resource/resource-item/resource-item.service';
 import { Resource } from '../resource/resource-data.model';
+import { ProjectSelectorService } from '../project-selector/project-selector.service';
 
 @Component({
   selector: 'app-resource-select',
@@ -13,33 +14,42 @@ import { Resource } from '../resource/resource-data.model';
 })
 export class ResourceSelectComponent implements OnInit {
 
+  selectedProjectId: number;
   resourceList: ResourceDisplay[];
   resourceSelectedList: ResourceDisplay[];
   resourceColumnList: ResourceCol[];
   resourceRowList: Resource[];
   items: MenuItem[];
 
-  constructor(private resourceColService: ResourceColService, private resourceItemService: ResourceItemService) { }
+  constructor(
+    private resourceColService: ResourceColService, 
+    private resourceItemService: ResourceItemService, 
+    private projectSelectorService: ProjectSelectorService
+    ) { }
 
   ngOnInit(): void {
     this.resourceList = [];
     this.resourceSelectedList = [];
     this.resourceRowList = [];
     this.resourceColumnList = [];
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => this.selectedProjectId = id);
 
-    this.resourceColService.getAllResourceColumnName().subscribe(data => this.resourceColumnList = data);
+    this.resourceColService.getAllResourceColumnName().subscribe(
+      data => {
+        this.resourceColumnList = data
+      }
+    );
+
     this.resourceItemService.getResource().then(data => {
-      console.log(data);
       this.resourceRowList = data;
       this.resourceItemService.getResourceItemList().then(data => {
         for(let row of data) {
           let res = new ResourceDisplay();
-          res.id = row.resource.id;
+          res.resource = row.resource;
           res.itemList = row.itemList;
           res.chosen = false;
           this.resourceList.push(res);
         }
-        console.log(this.resourceList);
       });
     })
     this.items = [
@@ -98,5 +108,6 @@ export class ResourceSelectComponent implements OnInit {
 
   save() {
     console.log(this.resourceSelectedList);
+    console.log(this.selectedProjectId);
   }
 }
