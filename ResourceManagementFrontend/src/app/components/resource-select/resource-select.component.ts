@@ -34,7 +34,7 @@ export class ResourceSelectComponent implements OnInit {
       this.resourceItemService.getResourceItemList().then(data => {
         for(let row of data) {
           let res = new ResourceDisplay();
-          res.id = row.id;
+          res.id = row.resource.id;
           res.itemList = row.itemList;
           res.chosen = false;
           this.resourceList.push(res);

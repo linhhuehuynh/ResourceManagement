@@ -33,7 +33,7 @@ public class ResourceExtraItemController {
             System.out.println(result.get());
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<>("Resource Item Not Found!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @GetMapping("/rowcol/{resourcesId}/{resourcesColumnId}")
