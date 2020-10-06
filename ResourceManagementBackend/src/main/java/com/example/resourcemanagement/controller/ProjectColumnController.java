@@ -62,8 +62,15 @@ public class ProjectColumnController {
         return new ResponseEntity<>("Column Not Found!", HttpStatus.NOT_FOUND);
     }
 
-//    @DeleteMapping("/project/{projectId}")
-//    public ResponseEntity<?> deleteAllProjectColumns(@PathVariable int projectId) {
-//        return projectColumnService.deleteAllColumnsByProjectId(projectId);
-//    }
+    @DeleteMapping("/project/{projectId}")
+    public ResponseEntity<?> deleteAllProjectColumns(@PathVariable int projectId) {
+        Optional<String> res = projectColumnService.deleteAllColumnsByProjectId(projectId);
+        if(res == null) {
+            return new ResponseEntity<>("Project Not Found!", HttpStatus.OK);
+        } else if(res.isPresent()) {
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Columns In Project!", HttpStatus.OK);
+        }
+    }
 }

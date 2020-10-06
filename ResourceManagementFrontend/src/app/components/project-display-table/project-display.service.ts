@@ -80,6 +80,7 @@ export class ProjectDisplayService {
   }
 
   getProjectItemList() {
+    let result: ProjectRowDisplay[] = [];
     for(let projectRow of this.projectRowList) {
       let tmp = new ProjectRowDisplay();
       tmp.id = projectRow.id;
@@ -91,14 +92,14 @@ export class ProjectDisplayService {
             }
             tmp.itemList = data.sort((a, b) => {return a.projectColumn.id - b.projectColumn.id});
             console.log(tmp);
-            this.projectRowDisplayList.push(tmp);
+            result.push(tmp);
           }
         );
       } catch(err) {
         console.error(err);
       }
-      
     }
+    this.projectRowDisplayList = result;
     return this.projectRowDisplayList;
     // let promise = new Promise<ProjectRowDisplay[]>((resolve, reject) => {
     //   for(let projectRow of this.projectRowList) {
