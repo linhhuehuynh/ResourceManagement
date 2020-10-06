@@ -8,7 +8,6 @@ import { AuthService} from '../../auth/auth.service'
 import { Observable } from 'rxjs'
 import { of } from 'rxjs'
 import { ProjectColumn } from 'src/app/model/project-col.model';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 const BACKEND_URL = environment.apiUrl;
@@ -35,7 +34,11 @@ export class TemplateService {
     }
 
     saveTemplates(templateList:Template[],projectId):Observable<Template[]>{
+        console.log("I'm going to save this one");
         for(let template of templateList) {
+            console.log(template);
+            console.log({projectColumnName:template.projectColumnName,columnType:template.columnType,project:{id:projectId}});//*
+            //newcolumnlist+select
             this.http.post(BACKEND_URL+'/projectcolumn',{projectColumnName:template.projectColumnName,columnType:template.columnType,project:{id:projectId}});
         }
         return of(templateList);

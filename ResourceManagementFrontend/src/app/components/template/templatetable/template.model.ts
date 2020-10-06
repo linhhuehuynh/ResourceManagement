@@ -6,4 +6,9 @@ export class Template {
 export class Column {
     columnName: string;
     columnId: number;
+    columnType: string;
+}
+export class Type {
+    label:string;
+    columnType:string;
 }

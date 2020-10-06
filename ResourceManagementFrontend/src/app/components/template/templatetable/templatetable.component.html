@@ -1,5 +1,5 @@
 <!-- <p>table works!</p> -->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div id="selector"><app-project-selector></app-project-selector></div>
 <div class="container" id="box-group">
     <div class="container" id="box-group-top">
         <!-- <div class="container"> 
@@ -46,7 +46,7 @@
                             </td>
                             <td>
                                 <h5>Type</h5>
-                                <p-dropdown [options]="types" [(ngModel)]="template.columnType"  [placeholder]="types[0].columnType" optionalLabel="columnType"></p-dropdown>
+                                <div><p-dropdown [options]="types" [(ngModel)]="template.columnType"  [placeholder]="types[0].columnType" optionalLabel="columnType" (onChange)="onChangeTypes()"></p-dropdown></div>
                             </td>
                             <td id="formula" ng-show="template.columnType==='Formula'">
                                 <h5>Formula</h5>

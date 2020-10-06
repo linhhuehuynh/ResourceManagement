@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Template } from './template.model'
 import { Column } from './template.model'
+import { Type } from './template.model'
 import { TemplateService } from './template.service'
 import { ProjectDisplayService } from '../../project-display-table/project-display.service'
 import { ProjectColumn } from '../../../model/project-col.model'
@@ -30,9 +31,9 @@ export class TemplatetableComponent implements OnInit {
 
   public templates: Template[]=[];
 
-  public types:any[]= [{label:'Text',columnType:'Text'},{label:'Number',columnType:'Number'},{label:'Formula',columnType:'Formula'}];
+  public types:Type[]= [{label:'Text',columnType:'Text'},{label:'Number',columnType:'Number'},{label:'Formula',columnType:'Formula'}];
 
-  // public types=['Text','Number','Formula'];
+  // public types:any[];
 
   // public newTemplate : Template = {projectColumnName:"",columnType:"",formulaValue:""};
 
@@ -40,7 +41,7 @@ export class TemplatetableComponent implements OnInit {
 
   // public items = [{"field":"","type":"","Formula":""},{"field":"","type":"","Formula":""},{"field":"","type":"","Formula":true}]
 
-  public selectedTypes: any[] = [];
+  public selectedTypes: Type[];
 
   success:boolean;
   message:any;
@@ -49,13 +50,20 @@ export class TemplatetableComponent implements OnInit {
   public projectId = 1;
   projectColList: ProjectColumn[];
 
+
   constructor(private templateService:TemplateService, private router:Router,private projectDisplayService: ProjectDisplayService) {
     // this.types= [{name:'Text'},{name:'Number'},{name:'Formula'}];
     this.columns = [];
     this.selectedColumns = [];
+    this.selectedTypes = []
     }
 
   ngOnInit(): void {
+    this.columns = [];
+    this.selectedColumns = [];
+    this.selectedTypes = []
+    
+
   // getcolumns,+columns(name,id)
     // this.selectedColumns.push(this.columns[0]);
     // this.templateService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
@@ -64,7 +72,8 @@ export class TemplatetableComponent implements OnInit {
         if(projectcolumn.projectColumnName==='name') {
           this.selectedColumns.push(projectcolumn.projectColumnName);
         }
-        this.columns.push({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id});
+        this.columns.push({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id,columnType:projectcolumn.columnType});
+        console.log({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id,columnType:projectcolumn.columnType})
       }
       
       // this.selectedColumns.push(this.columns[0]);
@@ -79,7 +88,6 @@ export class TemplatetableComponent implements OnInit {
     //   this.templates.push(this.newTemplate);
     // }
     this.templates.push(new Template());
-    
     // this.templates = this.items;
   }
 
@@ -95,7 +103,7 @@ export class TemplatetableComponent implements OnInit {
       this.columnNames.push(column.columnName);
     }
     for(let template of templates) {
-      if(template.projectColumnName.length === 0) {
+      if(template.projectColumnName === "") {
         alert("Please fill the name of the column");
         signal = false;
         break;
@@ -107,12 +115,16 @@ export class TemplatetableComponent implements OnInit {
         break;
       }
     }
+    console.log(templates)
     if((templates.length != 0)&&(signal)) {
       this.templateService.saveTemplates(templates,this.projectId).subscribe(
         res=>{
           for(let template of templates) {
-            this.columns.push({columnName:template.projectColumnName,columnId:null});
+            console.log(template);
+            console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
+            this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
             this.DeleteTheTemplate(template);
+            console.log(template)
           }
           this.success=true;
           this.message="You have saved templates successfully.";
@@ -127,11 +139,19 @@ export class TemplatetableComponent implements OnInit {
       )
     }
     console.log(this.templates);
-
-    //delete all,alert=>dialog
+    console.log(this.selectedColumns);
+    console.log(this.message)
+    setTimeout(() => this.router.navigate(["/project"]), 2000)
+    // //delete all,alert=>dialog
   }
+
+  onChangeTypes() {
+    console.log(this.templates)
+  }
+  
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
   // return value, check repeat, show calculate drop down and regular check,hide
   //save to db,ngshow,left
   //dialog
+  //logout savelist(columntype:undefined),app-selector css, table css, logout(newsave+selected),logout(newsave)(property)newcreateditem in db
 }
