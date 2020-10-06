@@ -32,6 +32,8 @@ export class TemplatetableComponent implements OnInit {
   public templates: Template[]=[];
 
   public types:Type[]= [{label:'Text',columnType:'Text'},{label:'Number',columnType:'Number'},{label:'Formula',columnType:'Formula'}];
+  
+  // public types = [{columnType:'Text'},{columnType:'Number'},{columnType:'Formula'}];
 
   // public types:any[];
 
@@ -87,14 +89,21 @@ export class TemplatetableComponent implements OnInit {
     // } else  {
     //   this.templates.push(this.newTemplate);
     // }
-    this.templates.push(new Template());
+    let template:Template = new Template();
+    template.projectColumnName="";
+    template.columnType="Text";
+    template.formulaValue="";
+    console.log(template);
+    this.templates.push(template);
     // this.templates = this.items;
   }
 
   DeleteTheTemplate(template) {
+    console.log(this.templates);
     this.templates = this.templates.filter(t => {
       return t.projectColumnName !== template.projectColumnName
     } );
+    console.log(this.templates);
   }//delete
 
   SaveNewTemplate(templates:Template[]) {
@@ -145,7 +154,8 @@ export class TemplatetableComponent implements OnInit {
     // //delete all,alert=>dialog
   }
 
-  onChangeTypes() {
+  onChangeTypes(event,template:Template) {
+    template.columnType = event.value;
     console.log(this.templates)
   }
   
@@ -154,4 +164,8 @@ export class TemplatetableComponent implements OnInit {
   //save to db,ngshow,left
   //dialog
   //logout savelist(columntype:undefined),app-selector css, table css, logout(newsave+selected),logout(newsave)(property)newcreateditem in db
+
+
+
+  //templates delete check
 }

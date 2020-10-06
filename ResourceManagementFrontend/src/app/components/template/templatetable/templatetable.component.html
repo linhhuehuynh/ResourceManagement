@@ -46,7 +46,8 @@
                             </td>
                             <td>
                                 <h5>Type</h5>
-                                <div><p-dropdown [options]="types" [(ngModel)]="template.columnType"  [placeholder]="types[0].columnType" optionalLabel="columnType" (onChange)="onChangeTypes()"></p-dropdown></div>
+                                <p-dropdown [options]="types" [(ngModel)]="template.columnType" [placeholder]="types[0].columnType" optionalLabel="columnType" (onChange)="onChangeTypes($event,template)"></p-dropdown>
+                                <!-- <p-dropdown [options]="types" [(ngModel)]="template.columnType"  [placeholder]="types[0].columnType" optionalLabel="columnType" (onChange)="onChangeTypes($event,template)"></p-dropdown> -->
                             </td>
                             <td id="formula" ng-show="template.columnType==='Formula'">
                                 <h5>Formula</h5>
