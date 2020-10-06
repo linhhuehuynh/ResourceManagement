@@ -2,6 +2,7 @@
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [filterDelay]="0" [globalFilterFields]="['name','code']">
+
         <ng-template pTemplate="caption">
             <p-toolbar>
                 <div class="p-toolbar-group-left">
@@ -15,6 +16,7 @@
         </p-toolbar>
         <p-menu #menu [popup]="true" [model]="items"></p-menu>
         </ng-template>
+
         <ng-template pTemplate="header">
             <tr>
                 <th>RESOURCE NAME</th>
@@ -24,12 +26,40 @@
                 </th>
             </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-resourceRow>
             <tr>
-                <td>{{resourceRow.resource.name}}</td>
-                <td>{{resourceRow.resource.code}}</td>
-                <td class="item-data" *ngFor="let item of resourceRow.itemList">
-                    {{item.resourceExtraItemValue}}
+                <td class="item-data" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.name" (keyup)="itemUpdated(item)">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{resourceRow.resource.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+
+                <td class="item-data" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.code" (keyup)="itemUpdated(item)">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{resourceRow.resource.code}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                
+                <td class="item-data" pEditableColumn *ngFor="let item of resourceRow.itemList">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="item.resourceExtraItemValue" (keyup)="itemUpdated(item)">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{item.resourceExtraItemValue}}
+                        </ng-template>
+                    </p-cellEditor>
                 </td>
             </tr>
         </ng-template>
@@ -41,3 +71,16 @@
             </tr>
         </ng-template>
     </p-table>
+
+<!-- Add New Column Modal   -->
+<form  (ngSubmit)="onSubmit()">
+<p-dialog header="Add New Column" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+        <label for="columnName">Column Name: </label>
+        <input id="columnName" name="newColName" type=text [(ngModel)]="newColName"/>
+        <ng-template pTemplate="footer">
+            <p-button label="Add" class="p-button-text"></p-button>
+            <p-button (click)="displayModal=false" label="Cancel"></p-button>
+        </ng-template>
+</p-dialog>
+</form>

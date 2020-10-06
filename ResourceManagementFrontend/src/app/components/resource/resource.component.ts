@@ -9,6 +9,7 @@ import { ResourceItemService } from './resource-item/resource-item.service';
 import { ResourceColService } from './resource-col/resource-col.service';
 import { ResourceRow } from './resource-row/resource-row.model';
 import { ResourceCol } from './resource-col/resource-col.model';
+import { ResourceItem } from './resource-item/resource-item.model';
 
 @Component({
   selector: 'app-resource',
@@ -22,10 +23,17 @@ export class ResourceComponent implements OnInit {
   headers: ResourceCol[];
   items: MenuItem[];
   defaultResourceList: Resource[];
+  columns: ResourceCol[]=[];
+
+  newColName: string;
+  newColId: number;
+  displayModal: boolean;
 
   @ViewChild('dt') table: Table;
 
-  constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) { }
+  constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {
+    this.headers =[]
+   }
 
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -35,40 +43,62 @@ export class ResourceComponent implements OnInit {
     )
 
     this.resourceItem.getResource().then(data => {
-      this.defaultResourceList = data;
-      console.log("Default Resource List")
-      console.log(this.defaultResourceList)
+      // this.defaultResourceList = data;
+      this.isLoading=true;
       this.resourceItem.getResourceItemList().then(response => {this.resourceRowList = response});
     })
 
     this.resourceCol.getAllResourceColumnName()
     .subscribe(columns => {
+      this.isLoading=true;
       if(columns == null) {} 
       else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
     });
 
-  this.items = [
+    console.log(this.headers)
+    this.items = [
     {
         label: 'Add Row',
         icon: 'pi pi-align-left',
         command: () => {
-            console.log("update")
+        console.log("Add row")
         }
     },
     {
         label: 'Add Column',
         icon: 'fa fa-columns',
-        command: () => {
-            console.log("delete")
-        }
+        command: () => this.showModalDialog()
     },
     {
       label: 'Import CSV',
       icon: 'pi pi-file-excel',
       command: () => {
-          console.log("delete")
+          console.log("Import!")
       }
   }
     ]
   }
+
+  showModalDialog() {
+    this.displayModal = true;
+}
+
+  addNewColName(col: ResourceCol){
+  // this.resourceCol.createResourceColumn(col).subscribe(col => {
+    console.log(col)
+    col.resourceColumnName = this.newColName;
+    // console.log(colName)
+    this.headers.push(col)
+  // })
+
+  this.displayModal=false;
+}
+
+onSubmit() {
+  const col = {
+    id: this.newColId,
+    resourceColumnName : this.newColName
+  }
+  this.addNewColName(col);
+}
 }

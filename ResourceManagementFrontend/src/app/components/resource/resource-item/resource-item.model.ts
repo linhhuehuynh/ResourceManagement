@@ -5,5 +5,6 @@ export class ResourceItem {
     id: number;
     resourceExtraItemValue: string;
     resource: Resource;
-    resourceColumn: ResourceCol
+    resourceColumn: ResourceCol;
+    // changed: boolean = false;
 }
