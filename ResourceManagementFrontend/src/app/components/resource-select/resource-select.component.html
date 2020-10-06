@@ -7,7 +7,7 @@
             <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
             <button pButton class="top-button" type="button" icon="fas fa-share" (click)="select()"></button>
         </div>
-        <p-table [value]="resourceList" dataKey="id" >
+        <p-table [value]="resourceList" dataKey="id" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25]" [paginator]="true">
             <ng-template pTemplate="header">
                 <tr>
                     <th class="col-name" style="width: 2vw;"></th>
@@ -37,7 +37,7 @@
             <span class="table-name p-text-center">Project</span>
             <button pButton class="top-button" type="button" icon="pi pi-trash" (click)="unselect()"></button>
         </div>
-        <p-table [value]="resourceSelectedList" dataKey="id" >
+        <p-table [value]="resourceSelectedList" dataKey="id" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25]" [paginator]="true"    >
             <ng-template pTemplate="header">
                 <tr>
                     <th class="col-name" style="width: 2vw;"></th>
@@ -64,5 +64,6 @@
     </div>
 </div>
 <div id="bottom-area">
+    <a id="template-router" routerLink="/resource" style="text-decoration:none">Edit Resource</a>
     <button pButton class="submit-button" type="button" label="Submit" icon="pi pi-check" iconPos="left" (click)="save()"></button>
 </div>

@@ -68,6 +68,12 @@
     align-items: center;
 }
 
+#template-router {
+    color: steelblue;
+
+    cursor: pointer;
+}
+
 :host ::ng-deep .submit-button {
     padding: 0.5vw 1vw 0.5vw 1vw;
     width: 8vw;

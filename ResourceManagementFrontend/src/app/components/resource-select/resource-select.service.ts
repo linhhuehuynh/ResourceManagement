@@ -81,19 +81,21 @@ export class ResourceSelectService {
           id: colMap.get(-1)
         }
       }).toPromise();
-      for(let item of row.itemList) {
-        await this.http.post(BACKEND_URL + "/projectitem", {
-          value: item.resourceExtraItemValue,
-          projectRow: {
-            id: rowId
-          },
-          projectColumn: {
-            id: colMap.get(item.resourceColumn.id)
-          }
-        }).toPromise();
+      if(row.itemList == undefined || row.itemList == null) {}
+      else {
+        for(let item of row.itemList) {
+          await this.http.post(BACKEND_URL + "/projectitem", {
+            value: item.resourceExtraItemValue,
+            projectRow: {
+              id: rowId
+            },
+            projectColumn: {
+              id: colMap.get(item.resourceColumn.id)
+            }
+          }).toPromise();
+        }
       }
     }
-    // this.projectSelectorService.setSelectedProjectId(projectId);
     this.router.navigate(['/project']);
   }
 }

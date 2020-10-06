@@ -14,34 +14,40 @@ export class ProjectSelectorComponent implements OnInit {
   private authStatusSub: Subscription;
 
   projectList: Project[];
+  projectListMap: Map<number, Project>
   selectedProject: Project;
   selectedProjectId: number;
 
   constructor(private projectSelectorService: ProjectSelectorService, private authService: AuthService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
       authStatus => {
         this.isLoading = false;
       }
     );
 
+    this.projectListMap = new Map();
+    await this.projectSelectorService.getProjectList()
+    .then(data => {
+        this.projectList = data;
+        for(let pro of this.projectList) {
+          this.projectListMap.set(pro.id, pro);
+        }
+    });
+
     this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
       this.selectedProjectId = id;
     });
-
-    this.projectSelectorService.getProjectList()
-    .then(data => {
-        this.projectList = data;
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
+      this.selectedProject = this.projectListMap.get(id);
     });
+
+    
   }
 
   onChangeProject() {
     this.projectSelectorService.setSelectedProjectId(this.selectedProject.id);
-  }
-
-  id() {
-    console.log(this.selectedProjectId);
   }
 
 }
