@@ -78,16 +78,21 @@ public class ProjectColumnService {
         return Optional.empty();
     }
 
-//    public Optional<List<ProjectColumn>> deleteAllColumnsByProjectId(int id) {
-//        Optional<Project> project = projectDao.findById(id);
-//        Optional<List<ProjectColumn>> projectColumns = projectColumnDao.getAllByProjectId(id);
-//
-//        if (project.isPresent() && projectColumns.isPresent()) {
-//
-//        }
-//            return new ResponseEntity<>("Deleted All Columns!", HttpStatus.OK);
-//        return new ResponseEntity<>("Project OR Columns Not Found!", HttpStatus.NOT_FOUND);
-//    }
+    public Optional<String> deleteAllColumnsByProjectId(int id) {
+        Optional<Project> project = projectDao.findById(id);
+        if (!project.isPresent()) {
+            return null;
+        }
+        Optional<List<ProjectColumn>> projectColumns = projectColumnDao.getAllByProjectId(id);
+        if (projectColumns.isPresent())
+        {
+            for(ProjectColumn col : projectColumns.get()) {
+                this.deleteColumnById(col.getId());
+            }
+            return Optional.of("Deleted All Successfully!");
+        }
+        return Optional.empty();
+    }
 }
 
 

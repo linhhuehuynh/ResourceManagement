@@ -67,4 +67,16 @@ public class ProjectRowController {
         }
         return new ResponseEntity<>("Row Not Found!", HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping("/project/{projectId}")
+    public ResponseEntity<?> deleteAllProjectRows(@PathVariable int projectId) {
+        Optional<String> res = projectRowService.deleteAllRowByProjectId(projectId);
+        if(res == null) {
+            return new ResponseEntity<>("Project Not Found!", HttpStatus.OK);
+        } else if(res.isPresent()) {
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No Rows In Project!", HttpStatus.OK);
+        }
+    }
 }

@@ -30,17 +30,19 @@ export class ResourceItemService {
   }
 
   async getResourceItemList() {
-    for (let resource of this.resources) {
-      let row = new ResourceRow();
-      row.resource = resource;
-      await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.resource.id.toString()).toPromise()
-      .then(response => {
-        if (response == null ) {this.resourceRowList.push(row)}
-        else {
-          row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
-          this.resourceRowList.push(row);
-        }
-      });
+    if(this.resourceRowList.length === 0) {
+      for (let resource of this.resources) {
+        let row = new ResourceRow();
+        row.resource = resource;
+        await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.resource.id.toString()).toPromise()
+        .then(response => {
+          if (response == null ) {this.resourceRowList.push(row)}
+          else {
+            row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
+            this.resourceRowList.push(row);
+          }
+        });
+      }
     }
     // console.log(this.resourceRowList);
     return this.resourceRowList;

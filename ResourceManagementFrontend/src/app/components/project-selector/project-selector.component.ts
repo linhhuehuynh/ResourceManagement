@@ -26,7 +26,9 @@ export class ProjectSelectorComponent implements OnInit {
       }
     );
 
-    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => this.selectedProjectId = id);
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
+      this.selectedProjectId = id;
+    });
 
     this.projectSelectorService.getProjectList()
     .then(data => {
@@ -36,6 +38,10 @@ export class ProjectSelectorComponent implements OnInit {
 
   onChangeProject() {
     this.projectSelectorService.setSelectedProjectId(this.selectedProject.id);
+  }
+
+  id() {
+    console.log(this.selectedProjectId);
   }
 
 }

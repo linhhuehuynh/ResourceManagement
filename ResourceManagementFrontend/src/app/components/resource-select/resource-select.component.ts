@@ -6,6 +6,7 @@ import { ResourceColService } from '../resource/resource-col/resource-col.servic
 import { ResourceItemService } from '../resource/resource-item/resource-item.service';
 import { Resource } from '../resource/resource-data.model';
 import { ProjectSelectorService } from '../project-selector/project-selector.service';
+import { ResourceSelectService } from './resource-select.service';
 
 @Component({
   selector: 'app-resource-select',
@@ -24,7 +25,8 @@ export class ResourceSelectComponent implements OnInit {
   constructor(
     private resourceColService: ResourceColService, 
     private resourceItemService: ResourceItemService, 
-    private projectSelectorService: ProjectSelectorService
+    private projectSelectorService: ProjectSelectorService,
+    private resourceSelectService: ResourceSelectService
     ) { }
 
   ngOnInit(): void {
@@ -43,15 +45,21 @@ export class ResourceSelectComponent implements OnInit {
     this.resourceItemService.getResource().then(data => {
       this.resourceRowList = data;
       this.resourceItemService.getResourceItemList().then(data => {
+        console.log("Duplicate part");
+        console.log(data);
+        console.log(this.resourceList);
+        let result: ResourceDisplay[] = [];
         for(let row of data) {
           let res = new ResourceDisplay();
           res.resource = row.resource;
           res.itemList = row.itemList;
           res.chosen = false;
-          this.resourceList.push(res);
+          result.push(res);
         }
+        this.resourceList = result;
       });
     })
+
     this.items = [
       {
         label: "Select all",
@@ -107,7 +115,20 @@ export class ResourceSelectComponent implements OnInit {
   // }
 
   save() {
-    console.log(this.resourceSelectedList);
-    console.log(this.selectedProjectId);
+    if(this.resourceSelectedList.length === 0) {
+      alert("Please Enter Some Resources");
+    } else {
+      let colList: ResourceCol[] = [];
+      colList.push({id: -4, resourceColumnName: "NAME"});
+      colList.push({id: -3, resourceColumnName: "COST-CODE"});
+      colList.push({id: -2, resourceColumnName: "EDIABLE"});
+      colList.push({id: -1, resourceColumnName: "ITEM_ID"});
+      colList = colList.concat(this.resourceColumnList);
+  
+      console.log(colList);
+      console.log(this.resourceSelectedList);
+      console.log(this.selectedProjectId);
+      this.resourceSelectService.saveSelelectedData(this.selectedProjectId, colList, this.resourceSelectedList);
+    }
   }
 }

@@ -6,6 +6,7 @@ import { ProjectDisplayService } from './project-display.service';
 import { ProjectRowDisplay } from './project-row-display.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
+import { ProjectSelectorService } from '../project-selector/project-selector.service';
 
 @Component({
   selector: 'app-project-display-table',
@@ -16,13 +17,12 @@ export class ProjectDisplayTableComponent implements OnInit {
   isLoading = false;
   private authStatusSub: Subscription;
 
-  private projectId = 1;
-
+  selectedProjectId: number;
   projectRowDisplayList: ProjectRowDisplay[];
   projectColList: ProjectColumn[];
   projectRowList: ProjectRow[];
 
-  constructor(private projectDisplayService: ProjectDisplayService, private authService: AuthService) { }
+  constructor(private projectDisplayService: ProjectDisplayService, private projectSelectorService: ProjectSelectorService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -32,12 +32,16 @@ export class ProjectDisplayTableComponent implements OnInit {
     )
     if(!this.projectDisplayService.loaded) {
       this.isLoading=true;
-      this.projectDisplayService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
-      this.projectDisplayService.getProjectRowList(this.projectId)
-      .then(data => {
-        this.projectRowList = data;
-        this.projectRowDisplayList = this.projectDisplayService.getProjectItemList();
+      this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
+        this.selectedProjectId = id;
+        this.projectDisplayService.getProjectColList(this.selectedProjectId).then(data => {this.projectColList = data});
+        this.projectDisplayService.getProjectRowList(this.selectedProjectId)
+        .then(data => {
+          this.projectRowList = data;
+          this.projectRowDisplayList = this.projectDisplayService.getProjectItemList();
+        });
       });
+      
       this.projectDisplayService.loaded = true;
     } else {
       this.isLoading=true;
@@ -46,9 +50,6 @@ export class ProjectDisplayTableComponent implements OnInit {
       this.projectRowDisplayList = this.projectDisplayService.getLoadedProjectRowDisplayList();
       console.log("Not getting data");
     }
-
-    
-    
   }
 
   save() {
@@ -61,7 +62,19 @@ export class ProjectDisplayTableComponent implements OnInit {
     }
   }
 
-  chickMe() {
-    console.log(this.projectDisplayService.getLoadedProjectRowDisplayList());
+  cols() {
+    console.log(this.projectColList);
+  }
+  rows() {
+    console.log(this.projectRowList);
+  }
+  items() {
+    console.log(this.projectRowDisplayList);
+  }
+  id() {
+    console.log(this.selectedProjectId);
+  }
+  changeId(){
+    this.projectSelectorService.setSelectedProjectId(3);
   }
 }

@@ -64,4 +64,20 @@ public class ProjectRowService {
         }
         return Optional.empty();
     }
+
+    public Optional<String> deleteAllRowByProjectId(int id) {
+        Optional<Project> project = projectDao.findById(id);
+        if (!project.isPresent()) {
+            return null;
+        }
+        Optional<List<ProjectRow>> projectRows = projectRowDao.getAllByProjectId(id);
+        if (projectRows.isPresent())
+        {
+            for(ProjectRow row : projectRows.get()) {
+                this.deleteProjectRowById(row.getId());
+            }
+            return Optional.of("Deleted All Successfully!");
+        }
+        return Optional.empty();
+    }
 }
