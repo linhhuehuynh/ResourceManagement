@@ -1,7 +1,5 @@
 export class Resource {
-    id: number
+    id: number;
     name: string;
-    code: string;
-    parentResourceId: number;
-    
+    code: string  
 }
