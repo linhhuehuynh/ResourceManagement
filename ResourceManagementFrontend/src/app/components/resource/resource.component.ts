@@ -44,13 +44,13 @@ export class ResourceComponent implements OnInit {
 
     this.resourceItem.getResource().then(data => {
       // this.defaultResourceList = data;
-      this.isLoading=true;
+      // this.isLoading=true;
       this.resourceItem.getResourceItemList().then(response => {this.resourceRowList = response});
     })
 
     this.resourceCol.getAllResourceColumnName()
     .subscribe(columns => {
-      this.isLoading=true;
+      // this.isLoading=true;
       if(columns == null) {} 
       else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
     });

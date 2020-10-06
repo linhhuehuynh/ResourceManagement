@@ -91,7 +91,6 @@ export class ProjectDisplayService {
               item.changed = false;
             }
             tmp.itemList = data.sort((a, b) => {return a.projectColumn.id - b.projectColumn.id});
-            console.log(tmp);
             result.push(tmp);
           }
         );

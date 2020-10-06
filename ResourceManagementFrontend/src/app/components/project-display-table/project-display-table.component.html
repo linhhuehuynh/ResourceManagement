@@ -1,7 +1,7 @@
 <app-project-selector></app-project-selector>
 <div id="display-table">
     <p id="table-name">QUANTITY SURVEY</p>
-    <p-table [value]="projectRowDisplayList" dataKey="id" >
+    <p-table [value]="projectRowDisplayList" dataKey="id">
         <ng-template pTemplate="header">
             <tr>
                 <th class="col-name p-text-center" *ngFor = "let col of projectColList" >
@@ -26,14 +26,11 @@
     </p-table>
 </div>
 <div id="bottom-area">
-    <a id="template-router">Edit Quantity Survey Template</a>
+    <a id="template-router" routerLink="/templatetable" style="text-decoration:none">Edit Quantity Survey Template</a>
     <button pButton type="button" label="Submit" icon="pi pi-check" iconPos="left" (click)="save()"></button>
 </div>
 <button (click)='cols()'>col</button>
 <button (click)='rows()'>row</button>
 <button (click)='items()'>item</button>
-<button (click)='id()'>id</button>
-<button (click)='changeId()'>changeId</button>
-<button (click)='changeId()'>changeId</button>
 
 

@@ -71,10 +71,4 @@ export class ProjectDisplayTableComponent implements OnInit {
   items() {
     console.log(this.projectRowDisplayList);
   }
-  id() {
-    console.log(this.selectedProjectId);
-  }
-  changeId(){
-    this.projectSelectorService.setSelectedProjectId(3);
-  }
 }
