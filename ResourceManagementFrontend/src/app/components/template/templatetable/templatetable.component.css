@@ -1,3 +1,12 @@
+:host ::ng-deep #selector {
+    width: fit-content;
+    align-self: flex-end;
+}
+
+:host ::ng-deep app-project-selector {
+    justify-content: flex-start;
+    width: 10%;
+}
 .container{
     display: flex;
     justify-content: flex-end;
@@ -18,25 +27,35 @@
 :host ::ng-deep #box-group-top {
     /* display: -webkit-flex; */
     /* flex-wrap: nowrap; */
+    
     align-items: flex-start;
     border-style:groove;
     border-color:gray ;
     border-width: 1px;
-    height: 77%;
+    height: 100%;
 }
 :host ::ng-deep #box-group-left {
-    padding: 5%;
-    border-style:groove;
+    padding-top: none;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+    border-bottom: none;
+    border-left:groove;
+    border-right:groove;
+    border-top:groove;
     border-color:gray ;
     border-width: 1px;
-    width:30%;
+    width:35%;
 }
 :host ::ng-deep #box-group-right {
-    padding: 5%;
+    padding-top: none;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
     border-style:groove;
     border-color:gray ;
     border-width: 1px;
-    width:70%;
+    width:65%;
     height: 100%;
     /* align-content: flex-start; */
     /* justify-content: space-around;
