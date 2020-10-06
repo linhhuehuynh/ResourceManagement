@@ -1,8 +1,8 @@
+<app-project-selector></app-project-selector>
 <div id="display-area">
     <div class="display-table" id="source-div">
         <div class="table-name-area">
             <span class="table-name p-text-center">Resource Catalog</span>
-            <!-- <button pButton class="top-button" type="button" icon="pi pi-bars"></button> -->
             <button #btn type="button" pButton class="top-button" icon="fas fa-list-ul" (click)="menu.toggle($event)"></button>
             <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
             <button pButton class="top-button" type="button" icon="fas fa-share" (click)="select()"></button>
@@ -11,6 +11,8 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th class="col-name" style="width: 2vw;"></th>
+                    <th class="col-name">PROJECT NAME</th>
+                    <th class="col-name">PROJECT CODE</th>
                     <th class="col-name p-text-center" *ngFor = "let col of resourceColumnList" >
                         {{ col.resourceColumnName | uppercase }}
                     </th>
@@ -21,6 +23,8 @@
                     <td class="item-data" style="width: 2vw;">
                         <input type="checkbox" [(ngModel)]="resource.chosen">
                     </td>
+                    <td class="item-data">{{ resource.resource.name }}</td>
+                    <td class="item-data">{{ resource.resource.code }}</td>
                     <td class="item-data" pEditableColumn *ngFor = "let item of resource.itemList">
                         {{ item.resourceExtraItemValue }}
                     </td>
@@ -37,6 +41,8 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th class="col-name" style="width: 2vw;"></th>
+                    <th class="col-name">PROJECT NAME</th>
+                    <th class="col-name">PROJECT CODE</th>
                     <th class="col-name p-text-center" *ngFor = "let col of resourceColumnList" >
                         {{ col.resourceColumnName | uppercase }}
                     </th>
@@ -47,6 +53,8 @@
                     <td class="item-data" style="width: 2vw;">
                         <input type="checkbox" [(ngModel)]="resource.chosen">
                     </td>
+                    <td class="item-data">{{ resource.resource.name }}</td>
+                    <td class="item-data">{{ resource.resource.code }}</td>
                     <td class="item-data" pEditableColumn *ngFor = "let item of resource.itemList">
                         {{ item.resourceExtraItemValue }}
                     </td>

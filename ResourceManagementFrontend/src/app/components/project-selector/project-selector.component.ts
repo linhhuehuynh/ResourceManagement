@@ -15,6 +15,7 @@ export class ProjectSelectorComponent implements OnInit {
 
   projectList: Project[];
   selectedProject: Project;
+  selectedProjectId: number;
 
   constructor(private projectSelectorService: ProjectSelectorService, private authService: AuthService) { }
 
@@ -23,23 +24,18 @@ export class ProjectSelectorComponent implements OnInit {
       authStatus => {
         this.isLoading = false;
       }
-    )
+    );
+
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => this.selectedProjectId = id);
 
     this.projectSelectorService.getProjectList()
     .then(data => {
         this.projectList = data;
-        this.selectedProject = this.projectList.length > 0 ? this.projectList[0] : undefined;
-        this.projectSelectorService.setSelectedProject(this.selectedProject);
-        // log to call service again to verify select project id is set to service
-        console.log(this.projectSelectorService.getCurrentProjectId())
     });
   }
 
   onChangeProject() {
-    console.log(this.selectedProject);
-    this.projectSelectorService.setSelectedProject(this.selectedProject)
-    // log to call service again to verify select project id is set to service
-    console.log(this.projectSelectorService.getCurrentProjectId())
+    this.projectSelectorService.setSelectedProjectId(this.selectedProject.id);
   }
 
 }
