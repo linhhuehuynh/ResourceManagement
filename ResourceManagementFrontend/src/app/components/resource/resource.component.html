@@ -73,14 +73,27 @@
     </p-table>
 
 <!-- Add New Column Modal   -->
-<form  (ngSubmit)="onSubmit()">
-<p-dialog header="Add New Column" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+<form  (ngSubmit)="onSubmitColumn()">
+<p-dialog header="Add New Column" [(visible)]="displayModalColumn" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
     [draggable]="false" [resizable]="false">
         <label for="columnName">Column Name: </label>
         <input id="columnName" name="newColName" type=text [(ngModel)]="newColName"/>
         <ng-template pTemplate="footer">
-            <p-button label="Add" class="p-button-text"></p-button>
-            <p-button (click)="displayModal=false" label="Cancel"></p-button>
+            <p-button label="Add" type="button "class="p-button-text"></p-button>
+            <p-button (click)="displayModalColumn=false" label="Cancel"></p-button>
         </ng-template>
 </p-dialog>
+</form>
+
+<!-- Import CSV File -->
+<form  (ngSubmit)="onSubmitFile()">
+    <p-dialog header="Import File" [(visible)]="displayModalCSV" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
+        [draggable]="false" [resizable]="false">
+            <label for="file">Choose File </label><br>
+            <input id="file" name="file" type=file/>
+            <ng-template pTemplate="footer">
+                <p-button label="Import" type="button "class="p-button-text"></p-button>
+                <p-button (click)="displayModaCSVl=false" label="Cancel"></p-button>
+            </ng-template>
+    </p-dialog>
 </form>
