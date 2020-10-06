@@ -29,28 +29,20 @@ export class ResourceItemService {
     })
   }
 
-  // getAllResourcesExtraItem(): Observable<ResourceItem[]>{
-  //  return this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem');
-  // }
-
   async getResourceItemList() {
     for (let resource of this.resources) {
       let row = new ResourceRow();
-      row.id = resource.id;
-      await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.id.toString()).toPromise()
+      row.resource = resource;
+      await this.http.get<ResourceItem[]>(BACKEND_URL + '/resourceitem/resource/' + row.resource.id.toString()).toPromise()
       .then(response => {
-
-        row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
-        this.resourceRowList.push(row);
+        if (response == null ) {this.resourceRowList.push(row)}
+        else {
+          row.itemList = response.sort((a, b) => {return a.resourceColumn.id - b.resourceColumn.id})
+          this.resourceRowList.push(row);
+        }
       });
-      // .subscribe(
-        // response => {
-        //   row.itemList = response;
-        //   this.resourceRowList.push(row);
-        // }
-      // );
     }
-    console.log(this.resourceRowList);
+    // console.log(this.resourceRowList);
     return this.resourceRowList;
   }
 }

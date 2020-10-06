@@ -1,6 +1,7 @@
 import { ResourceItem } from './../resource-item/resource-item.model';
+import { Resource } from './../resource-data.model';
 
 export class ResourceRow {
-    id: number;
+    resource: Resource;
     itemList: ResourceItem[];
 }

@@ -1,4 +1,4 @@
-<p-table #dt [value]="resourceDisplayList" dataKey="id"
+<p-table #dt [value]="resourceRowList" dataKey="id"
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [filterDelay]="0" [globalFilterFields]="['name','code']">
@@ -17,6 +17,8 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
+                <th>RESOURCE NAME</th>
+                <th>RESOURCE CODE</th>
                 <th *ngFor="let header of headers">
                     {{header.resourceColumnName}}
                 </th>
@@ -24,6 +26,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-resourceRow>
             <tr>
+                <td>{{resourceRow.resource.name}}</td>
+                <td>{{resourceRow.resource.code}}</td>
                 <td class="item-data" *ngFor="let item of resourceRow.itemList">
                     {{item.resourceExtraItemValue}}
                 </td>

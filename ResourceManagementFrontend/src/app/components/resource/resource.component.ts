@@ -18,10 +18,10 @@ import { ResourceCol } from './resource-col/resource-col.model';
 export class ResourceComponent implements OnInit {
   isLoading = false;
   private authStatusSub: Subscription;
-  resourceDisplayList: ResourceRow[];
+  resourceRowList: ResourceRow[];
   headers: ResourceCol[];
-  row: any;
   items: MenuItem[];
+  defaultResourceList: Resource[];
 
   @ViewChild('dt') table: Table;
 
@@ -34,12 +34,18 @@ export class ResourceComponent implements OnInit {
       }
     )
 
-    this.resourceCol.getAllResourceColumnName().subscribe(columns => this.headers = columns.sort((a, b) => {return a.id - b.id}));
     this.resourceItem.getResource().then(data => {
-      this.resourceItem.getResourceItemList().then(data => {this.resourceDisplayList = data});
-      // console.log(this.resourceDisplayList)
+      this.defaultResourceList = data;
+      console.log("Default Resource List")
+      console.log(this.defaultResourceList)
+      this.resourceItem.getResourceItemList().then(response => {this.resourceRowList = response});
     })
 
+    this.resourceCol.getAllResourceColumnName()
+    .subscribe(columns => {
+      if(columns == null) {} 
+      else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
+    });
 
   this.items = [
     {

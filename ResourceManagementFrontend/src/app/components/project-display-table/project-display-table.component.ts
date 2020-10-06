@@ -31,6 +31,7 @@ export class ProjectDisplayTableComponent implements OnInit {
       }
     )
     if(!this.projectDisplayService.loaded) {
+      this.isLoading=true;
       this.projectDisplayService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
       this.projectDisplayService.getProjectRowList(this.projectId)
       .then(data => {
@@ -39,6 +40,7 @@ export class ProjectDisplayTableComponent implements OnInit {
       });
       this.projectDisplayService.loaded = true;
     } else {
+      this.isLoading=true;
       this.projectColList = this.projectDisplayService.getLoadedProjectColumnList();
       this.projectRowList = this.projectDisplayService.getLoadedProjectRowList();
       this.projectRowDisplayList = this.projectDisplayService.getLoadedProjectRowDisplayList();

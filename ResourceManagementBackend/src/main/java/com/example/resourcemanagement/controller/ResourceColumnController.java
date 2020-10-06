@@ -32,7 +32,7 @@ public class ResourceColumnController {
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<>("ResourceColumns Not Found!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping("")
