@@ -21,13 +21,14 @@ export class ResourceComponent implements OnInit {
   private authStatusSub: Subscription;
   resourceRowList: ResourceRow[];
   headers: ResourceCol[];
-  items: MenuItem[];
   defaultResourceList: Resource[];
   columns: ResourceCol[]=[];
 
+  items: MenuItem[];
   newColName: string;
   newColId: number;
-  displayModal: boolean;
+  displayModalColumn: boolean;
+  displayModalCSV: boolean;
 
   @ViewChild('dt') table: Table;
 
@@ -50,7 +51,7 @@ export class ResourceComponent implements OnInit {
 
     this.resourceCol.getAllResourceColumnName()
     .subscribe(columns => {
-      // this.isLoading=true;
+      // this.isLoading=true
       if(columns == null) {} 
       else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
     });
@@ -67,38 +68,45 @@ export class ResourceComponent implements OnInit {
     {
         label: 'Add Column',
         icon: 'fa fa-columns',
-        command: () => this.showModalDialog()
+        command: () => this.showModalDialogColumn()
     },
     {
       label: 'Import CSV',
       icon: 'pi pi-file-excel',
-      command: () => {
-          console.log("Import!")
-      }
+      command: () => this.showModalDialogCSV()
   }
     ]
   }
 
-  showModalDialog() {
-    this.displayModal = true;
-}
+  // Add New Column
+  showModalDialogColumn() {
+    this.displayModalColumn = true;
+  } 
 
   addNewColName(col: ResourceCol){
-  // this.resourceCol.createResourceColumn(col).subscribe(col => {
     console.log(col)
     col.resourceColumnName = this.newColName;
-    // console.log(colName)
     this.headers.push(col)
-  // })
 
-  this.displayModal=false;
-}
-
-onSubmit() {
-  const col = {
-    id: this.newColId,
-    resourceColumnName : this.newColName
+  this.displayModalColumn=false;
   }
-  this.addNewColName(col);
-}
+
+  onSubmitColumn() {
+    const col = {
+      id: this.newColId,
+      resourceColumnName : this.newColName
+    }
+    this.addNewColName(col);
+  }
+
+
+  // Import CSV File
+  showModalDialogCSV() {
+    this.displayModalCSV = true;
+  }
+
+  onSubmitFile() {
+
+  }
+  
 }
