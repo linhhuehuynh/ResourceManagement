@@ -11,7 +11,7 @@
 :host ::ng-deep .p-button{
     background-color: #f27724;
     border-radius: 0;
-    border: none
+    border: none;
 }
 
 :host ::ng-deep .p-paginator-pages .p-paginator-page.p-highlight {
@@ -22,6 +22,10 @@
     width: max-content;
 }
 
-:host ::ng-deep .ng-tringger .ng-trigger-overlayAnimation .p-menu-overlay{
-    position: fixed;
+:host ::ng-deep .p-button .submitDiscard{
+    width: 30px
 }
+
+/* :host ::ng-deep .ng-trigger .ng-trigger-overlayAnimation .p-menu-overlay {
+    position: fixed;
+} */

@@ -65,13 +65,13 @@ export class AuthService {
               now.getTime() + expiresInDuration * 1000
             );
             this.saveAuthData(this.token, expirationDate, this.userId);
-            this.router.navigate(["/project"]);
+            this.router.navigate(["/resource"]);
           }
           return res;
         },
         error => {
-          this.message = error.error;
-          console.log(error)
+          // this.message = error.error;
+          // console.log(error)
           this.authStatusListener.next(false);
         }
       );
