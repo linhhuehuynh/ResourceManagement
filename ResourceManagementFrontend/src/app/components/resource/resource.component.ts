@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { ResourceService } from './resource.service';
 import { Resource } from './resource-data.model';
-import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { MenuItem } from 'primeng/api';
 import { ResourceItemService } from './resource-item/resource-item.service';
@@ -10,6 +9,7 @@ import { ResourceColService } from './resource-col/resource-col.service';
 import { ResourceRow } from './resource-row/resource-row.model';
 import { ResourceCol } from './resource-col/resource-col.model';
 import { ResourceItem } from './resource-item/resource-item.model';
+
 
 @Component({
   selector: 'app-resource',
@@ -21,15 +21,13 @@ export class ResourceComponent implements OnInit {
   displayResourceRowList: ResourceRow[];
   
   isLoading = false;
-  private authStatusSub: Subscription;
   resourceRowList: ResourceRow[];
   headers: ResourceCol[];
-  defaultResourceList: Resource[];
-  columns: ResourceCol[]=[];
 
   items: MenuItem[];
+  editColumnMenu: MenuItem[];
   newColName: string;
-  newColId: number;
+  isNewRow = false;
   displayModalColumn: boolean;
   displayModalCSV: boolean;
 
@@ -49,13 +47,8 @@ export class ResourceComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
-      authStatus => {
-        this.isLoading = false;
-      }
-    )
-
     this.resourceItem.getResource().then(data => {
+
       // this.defaultResourceList = data;
       // this.isLoading=true;
       this.resourceItem.getResourceItemList().then(response => {
@@ -71,14 +64,11 @@ export class ResourceComponent implements OnInit {
       else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
     });
 
-    console.log(this.headers)
     this.items = [
     {
         label: 'Add Row',
         icon: 'pi pi-align-left',
-        command: () => {
-        console.log("Add row")
-        }
+        command: () => this.addNewRow(),
     },
     {
         label: 'Add Column',
@@ -86,11 +76,34 @@ export class ResourceComponent implements OnInit {
         command: () => this.showModalDialogColumn()
     },
     {
-      label: 'Import CSV',
-      icon: 'pi pi-file-excel',
-      command: () => this.showModalDialogCSV()
-  }
+        label: 'Import CSV',
+        icon: 'pi pi-file-excel',
+        command: () => this.showModalDialogCSV()
+    }
     ]
+
+    this.editColumnMenu = [
+      {
+          label: 'Edit Column',
+          icon: 'far fa-edit',
+          command: () => console.log("edit column"),
+      },
+      {
+          label: 'Delete Column',
+          icon: 'fas fa-trash-alt',
+          command: (e) => this.onDeleteColumn(e)
+      }
+      ]
+  }
+
+  //Add New Row
+  addNewRow(){
+    let newRow = new ResourceRow();
+    newRow.resource = new Resource();
+    newRow.resource.name=" "
+    this.resourceRowList.push(newRow);
+    this.isNewRow = true;
+
   }
 
   // Add New Column
@@ -98,22 +111,45 @@ export class ResourceComponent implements OnInit {
     this.displayModalColumn = true;
   } 
 
-  addNewColName(col: ResourceCol){
-    console.log(col)
-    col.resourceColumnName = this.newColName;
-    this.headers.push(col)
-
-  this.displayModalColumn=false;
-  }
-
   onSubmitColumn() {
-    const col = {
-      id: this.newColId,
-      resourceColumnName : this.newColName
-    }
-    this.addNewColName(col);
+    const col = new ResourceCol();
+    col.resourceColumnName = this.newColName;
+    this.headers.push(col);
+
+    this.resourceCol.createResourceColumn(col).subscribe((data:any) => {
+      col.id = data.id;
+
+      this.resourceRowList.forEach(row => {
+        if(row.itemList == undefined) {
+          row.itemList = [];
+        }
+        
+        let item = new ResourceItem();
+        item.resourceColumn = new ResourceCol();
+        item.resource = new Resource();
+        item.resourceExtraItemValue = " ";
+        item.resource.id = row.resource.id;
+        item.resourceColumn.id = col.id;
+
+        this.resourceItem.createResourceExtraItem(item).subscribe();
+        console.log(item)
+  
+        row.itemList.push(item);
+      } )
+    });
+    this.displayModalColumn=false;
   }
 
+  onDeleteColumn(col: ResourceCol) {
+    // console.log(col)
+    // this.resourceCol.deleteColumnById(col).subscribe(()=> console.log(col))
+
+    this.headers = this.headers.filter(header => col.id !== header.id)
+
+    this.resourceRowList.forEach(row => row.itemList = null);
+  }
+
+ 
 
   // Import CSV File
   showModalDialogCSV() {

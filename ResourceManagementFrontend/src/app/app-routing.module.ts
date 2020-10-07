@@ -16,8 +16,9 @@ const routes: Routes = [
   {path: 'project', component: ProjectDisplayTableComponent, canActivate:[AuthGuard] },
   {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
   {path: 'projectselector', component: ProjectSelectorComponent},
-  {path: 'resourceselect', component: ResourceSelectComponent},
+  {path: 'resourceselect', component: ResourceSelectComponent, canActivate:[AuthGuard]},
   {path: 'resource', component: ResourceComponent, canActivate:[AuthGuard]},
+  
   // {path:'**', component: ErrorComponent}
 ];
 
