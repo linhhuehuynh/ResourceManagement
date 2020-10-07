@@ -44,18 +44,6 @@ export class ProjectDisplayService {
       this.projectRowList = res.sort((a, b) => {return a.id - b.id});
       return this.projectRowList;
     })
-    // .catch(error => {console.error(error.error)});
-
-    // this.http.get<ProjectRow[]>(BACKEND_URL + '/projectrow/project/' + projectId.toString(), {'headers': this.header}).subscribe(
-    //   data => {
-    //     this.projectRowList = data;
-    //     console.log(data);
-    //   },
-    //   error => {
-    //     console.error(error.error);
-    //   }
-    // );
-    // return this.projectRowList;
   }
 
   getProjectColList(projectId: number) {
@@ -65,18 +53,6 @@ export class ProjectDisplayService {
       this.projectColList = res.sort((a, b) => {return a.id - b.id});
       return this.projectColList;
     })
-    // .catch(error => {console.error(error.error)});
-
-    // this.http.get<ProjectColumn[]>(BACKEND_URL + '/projectcolumn/project/' + projectId.toString(), {'headers': this.header}).subscribe(
-    //   data => {
-    //     this.projectColList = data;
-    //     console.log(data);
-    //   },
-    //   error => {
-    //     console.error(error.error);
-    //   }
-    // );
-    // return this.projectColList;
   }
 
   getProjectItemList() {
@@ -100,32 +76,6 @@ export class ProjectDisplayService {
     }
     this.projectRowDisplayList = result;
     return this.projectRowDisplayList;
-    // let promise = new Promise<ProjectRowDisplay[]>((resolve, reject) => {
-    //   for(let projectRow of this.projectRowList) {
-    //     let tmp = new ProjectRowDisplay();
-    //     tmp.id = projectRow.id;
-    //     this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString(), {'headers': this.header})
-    //     .toPromise()
-    //     .then(data => {
-    //       tmp.itemList = data;
-    //     })
-    //     // .catch(error => {console.error(error.error)});
-    //     this.projectRowDisplayList.push(tmp);
-    //   }
-    //   return this.projectRowDisplayList;
-    // });
-    // for(let projectRow of this.projectRowList) {
-    //   this.http.get<ProjectItem[]>(BACKEND_URL + '/projectitem/row/' + projectRow.id.toString(), {'headers': this.header}).subscribe(
-    //     data => {
-    //       projectItemInRowList.push(data);
-    //       // for(let projectItem of data) {
-    //       //   this.projectItemList.push(projectItem);
-    //       // }
-    //     }
-    //   );
-    // }
-    // console.log(this.projectRowDisplayList);
-    // return promise;
   }
 
   saveChangedItems(projectRowDisplayList: ProjectRowDisplay[]) {
