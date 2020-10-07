@@ -1,4 +1,4 @@
-<p-table #dt [value]="resourceRowList" dataKey="id"
+<p-table #dt [value]="displayResourceRowList" dataKey="id"
         [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [filterDelay]="0" [globalFilterFields]="['name','code']">
@@ -90,10 +90,12 @@
     <p-dialog header="Import File" [(visible)]="displayModalCSV" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
         [draggable]="false" [resizable]="false">
             <label for="file">Choose File </label><br>
-            <input id="file" name="file" type=file/>
+            <input id="file" name="file" type=file (change)="uploadFileOnChange($event.target.files)" accept=".csv"/>
             <ng-template pTemplate="footer">
                 <p-button label="Import" type="button "class="p-button-text"></p-button>
-                <p-button (click)="displayModaCSVl=false" label="Cancel"></p-button>
+                <p-button (click)="cancelCSVClick()" label="Cancel"></p-button>
             </ng-template>
     </p-dialog>
 </form>
+
+<button (click)="checkFile()">File</button>

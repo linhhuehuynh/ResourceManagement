@@ -17,6 +17,9 @@ import { ResourceItem } from './resource-item/resource-item.model';
   styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent implements OnInit {
+
+  displayResourceRowList: ResourceRow[];
+  
   isLoading = false;
   private authStatusSub: Subscription;
   resourceRowList: ResourceRow[];
@@ -30,10 +33,19 @@ export class ResourceComponent implements OnInit {
   displayModalColumn: boolean;
   displayModalCSV: boolean;
 
+  uploadedFile: File;
+  isFileLoaded: boolean;
+  inputResourceRowList: ResourceRow[];
+  inputHeaders: ResourceCol[];
+
   @ViewChild('dt') table: Table;
 
   constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {
-    this.headers =[]
+    this.headers =[];
+    this.isFileLoaded = false;
+    this.uploadedFile = null;
+    this.inputResourceRowList = [];
+    this.inputHeaders = [];
    }
 
   ngOnInit() {
@@ -46,7 +58,10 @@ export class ResourceComponent implements OnInit {
     this.resourceItem.getResource().then(data => {
       // this.defaultResourceList = data;
       // this.isLoading=true;
-      this.resourceItem.getResourceItemList().then(response => {this.resourceRowList = response});
+      this.resourceItem.getResourceItemList().then(response => {
+        this.resourceRowList = response;
+        this.displayResourceRowList = this.resourceRowList;
+      });
     })
 
     this.resourceCol.getAllResourceColumnName()
@@ -105,8 +120,72 @@ export class ResourceComponent implements OnInit {
     this.displayModalCSV = true;
   }
 
-  onSubmitFile() {
+  uploadFileOnChange(files: FileList) {
+    console.log(files);
+    if(files && files.length > 0) {
+      this.uploadedFile = files[0];
+      this.isFileLoaded = true;
+    } else {
+      this.isFileLoaded = false;
+      console.log("No File")
+    }
+  }
 
+  onSubmitFile() {
+    if(this.isFileLoaded && this.uploadedFile) {
+      this.inputResourceRowList = [];
+      this.inputHeaders = [];
+      let reader: FileReader = new FileReader();
+      reader.readAsText(this.uploadedFile);
+      reader.onloadend = (e) => {
+        let csv: any = reader.result;
+        let allTextLines: string[] = [];
+        allTextLines = csv.split(/\r|\n|\r/);
+        allTextLines = allTextLines.filter(line => line != "");
+        console.log(allTextLines);
+
+        // read headers 
+        // no need? because input csv should be on the fomular of resource
+        
+        let headersInput = allTextLines[0].split(/,/);
+        for(let colName of headersInput) {
+          let tmpCol = new ResourceCol();
+          tmpCol.resourceColumnName = colName;
+          this.inputHeaders.push(tmpCol);
+        }
+        console.log(this.inputHeaders);
+        
+        
+        // read resource
+        
+        for(let i = 1; i < allTextLines.length; i ++) {
+          let tmpItemList = allTextLines[i].split(/,/);
+          let tmpResource = new Resource();
+          tmpResource.name = tmpItemList[0];
+          tmpResource.code = tmpItemList[1];
+          let tmpResourceRow = new ResourceRow();
+          tmpResourceRow.itemList = [];
+          tmpResourceRow.resource = tmpResource;
+          this.inputResourceRowList.push(tmpResourceRow);
+        }
+        console.log(this.inputResourceRowList);
+        this.displayResourceRowList = this.inputResourceRowList;
+      }
+    } else {
+      console.log("No File Loaded")
+    }
+    this.displayModalCSV = false;
+  }
+
+  cancelCSVClick() {
+    this.uploadedFile = null;
+    this.isFileLoaded = false;
+    this.displayModalCSV = false;
+  }
+
+  checkFile() {
+    console.log(this.isFileLoaded);
+    console.log(this.uploadedFile)
   }
   
 }

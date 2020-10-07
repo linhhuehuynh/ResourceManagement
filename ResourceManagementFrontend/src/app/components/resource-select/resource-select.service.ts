@@ -7,6 +7,7 @@ import { ProjectColumn } from '../../model/project-col.model';
 import { ProjectRow } from 'src/app/model/project-row.model';
 import { Router } from '@angular/router';
 import { ProjectSelectorService } from '../project-selector/project-selector.service';
+import { ProjectDisplayService } from '../project-display-table/project-display.service';
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -15,7 +16,7 @@ const BACKEND_URL = environment.apiUrl;
 })
 export class ResourceSelectService {
   
-  constructor(private http: HttpClient, private projectSelectorService: ProjectSelectorService, private router: Router) { }
+  constructor(private http: HttpClient, private projectSelectorService: ProjectSelectorService, private router: Router, private projectDisplayService: ProjectDisplayService) { }
 
   async saveSelelectedData(projectId: number, colList: ResourceCol[], rowList: ResourceDisplay[]) {
     await this.http.delete(BACKEND_URL + "/projectcolumn/project/" + projectId.toString(), {responseType: 'text'}).toPromise().then(data => {
@@ -96,6 +97,7 @@ export class ResourceSelectService {
         }
       }
     }
+    this.projectDisplayService.loaded = false;
     this.router.navigate(['/project']);
   }
 }
