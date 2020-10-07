@@ -123,8 +123,10 @@ export class ResourceSelectComponent implements OnInit {
       colList.push({id: -3, resourceColumnName: "COST-CODE"});
       colList.push({id: -2, resourceColumnName: "EDIABLE"});
       colList.push({id: -1, resourceColumnName: "ITEM_ID"});
-      colList = colList.concat(this.resourceColumnList);
-  
+      if(this.resourceColumnList != null) {
+        colList = colList.concat(this.resourceColumnList);
+      }
+      
       console.log(colList);
       console.log(this.resourceSelectedList);
       console.log(this.selectedProjectId);
