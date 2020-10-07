@@ -44,7 +44,30 @@ export class ResourceItemService {
         });
       }
     }
-    // console.log(this.resourceRowList);
     return this.resourceRowList;
   }
+
+  createResourceExtraItem(item: ResourceItem){
+    return this.http.post(`${BACKEND_URL}/resourceitem`, item);
+  }
+
+
+
+  // saveChanges(projectRowDisplayList: ProjectRowDisplay[]) {
+  //   for(let projectRow of projectRowDisplayList) {
+  //     for(let item of projectRow.itemList) {
+  //       if(item.changed) {
+  //         this.http.put(BACKEND_URL + '/projectitem/' + item.id, 
+  //         {
+  //           value: item.value,
+  //           projectRow: {id: item.projectRow.id},
+  //           projectColumn: {id: item.projectColumn.id}
+  //         }
+  //         ).subscribe(data => {alert("Update Successfully!")});
+  //         item.changed = false;
+  //       }
+  //     }
+  //   }
+  //   return projectRowDisplayList;
+  // }
 }
