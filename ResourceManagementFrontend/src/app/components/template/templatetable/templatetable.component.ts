@@ -9,6 +9,7 @@ import { ProjectColumn } from '../../../model/project-col.model'
 import { ProjectSelectorService } from '../../project-selector/project-selector.service'
 import { async } from '@angular/core/testing';
 
+
 @Component({
   selector: 'app-templatetable',
   templateUrl: './templatetable.component.html',
@@ -96,11 +97,6 @@ export class TemplatetableComponent implements OnInit {
   }
 
   AddNewTemplate() {
-    // if(this.templates.length>=3) {
-    //   alert("Please delete some templates until three");
-    // } else  {
-    //   this.templates.push(this.newTemplate);
-    // }
     let template:Template = new Template();
     template.projectColumnName="";
     template.columnType="Text";
@@ -124,110 +120,121 @@ export class TemplatetableComponent implements OnInit {
     for(let column of this.columns) {
       this.columnNames.push(column.projectColumnName);
     }
-    for(let template of templates) {
-      if(template.projectColumnName === "") {
-        alert("Please fill the name of the column");
-        signal = false;
-        break;
-      }
-      if(this.columnNames.includes(template.projectColumnName)) {
-        alert("Please enter unexisted columns");
-        this.DeleteTheTemplate(template);
-        signal = false;
-        break;
-      }
-    }
     console.log(templates)
-    for(let template of templates) {
-    this.templateService.createColumn(template,this.selectedProjectId).subscribe(
-        res=>{
-          this.columns.push(res);
-          // this.newColumns.push(res);
-          // this.newColumnsId.push(res.id);
+    if(templates.length!==0) {
+      for(let template of templates) {
+        if(template.projectColumnName === "") {
+          alert("Please fill the name of the column");
           this.DeleteTheTemplate(template);
-          this.resultColumns.push(res);
-          for(let row of Rowlist) {
-            this.Addnewitems(row.id,res.id); //Add item
+          signal = false;
+          break;
+        } else
+        if(this.columnNames.includes(template.projectColumnName)) {
+          alert("Please enter unexisted columns");
+          this.DeleteTheTemplate(template);
+          signal = false;
+          break;
+        } else  
+        {
+          if(this.FormulaCheck(this.columns,template.formulaValue)) {
+            this.templateService.createColumn(template,this.selectedProjectId).subscribe(
+              res=>{
+                this.columns.push(res);
+                // this.newColumns.push(res);
+                // this.newColumnsId.push(res.id);
+                this.DeleteTheTemplate(template);
+                this.resultColumns.push(res);
+                for(let row of Rowlist) {
+                  this.Addnewitems(row.id,res.id); //Add item
+                }
+              }
+            )
+          } else {
+            // this.DeleteTheTemplate(template);
+            break;
+          }  
+        }
+      // this.templateService.getProjectColList(this.selectedProjectId).subscribe(
+      //   res=>{for(let projectcolumn of res) {
+      //     // if(projectcolumn.projectColumnName==='name') {
+      //     //   this.selectedColumns.push(projectcolumn.projectColumnName);
+      //     // }
+      //     this.resultColumns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
+      //     // console.log({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType})
+      //   }
+        
+      //   // this.selectedColumns.push(this.columns[0]);
+      // })
+      // console.log(this.resultColumns);
+      // console.log(this.columns)
+      // console.log(this.newColumns)
+      // console.log(this.newColumnsId);
+      // console.log(Rowlist);
+      // console.log(this.columns.length)
+      // console.log(this.columns[this.columns.length-1])
+      // for(let columnId of this.newColumnsId) {
+      //   for(let Row of Rowlist) {
+      //     this.templateService.createItem(Row.id,columnId).subscribe(
+      //       res=>{
+      //         console.log(res)
+      //       }
+      //     );
+      //   }
+      // }
+      // this.Addnewitems(Rowlist[0].id, this.columns[this.columns.length-1].id)
+      // this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
+      //   res=>{
+      //           for(let template of templates) {
+      //             console.log(template);
+      //             console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
+      //             this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
+      //             this.DeleteTheTemplate(template);
+      //             // console.log(template)
+      //           }
+      //         }
+      // )
+      // if((templates.length != 0)&&(signal)) {
+      //   this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
+      //     res=>{
+      //       for(let template of templates) {
+      //         console.log(template);
+      //         console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
+      //         this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
+      //         this.DeleteTheTemplate(template);
+      //         // console.log(template)
+      //       }
+      //       this.success=true;
+      //       this.message="You have saved templates successfully.";
+      //       this.title="Thank you";
+            
+      //     },
+      //     error =>{
+      //       this.success=false;
+      //       this.message=error;
+      //       this.title="An error occurred.";
+      //     }
+      //   )
+      // }
+      // console.log(this.templates);
+      // console.log(this.selectedColumns);
+      // console.log(this.message)
+        setTimeout(() => this.router.navigate(["/project"]), 2000)
+        // //delete all,alert=>dialog
+        // this.Addnewitems(Rowlist[0].id, this.newColumnsId)
+        console.log(this.selectedColumns)
+        for(let name of this.selectedColumns) {
+          for(let col of this.columns) {
+            if(col.projectColumnName === name) {
+              this.resultColumns.push(col);
+            }
           }
         }
-      )
-    }
-    // this.templateService.getProjectColList(this.selectedProjectId).subscribe(
-    //   res=>{for(let projectcolumn of res) {
-    //     // if(projectcolumn.projectColumnName==='name') {
-    //     //   this.selectedColumns.push(projectcolumn.projectColumnName);
-    //     // }
-    //     this.resultColumns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
-    //     // console.log({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType})
-    //   }
-      
-    //   // this.selectedColumns.push(this.columns[0]);
-    // })
-    // console.log(this.resultColumns);
-    // console.log(this.columns)
-    // console.log(this.newColumns)
-    // console.log(this.newColumnsId);
-    // console.log(Rowlist);
-    // console.log(this.columns.length)
-    // console.log(this.columns[this.columns.length-1])
-    // for(let columnId of this.newColumnsId) {
-    //   for(let Row of Rowlist) {
-    //     this.templateService.createItem(Row.id,columnId).subscribe(
-    //       res=>{
-    //         console.log(res)
-    //       }
-    //     );
-    //   }
-    // }
-    // this.Addnewitems(Rowlist[0].id, this.columns[this.columns.length-1].id)
-    // this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
-    //   res=>{
-    //           for(let template of templates) {
-    //             console.log(template);
-    //             console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
-    //             this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
-    //             this.DeleteTheTemplate(template);
-    //             // console.log(template)
-    //           }
-    //         }
-    // )
-    // if((templates.length != 0)&&(signal)) {
-    //   this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
-    //     res=>{
-    //       for(let template of templates) {
-    //         console.log(template);
-    //         console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
-    //         this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
-    //         this.DeleteTheTemplate(template);
-    //         // console.log(template)
-    //       }
-    //       this.success=true;
-    //       this.message="You have saved templates successfully.";
-    //       this.title="Thank you";
-          
-    //     },
-    //     error =>{
-    //       this.success=false;
-    //       this.message=error;
-    //       this.title="An error occurred.";
-    //     }
-    //   )
-    // }
-    // console.log(this.templates);
-    // console.log(this.selectedColumns);
-    // console.log(this.message)
-    // setTimeout(() => this.router.navigate(["/project"]), 2000)
-    // //delete all,alert=>dialog
-    // this.Addnewitems(Rowlist[0].id, this.newColumnsId)
-    console.log(this.selectedColumns)
-    for(let name of this.selectedColumns) {
-      for(let col of this.columns) {
-        if(col.projectColumnName === name) {
-          this.resultColumns.push(col);
-        }
+        console.log(this.resultColumns)
       }
+    } else {
+      alert("Please pass unempyty lists as templates")
     }
-    console.log(this.resultColumns)
+    
   }
 
   onChangeTypes(event,template:Template) {
@@ -237,14 +244,98 @@ export class TemplatetableComponent implements OnInit {
   
   //post project column,default type number text formula, field empty,field not repeated by known and new created,projectcolumn ts model
   // return value, check repeat, show calculate drop down and regular check,hide
-  //save to db,ngshow,left
+  //ngshow,left
   //dialog
-  //logout savelist(columntype:undefined),app-selector css, table css, logout(newsave+selected),logout(newsave)(property)newcreateditem in db
 
   Addnewitems(rowId:number,colId:number) {
     this.templateService.createItem(rowId,colId).subscribe(res=>{
       console.log(res);
     })
   }
-  //templates delete check
+  
+
+  FormulaCheck(templateArr:ProjectColumn[],formula:string) {
+    let nameArr:string[] = []
+    let signal:boolean = true;
+    for(let template of templateArr) {
+      nameArr.push(template.projectColumnName);
+    }
+    if(formula !=="") {
+      if(formula.split("").includes("+")||formula.split("").includes("-")||formula.split("").includes("*")||formula.split("").includes("/")||formula.split("").includes("%")) {
+        if(formula.split("").includes("+")) {
+          let forArr = formula.split("+"); 
+          if(forArr.length <= 1) {
+            alert("Not correct operation");
+            signal = false;
+          } else{
+            for(let arr of forArr) {
+              if(!nameArr.includes(arr)) {
+                signal = false;
+              }
+            }
+          }  
+          } else
+          if(formula.split("").includes("-")) {
+            let forArr = formula.split("-"); 
+            if(forArr.length <= 1) {
+              alert("Not correct operation");
+              signal = false;
+            } else {
+              for(let arr of forArr) {
+                if(!nameArr.includes(arr)) {
+                  signal = false;
+                }
+              }
+            }    
+          } else
+          if(formula.split("").includes("*")) {
+            let forArr = formula.split("*"); 
+            if(forArr.length <= 1) {
+              alert("Not correct operation");
+              signal = false;
+            } else {
+              for(let arr of forArr) {
+                if(!nameArr.includes(arr)) {
+                  signal = false;
+                }
+              }
+            }    
+          } else 
+          if(formula.split("").includes("/")) {
+            let forArr = formula.split("/");
+            if(forArr.length <= 1) {
+              alert("Not correct operation");
+              signal = false;
+            } else {
+              for(let arr of forArr) {
+                if(!nameArr.includes(arr)) {
+                  signal = false;
+                }
+              }
+            } 
+          } else 
+          if(formula.split("").includes("%")) {
+            let forArr = formula.split("%");
+            if(forArr.length <= 1) {
+              alert("Not correct operation");
+              signal = false;
+            } else {
+              for(let arr of forArr) {
+                if(!nameArr.includes(arr)) {
+                  signal = false;
+                }
+              }
+            }     
+          }
+        } 
+        else {
+          alert("You need to use '+' or '-' or '*' or '/' or '%' as correct opeartors");
+          signal = false;
+      }
+    }
+    if(signal === false) {
+      alert("Wrong formula, column name should in columns");
+    }
+    return signal;
+  } 
 }
