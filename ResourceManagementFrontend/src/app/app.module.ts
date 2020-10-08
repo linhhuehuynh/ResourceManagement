@@ -53,6 +53,7 @@ import { ErrorComponent } from './error/error.component';
 import { ProjectSelectorComponent } from './components/project-selector/project-selector.component';
 import { ResourceSelectComponent } from './components/resource-select/resource-select.component';
 import { ResourceComponent } from './components/resource/resource.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { ResourceComponent } from './components/resource/resource.component';
     RippleModule,
     TableModule,
     DropdownModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

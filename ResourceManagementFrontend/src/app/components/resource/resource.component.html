@@ -1,5 +1,5 @@
-<p-table #dt [value]="displayResourceRowList" dataKey="id"
-        [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25]" [loading]="isLoading"
+<p-table #dt [value]="resourceRowList" dataKey="id"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [filterDelay]="0" [globalFilterFields]="['name','code']">
 
@@ -23,8 +23,13 @@
                 <th>RESOURCE CODE</th>
                 <th *ngFor="let header of headers">
                     {{header.resourceColumnName}}
-                        <i style="float: right;"  class="fas fa-caret-down"  (click)="colMenu.toggle($event)"></i>
-                        <p-menu appendTo="body"  #colMenu [popup]="true" [model]="editColumnMenu"></p-menu>
+                    <div ngbDropdown class="d-inline-block">
+                        <i ngbDropdownToggle></i>
+                            <div ngbDropdownMenu>
+                              <button ngbDropdownItem  (click)="showModalEditColumn(header.id)"><i class="far fa-edit"></i> Edit Column</button>
+                              <button ngbDropdownItem  (click)="onDeleteColumn(header)"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </div>
+                    </div>
                 </th>
             </tr>
         </ng-template>
@@ -79,7 +84,7 @@
     <p-button [style]="{width:'auto'}" label="Submit"></p-button>
     <p-button [style]="{'width':'auto', 'padding-left':'1rem'}" label="Discard"></p-button>
 
-<!-- Add New Column Modal   -->
+<!----------------------------ADD COLUMN MODAL-------------------------->
 <form  (ngSubmit)="onSubmitColumn()">
 <p-dialog header="Add New Column" [(visible)]="displayModalColumn" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
     [draggable]="false" [resizable]="false">
@@ -92,17 +97,28 @@
 </p-dialog>
 </form>
 
-<!-- Import CSV File -->
+<!---------------------------EDIT COLUMN MODAL---------------------------->
+<form  (ngSubmit)="editColumn($event)">
+    <p-dialog header="Edit Column" [(visible)]="displayModalEditColumn" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
+        [draggable]="false" [resizable]="false">
+            <label for="editColumnName">New Column Name: </label>
+            <input id="editColumnName" name="editColName" type=text [(ngModel)]="editColName"/>
+            <ng-template pTemplate="footer">
+                <p-button label="Submit" type="button "class="p-button-text"></p-button>
+                <p-button (click)="displayModalEditColumn=false" label="Cancel"></p-button>
+            </ng-template>
+</p-dialog>
+</form>
+
+<!---------------------------IMPORT CSV MODAL---------------------------->
 <form  (ngSubmit)="onSubmitFile()">
     <p-dialog header="Import File" [(visible)]="displayModalCSV" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
         [draggable]="false" [resizable]="false">
             <label for="file">Choose File </label><br>
-            <input id="file" name="file" type=file (change)="uploadFileOnChange($event.target.files)" accept=".csv"/>
+            <input id="file" name="file" type=file/>
             <ng-template pTemplate="footer">
                 <p-button label="Import" type="button "class="p-button-text"></p-button>
-                <p-button (click)="cancelCSVClick()" label="Cancel"></p-button>
+                <p-button (click)="displayModaCSVl=false" label="Cancel"></p-button>
             </ng-template>
     </p-dialog>
 </form>
-
-<button (click)="checkFile()">File</button>

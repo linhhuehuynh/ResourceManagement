@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/resourcecolumn")
 public class ResourceColumnController {
@@ -54,7 +55,7 @@ public class ResourceColumnController {
     public ResponseEntity<?> deleteResourceColumnById(@PathVariable int columnId) {
         Optional<ResourceColumn> existResoureColumn = resourceColumnService.deleteColumnNameById(columnId);
         if (existResoureColumn.isPresent()) {
-            return new ResponseEntity<>("Deleted Column Name Successfully!", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>("Column Name Not Found!", HttpStatus.NOT_FOUND);
     }
