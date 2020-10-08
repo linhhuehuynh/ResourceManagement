@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <p-table #dt [value]="displayResourceRowList" dataKey="id"
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="isLoading"
+        [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [filterDelay]="0" [globalFilterFields]="['name','code']">
+        [filterDelay]="0" [globalFilterFields]="['resource.name','resource.name']">
 
         <ng-template pTemplate="caption">
             <p-toolbar>
