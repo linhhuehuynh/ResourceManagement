@@ -12,9 +12,9 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-column >
                     <tr>
-                        <td>{{column.columnName}}</td>
-                        <td><p-checkbox [value]="column.columnName" [(ngModel)]="selectedColumns"
-                            [inputId]="column.columnName" [disabled]="column.columnName==='name'"></p-checkbox></td>
+                        <td>{{column.projectColumnName}}</td>
+                        <td><p-checkbox [value]="column.projectColumnName" [(ngModel)]="selectedColumns"
+                            [inputId]="column.projectColumnName" [disabled]="column.projectColumnName==='name'"></p-checkbox></td>
                         <!-- <td><div class="p-field-checkbox">
                             <p-checkbox [(ngModel)]="checkedList" binary="true" inputId="binary"></p-checkbox>
                             <label for="binary"></label>

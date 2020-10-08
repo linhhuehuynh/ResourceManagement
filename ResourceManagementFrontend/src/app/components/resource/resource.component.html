@@ -21,7 +21,7 @@
             <tr>
                 <th>RESOURCE NAME</th>
                 <th>RESOURCE CODE</th>
-                <th *ngFor="let header of headers">
+                <th *ngFor="let header of displayHeaders">
                     {{header.resourceColumnName}}
                     <div ngbDropdown class="d-inline-block">
                         <i ngbDropdownToggle></i>
@@ -81,8 +81,10 @@
         </ng-template>
         
     </p-table>
-    <p-button [style]="{width:'auto'}" label="Submit"></p-button>
-    <p-button [style]="{'width':'auto', 'padding-left':'1rem'}" label="Discard"></p-button>
+
+    <p-button [style]="{width:'auto'}" label="Submit" (click)="submitClicked()"></p-button>
+    <p-button [style]="{'width':'auto', 'padding-left':'1rem'}" label="Discard" (click)="discardClicked()"></p-button>
+
 
 <!----------------------------ADD COLUMN MODAL-------------------------->
 <form  (ngSubmit)="onSubmitColumn()">

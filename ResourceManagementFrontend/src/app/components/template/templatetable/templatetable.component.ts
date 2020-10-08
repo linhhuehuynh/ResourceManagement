@@ -6,6 +6,8 @@ import { Type } from './template.model'
 import { TemplateService } from './template.service'
 import { ProjectDisplayService } from '../../project-display-table/project-display.service'
 import { ProjectColumn } from '../../../model/project-col.model'
+import { ProjectSelectorService } from '../../project-selector/project-selector.service'
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-templatetable',
@@ -19,13 +21,17 @@ export class TemplatetableComponent implements OnInit {
   fields = [];
 
   // public columns = [{columnName:"name",columnId:null},{columnName:"cost_code",columnId:null},{columnName:"ediable",columnId:null},{columnName:"item_id",columnId:null}];//column name,column_id
-  public columns:Column[];
+  public columns:ProjectColumn[];
+
+  public resultColumns:ProjectColumn[];//selected+newlist
 
   public columnNames:string[] = [];
   
   //projectcolumn getall by projectid,name->project name,cost_code->project_code saved 
 
-  public newColumns: any[];
+  public newColumns: ProjectColumn[];
+
+  public newColumnsId: number[];
 
   public selectedColumns: any[];
 
@@ -49,37 +55,43 @@ export class TemplatetableComponent implements OnInit {
   message:any;
   title:string;
 
-  public projectId = 1;
+  // public projectId = 1;
   projectColList: ProjectColumn[];
 
+  selectedProjectId: number;
 
-  constructor(private templateService:TemplateService, private router:Router,private projectDisplayService: ProjectDisplayService) {
+  constructor(private templateService:TemplateService, private router: Router,private projectSelectorService: ProjectSelectorService,private projectDisplayService:ProjectDisplayService) {
     // this.types= [{name:'Text'},{name:'Number'},{name:'Formula'}];
     this.columns = [];
     this.selectedColumns = [];
-    this.selectedTypes = []
+    this.selectedTypes = [];
+    this.newColumns = [];
+    this.newColumnsId = [];
+    this.resultColumns=[];
     }
 
   ngOnInit(): void {
     this.columns = [];
     this.selectedColumns = [];
     this.selectedTypes = []
-    
-
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id=>this.selectedProjectId=id);
+    this.newColumns = [];
+    this.newColumnsId = [];
   // getcolumns,+columns(name,id)
     // this.selectedColumns.push(this.columns[0]);
     // this.templateService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
-    this.templateService.getProjectColList(this.projectId).subscribe(
+    this.templateService.getProjectColList(this.selectedProjectId).subscribe(
       res=>{for(let projectcolumn of res) {
         if(projectcolumn.projectColumnName==='name') {
           this.selectedColumns.push(projectcolumn.projectColumnName);
         }
-        this.columns.push({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id,columnType:projectcolumn.columnType});
-        console.log({columnName:projectcolumn.projectColumnName,columnId:projectcolumn.id,columnType:projectcolumn.columnType})
+        this.columns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
+        // console.log({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType})
       }
       
       // this.selectedColumns.push(this.columns[0]);
     });
+    
     console.log(this.selectedColumns);
   }
 
@@ -108,8 +120,9 @@ export class TemplatetableComponent implements OnInit {
 
   SaveNewTemplate(templates:Template[]) {
     let signal = true;
+    let Rowlist = this.projectDisplayService.getLoadedProjectRowList();
     for(let column of this.columns) {
-      this.columnNames.push(column.columnName);
+      this.columnNames.push(column.projectColumnName);
     }
     for(let template of templates) {
       if(template.projectColumnName === "") {
@@ -125,33 +138,96 @@ export class TemplatetableComponent implements OnInit {
       }
     }
     console.log(templates)
-    if((templates.length != 0)&&(signal)) {
-      this.templateService.saveTemplates(templates,this.projectId).subscribe(
+    for(let template of templates) {
+    this.templateService.createColumn(template,this.selectedProjectId).subscribe(
         res=>{
-          for(let template of templates) {
-            console.log(template);
-            console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
-            this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
-            this.DeleteTheTemplate(template);
-            console.log(template)
+          this.columns.push(res);
+          // this.newColumns.push(res);
+          // this.newColumnsId.push(res.id);
+          this.DeleteTheTemplate(template);
+          this.resultColumns.push(res);
+          for(let row of Rowlist) {
+            this.Addnewitems(row.id,res.id); //Add item
           }
-          this.success=true;
-          this.message="You have saved templates successfully.";
-          this.title="Thank you";
-          
-        },
-        error =>{
-          this.success=false;
-          this.message=error;
-          this.title="An error occurred.";
         }
       )
     }
-    console.log(this.templates);
-    console.log(this.selectedColumns);
-    console.log(this.message)
-    setTimeout(() => this.router.navigate(["/project"]), 2000)
+    // this.templateService.getProjectColList(this.selectedProjectId).subscribe(
+    //   res=>{for(let projectcolumn of res) {
+    //     // if(projectcolumn.projectColumnName==='name') {
+    //     //   this.selectedColumns.push(projectcolumn.projectColumnName);
+    //     // }
+    //     this.resultColumns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
+    //     // console.log({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType})
+    //   }
+      
+    //   // this.selectedColumns.push(this.columns[0]);
+    // })
+    // console.log(this.resultColumns);
+    // console.log(this.columns)
+    // console.log(this.newColumns)
+    // console.log(this.newColumnsId);
+    // console.log(Rowlist);
+    // console.log(this.columns.length)
+    // console.log(this.columns[this.columns.length-1])
+    // for(let columnId of this.newColumnsId) {
+    //   for(let Row of Rowlist) {
+    //     this.templateService.createItem(Row.id,columnId).subscribe(
+    //       res=>{
+    //         console.log(res)
+    //       }
+    //     );
+    //   }
+    // }
+    // this.Addnewitems(Rowlist[0].id, this.columns[this.columns.length-1].id)
+    // this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
+    //   res=>{
+    //           for(let template of templates) {
+    //             console.log(template);
+    //             console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
+    //             this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
+    //             this.DeleteTheTemplate(template);
+    //             // console.log(template)
+    //           }
+    //         }
+    // )
+    // if((templates.length != 0)&&(signal)) {
+    //   this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
+    //     res=>{
+    //       for(let template of templates) {
+    //         console.log(template);
+    //         console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
+    //         this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
+    //         this.DeleteTheTemplate(template);
+    //         // console.log(template)
+    //       }
+    //       this.success=true;
+    //       this.message="You have saved templates successfully.";
+    //       this.title="Thank you";
+          
+    //     },
+    //     error =>{
+    //       this.success=false;
+    //       this.message=error;
+    //       this.title="An error occurred.";
+    //     }
+    //   )
+    // }
+    // console.log(this.templates);
+    // console.log(this.selectedColumns);
+    // console.log(this.message)
+    // setTimeout(() => this.router.navigate(["/project"]), 2000)
     // //delete all,alert=>dialog
+    // this.Addnewitems(Rowlist[0].id, this.newColumnsId)
+    console.log(this.selectedColumns)
+    for(let name of this.selectedColumns) {
+      for(let col of this.columns) {
+        if(col.projectColumnName === name) {
+          this.resultColumns.push(col);
+        }
+      }
+    }
+    console.log(this.resultColumns)
   }
 
   onChangeTypes(event,template:Template) {
@@ -165,7 +241,10 @@ export class TemplatetableComponent implements OnInit {
   //dialog
   //logout savelist(columntype:undefined),app-selector css, table css, logout(newsave+selected),logout(newsave)(property)newcreateditem in db
 
-
-
+  Addnewitems(rowId:number,colId:number) {
+    this.templateService.createItem(rowId,colId).subscribe(res=>{
+      console.log(res);
+    })
+  }
   //templates delete check
 }

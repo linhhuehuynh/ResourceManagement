@@ -7,6 +7,7 @@
     justify-content: flex-start;
     width: 10%;
 }
+
 .container{
     display: flex;
     justify-content: flex-end;
