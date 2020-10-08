@@ -34,6 +34,7 @@ import {MessageModule} from 'primeng/message';
 import {DialogModule} from 'primeng/dialog';
 
 
+
 import {TableModule} from 'primeng/table';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -87,7 +88,6 @@ import { ResourceComponent } from './components/resource/resource.component';
     DialogModule,
     PasswordModule,
     TieredMenuModule,
-
     FormsModule,
     HttpClientModule,
     MatSidenavModule,

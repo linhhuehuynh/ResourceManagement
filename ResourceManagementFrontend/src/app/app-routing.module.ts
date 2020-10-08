@@ -14,10 +14,12 @@ const routes: Routes = [
   {path:'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'project', component: ProjectDisplayTableComponent, canActivate:[AuthGuard] },
-  {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
+  // {path:'templatetable',component:TemplatetableComponent, canActivate:[AuthGuard]},
+  {path: 'templatetable',component:TemplatetableComponent},
   {path: 'projectselector', component: ProjectSelectorComponent},
-  {path: 'resourceselect', component: ResourceSelectComponent},
+  {path: 'resourceselect', component: ResourceSelectComponent, canActivate:[AuthGuard]},
   {path: 'resource', component: ResourceComponent, canActivate:[AuthGuard]},
+  
   // {path:'**', component: ErrorComponent}
 ];
 

@@ -12,3 +12,10 @@ export class Type {
     label:string;
     columnType:string;
 }
+export class ProjectCol {
+    projectColumnName:string;
+    columnType:string;
+    project:{
+        id:number;
+    }
+}
