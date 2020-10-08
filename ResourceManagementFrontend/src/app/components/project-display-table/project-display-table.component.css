@@ -1,3 +1,14 @@
+
+:host ::ng-deep #selector {
+    width: fit-content;
+    align-self: flex-end;
+}
+
+:host ::ng-deep app-project-selector {
+    justify-content: flex-start;
+    width: 10%;
+}
+
 #display-table {
     margin: 3vw 3vw 1.5vw 3vw;
 

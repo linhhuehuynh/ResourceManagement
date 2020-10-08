@@ -21,7 +21,7 @@
             <tr>
                 <th>RESOURCE NAME</th>
                 <th>RESOURCE CODE</th>
-                <th *ngFor="let header of headers">
+                <th *ngFor="let header of displayHeaders">
                     {{header.resourceColumnName}}
                         <i style="float: right;"  class="fas fa-caret-down"  (click)="colMenu.toggle($event)"></i>
                         <p-menu appendTo="body"  #colMenu [popup]="true" [model]="editColumnMenu"></p-menu>
@@ -74,10 +74,9 @@
                 <td colspan="6">No data found.</td>
             </tr>
         </ng-template>
-        
     </p-table>
-    <p-button [style]="{width:'auto'}" label="Submit"></p-button>
-    <p-button [style]="{'width':'auto', 'padding-left':'1rem'}" label="Discard"></p-button>
+    <p-button [style]="{width:'auto'}" label="Submit" (click)="submitClicked()"></p-button>
+    <p-button [style]="{'width':'auto', 'padding-left':'1rem'}" label="Discard" (click)="discardClicked()"></p-button>
 
 <!-- Add New Column Modal   -->
 <form  (ngSubmit)="onSubmitColumn()">
@@ -104,5 +103,3 @@
             </ng-template>
     </p-dialog>
 </form>
-
-<button (click)="checkFile()">File</button>

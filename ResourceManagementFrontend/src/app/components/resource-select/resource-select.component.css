@@ -1,3 +1,13 @@
+:host ::ng-deep #selector {
+    width: fit-content;
+    align-self: flex-end;
+}
+
+:host ::ng-deep app-project-selector {
+    justify-content: flex-start;
+    width: 10%;
+}
+
 #display-area {
     width: 95vw;
     padding: 1.5vw;
