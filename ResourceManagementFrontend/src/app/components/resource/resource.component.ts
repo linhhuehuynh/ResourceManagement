@@ -19,6 +19,7 @@ import { ResourceItem } from './resource-item/resource-item.model';
 export class ResourceComponent implements OnInit {
 
   displayResourceRowList: ResourceRow[];
+  displayHeaders: ResourceCol[];
   
   isLoading = false;
   resourceRowList: ResourceRow[];
@@ -39,14 +40,17 @@ export class ResourceComponent implements OnInit {
   @ViewChild('dt') table: Table;
 
   constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {
+    
+   }
+
+  ngOnInit() {
+
     this.headers =[];
     this.isFileLoaded = false;
     this.uploadedFile = null;
     this.inputResourceRowList = [];
     this.inputHeaders = [];
-   }
 
-  ngOnInit() {
     this.resourceItem.getResource().then(data => {
 
       // this.defaultResourceList = data;
@@ -61,7 +65,10 @@ export class ResourceComponent implements OnInit {
     .subscribe(columns => {
       // this.isLoading=true
       if(columns == null) {} 
-      else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
+      else {
+        this.headers = columns.sort((a, b) => {return a.id - b.id})
+        this.displayHeaders = this.headers;
+      }
     });
 
     this.items = [
@@ -205,6 +212,7 @@ export class ResourceComponent implements OnInit {
           this.inputResourceRowList.push(tmpResourceRow);
         }
         console.log(this.inputResourceRowList);
+        this.displayHeaders = [];
         this.displayResourceRowList = this.inputResourceRowList;
       }
     } else {
@@ -223,5 +231,36 @@ export class ResourceComponent implements OnInit {
     console.log(this.isFileLoaded);
     console.log(this.uploadedFile)
   }
+
+  submitClicked() {
+    if(this.isFileLoaded) {
+      this.saveFile();
+    } else {
+
+    }
+  }
+
+  saveFile() {
+    this.resourceService.saveInputCSV(this.inputResourceRowList).then(res => {
+      window.location.reload();
+    });
+  }
   
+  discardClicked() {
+    if(this.isFileLoaded) {
+      this.noSaveFile();
+    } else {
+
+    }
+  }
+
+  noSaveFile() {
+    this.uploadedFile = null;
+    this.inputResourceRowList = null;
+    this.inputHeaders = null;
+    this.isFileLoaded = false;
+
+    this.displayResourceRowList = this.resourceRowList;
+    this.displayHeaders = this.headers;
+  }
 }
