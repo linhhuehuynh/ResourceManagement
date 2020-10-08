@@ -51,10 +51,12 @@ export class ResourceItemService {
     return this.http.post(`${BACKEND_URL}/resourceitem`, item);
   }
 
+
   emptyData() {
     this.resources = [];
     this.resourceRowList = []
   }
+
 
 
 

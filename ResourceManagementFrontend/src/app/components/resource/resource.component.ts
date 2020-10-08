@@ -19,7 +19,9 @@ import { ResourceItem } from './resource-item/resource-item.model';
 export class ResourceComponent implements OnInit {
 
   displayResourceRowList: ResourceRow[];
+
   displayHeaders: ResourceCol[];
+
   
   isLoading = false;
   resourceRowList: ResourceRow[];
@@ -40,10 +42,12 @@ export class ResourceComponent implements OnInit {
   @ViewChild('dt') table: Table;
 
   constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {
+
     
    }
 
   ngOnInit() {
+
 
     this.initData();
 
@@ -106,6 +110,7 @@ export class ResourceComponent implements OnInit {
       }
     });
   }
+
 
   //Add New Row
   addNewRow(){
@@ -245,6 +250,7 @@ export class ResourceComponent implements OnInit {
       this.initData();
       alert("Imported CSV Seccessfully!");
     });
+
   }
   
   discardClicked() {
