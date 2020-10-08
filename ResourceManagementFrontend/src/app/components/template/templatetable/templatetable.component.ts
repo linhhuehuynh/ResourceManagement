@@ -83,7 +83,7 @@ export class TemplatetableComponent implements OnInit {
     // this.templateService.getProjectColList(this.projectId).then(data => {this.projectColList = data});
     this.templateService.getProjectColList(this.selectedProjectId).subscribe(
       res=>{for(let projectcolumn of res) {
-        if(projectcolumn.projectColumnName==='name') {
+        if(projectcolumn.projectColumnName==='NAME') {
           this.selectedColumns.push(projectcolumn.projectColumnName);
         }
         this.columns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
