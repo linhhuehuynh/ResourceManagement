@@ -11,7 +11,6 @@ import { ResourceCol } from './resource-col/resource-col.model';
 import { ResourceItem } from './resource-item/resource-item.model';
 
 
-
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.component.html',
@@ -20,7 +19,6 @@ import { ResourceItem } from './resource-item/resource-item.model';
 export class ResourceComponent implements OnInit {
 
   displayResourceRowList: ResourceRow[];
-
   displayHeaders: ResourceCol[];
 
   
@@ -29,7 +27,6 @@ export class ResourceComponent implements OnInit {
   headers: ResourceCol[];
 
   items: MenuItem[];
-  editColumnMenu: MenuItem[];
   newColName: string;
   editColName: string;
   editColId: number;
@@ -45,13 +42,10 @@ export class ResourceComponent implements OnInit {
 
   @ViewChild('dt') table: Table;
 
-  constructor(private resourceService: ResourceService, private authService: AuthService, private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {
-
-    
-   }
+  constructor( private resourceService: ResourceService, private authService: AuthService, 
+    private resourceItem:ResourceItemService, private resourceCol: ResourceColService) {}
 
   ngOnInit() {
-
 
     this.initData();
 
@@ -74,7 +68,6 @@ export class ResourceComponent implements OnInit {
     ]
   }
 
-
   initData() {
     this.headers =[];
     this.isFileLoaded = false;
@@ -83,9 +76,6 @@ export class ResourceComponent implements OnInit {
     this.inputHeaders = [];
 
     this.resourceItem.getResource().then(data => {
-
-      // this.defaultResourceList = data;
-      // this.isLoading=true;
       this.resourceItem.getResourceItemList().then(response => {
         this.resourceRowList = response;
         this.displayResourceRowList = this.resourceRowList;
@@ -94,7 +84,6 @@ export class ResourceComponent implements OnInit {
 
     this.resourceCol.getAllResourceColumnName()
     .subscribe(columns => {
-      // this.isLoading=true
       if(columns == null) {} 
       else {
         this.headers = columns.sort((a, b) => {return a.id - b.id})
@@ -104,7 +93,7 @@ export class ResourceComponent implements OnInit {
   }
 
 
- //ADD NEW ROW
+ //-----------------------------ADD NEW ROW-----------------------------------------
   addNewRow(){
     let newRow = new ResourceRow();
     newRow.resource = new Resource();
@@ -114,7 +103,7 @@ export class ResourceComponent implements OnInit {
 
   }
 
-// ADD NEW COLUMN
+//-----------------------------ADD NEW COLUMN----------------------------------------
   showModalDialogColumn() {
     this.displayModalColumn = true;
   } 
@@ -122,7 +111,6 @@ export class ResourceComponent implements OnInit {
   onSubmitColumn() {
     const col = new ResourceCol();
     col.resourceColumnName = this.newColName;
-    this.headers.push(col);
 
     this.resourceCol.createResourceColumn(col).subscribe((data:any) => {
       col.id = data.id;
@@ -140,15 +128,27 @@ export class ResourceComponent implements OnInit {
         item.resourceColumn.id = col.id;
 
         this.resourceItem.createResourceExtraItem(item).subscribe();
-        console.log(item)
   
         row.itemList.push(item);
       } )
+
+      this.resourceItem.getResource().then(data => {
+        this.resourceItem.getResourceItemList().then(response => {
+          this.resourceRowList = response;
+          this.displayResourceRowList = this.resourceRowList;
+        });
+      })
+
+      this.resourceCol.getAllResourceColumnName().subscribe(columns => {
+        if(columns == null) {} 
+        else {this.displayHeaders = columns.sort((a, b) => {return a.id - b.id})}
+      });
     });
+
     this.displayModalColumn=false;
   }
 
-// EDIT COLUMN NAME
+//-----------------------------EDIT COLUMN NAME----------------------------------------
   showModalEditColumn(id: number) {
   this.displayModalEditColumn = true;
   this.editColId = id
@@ -161,24 +161,40 @@ export class ResourceComponent implements OnInit {
   this.resourceCol.updateResourceColumn(col).subscribe(() => {
     this.resourceCol.getAllResourceColumnName().subscribe(columns => {
       if(columns == null) {} 
-      else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
-    });
-  })
+      else {this.displayHeaders = columns.sort((a, b) => {return a.id - b.id})}
+      });
+    })
   
-  this.displayModalEditColumn=false;
+    this.displayModalEditColumn=false;
   }
 
-// DELETE A COLUMN
+//------------------------------DELETE A COLUMN----------------------------------------
   onDeleteColumn(col: ResourceCol) {
-    console.log(col);
-    console.log(this.headers)
-    this.resourceCol.deleteColumnById(col).subscribe();
-    this.headers = this.headers.filter(header => col.id !== header.id)
-    this.resourceRowList.forEach(row => row.itemList = null);
+    this.resourceCol.deleteColumnById(col).subscribe(()=> {
+    this.displayHeaders = this.displayHeaders.filter(header => col.id !== header.id)
+    this.displayResourceRowList.forEach(row => row.itemList = null)
+    });
+  }
+
+//------------------------------EDIT EACH ITEM----------------------------------------
+  defaultResourceUpdated(resource: Resource) {
+    if(!resource.changed) {
+      resource.changed = true;
+    }
+  }
+
+  itemUpdated(item: ResourceItem) {
+    if(!item.changed) {
+      item.changed = true;
+    }
+  }
+
+  saveEditItems() {
+    this.displayResourceRowList = this.resourceItem.saveChangedItems(this.displayResourceRowList);
   }
 
  
-// Import CSV File
+//-------------------------------IMPORT CSV FILE----------------------------------------
   showModalDialogCSV() {
     this.displayModalCSV = true;
   }
@@ -251,7 +267,8 @@ export class ResourceComponent implements OnInit {
     if(this.isFileLoaded) {
       this.saveFile();
     } else {
-
+      this.saveEditItems();
+      alert("Updated resource successfully!")
     }
   }
 
@@ -259,7 +276,7 @@ export class ResourceComponent implements OnInit {
     this.resourceService.saveInputCSV(this.inputResourceRowList).then(res => {
       this.resourceItem.emptyData();
       this.initData();
-      alert("Imported CSV Seccessfully!");
+      alert("Imported CSV successfully!");
     });
 
   }
@@ -268,7 +285,7 @@ export class ResourceComponent implements OnInit {
     if(this.isFileLoaded) {
       this.noSaveFile();
     } else {
-
+     
     }
   }
 

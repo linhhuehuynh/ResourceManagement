@@ -20,7 +20,7 @@ export class ResourceItemService {
     this.resourceRowList = []
    }
 
-   getResource() {
+  getResource() {
     return this.http.get<Resource[]>(BACKEND_URL + '/resource')
     .toPromise()
     .then(res => {
@@ -58,23 +58,33 @@ export class ResourceItemService {
   }
 
 
+  saveChangedItems(resourceRowList: ResourceRow[]) {
+    resourceRowList.forEach(row => {
 
+    //update default resource
+      if(row.resource.changed) {
+        this.http.put(`${BACKEND_URL}/resource/${row.resource.id}`, row.resource).subscribe();
+        row.resource.changed = false;
+      }
 
-  // saveChanges(projectRowDisplayList: ProjectRowDisplay[]) {
-  //   for(let projectRow of projectRowDisplayList) {
-  //     for(let item of projectRow.itemList) {
-  //       if(item.changed) {
-  //         this.http.put(BACKEND_URL + '/projectitem/' + item.id, 
-  //         {
-  //           value: item.value,
-  //           projectRow: {id: item.projectRow.id},
-  //           projectColumn: {id: item.projectColumn.id}
-  //         }
-  //         ).subscribe(data => {alert("Update Successfully!")});
-  //         item.changed = false;
-  //       }
-  //     }
-  //   }
-  //   return projectRowDisplayList;
-  // }
+    //update resource item
+      if (row.itemList != undefined){
+        row.itemList.forEach(item => {
+          if (item.changed) {
+            this.http.put(`${BACKEND_URL}/resourceitem/${item.id}`,
+            {
+              resourceExtraItemValue: item.resourceExtraItemValue,
+              resource: {id: row.resource.id},
+              resourceColumn: {id: item.resourceColumn.id}
+            }
+            ).subscribe();
+            item.changed = false;
+          }
+        })
+      }
+    })
+    
+    console.log("Saved new list: " + resourceRowList);
+    return resourceRowList;
+  }
 }
