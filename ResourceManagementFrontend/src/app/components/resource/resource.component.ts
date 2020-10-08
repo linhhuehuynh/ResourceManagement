@@ -45,31 +45,7 @@ export class ResourceComponent implements OnInit {
 
   ngOnInit() {
 
-    this.headers =[];
-    this.isFileLoaded = false;
-    this.uploadedFile = null;
-    this.inputResourceRowList = [];
-    this.inputHeaders = [];
-
-    this.resourceItem.getResource().then(data => {
-
-      // this.defaultResourceList = data;
-      // this.isLoading=true;
-      this.resourceItem.getResourceItemList().then(response => {
-        this.resourceRowList = response;
-        this.displayResourceRowList = this.resourceRowList;
-      });
-    })
-
-    this.resourceCol.getAllResourceColumnName()
-    .subscribe(columns => {
-      // this.isLoading=true
-      if(columns == null) {} 
-      else {
-        this.headers = columns.sort((a, b) => {return a.id - b.id})
-        this.displayHeaders = this.headers;
-      }
-    });
+    this.initData();
 
     this.items = [
     {
@@ -101,6 +77,34 @@ export class ResourceComponent implements OnInit {
           command: (e) => this.onDeleteColumn(e)
       }
       ]
+  }
+
+  initData() {
+    this.headers =[];
+    this.isFileLoaded = false;
+    this.uploadedFile = null;
+    this.inputResourceRowList = [];
+    this.inputHeaders = [];
+
+    this.resourceItem.getResource().then(data => {
+
+      // this.defaultResourceList = data;
+      // this.isLoading=true;
+      this.resourceItem.getResourceItemList().then(response => {
+        this.resourceRowList = response;
+        this.displayResourceRowList = this.resourceRowList;
+      });
+    })
+
+    this.resourceCol.getAllResourceColumnName()
+    .subscribe(columns => {
+      // this.isLoading=true
+      if(columns == null) {} 
+      else {
+        this.headers = columns.sort((a, b) => {return a.id - b.id})
+        this.displayHeaders = this.headers;
+      }
+    });
   }
 
   //Add New Row
@@ -227,11 +231,6 @@ export class ResourceComponent implements OnInit {
     this.displayModalCSV = false;
   }
 
-  checkFile() {
-    console.log(this.isFileLoaded);
-    console.log(this.uploadedFile)
-  }
-
   submitClicked() {
     if(this.isFileLoaded) {
       this.saveFile();
@@ -242,7 +241,9 @@ export class ResourceComponent implements OnInit {
 
   saveFile() {
     this.resourceService.saveInputCSV(this.inputResourceRowList).then(res => {
-      window.location.reload();
+      this.resourceItem.emptyData();
+      this.initData();
+      alert("Imported CSV Seccessfully!");
     });
   }
   
@@ -262,5 +263,6 @@ export class ResourceComponent implements OnInit {
 
     this.displayResourceRowList = this.resourceRowList;
     this.displayHeaders = this.headers;
+    alert("Canceled The CSV Import!");
   }
 }
