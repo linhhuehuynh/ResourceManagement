@@ -30,26 +30,35 @@ export class ProjectDisplayTableComponent implements OnInit {
         this.isLoading = false;
       }
     )
-    if(!this.projectDisplayService.loaded) {
-      this.isLoading=true;
-      this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
-        this.selectedProjectId = id;
+    
+    this.isLoading=true;
+    this.projectSelectorService.selectedProjectIdObservable.subscribe(id => {
+      this.selectedProjectId = id;
+      if(!this.projectDisplayService.tempelateChange) {
+        this.projectDisplayService.loaded = false;
+      }
+      if(!this.projectDisplayService.loaded) {
         this.projectDisplayService.getProjectColList(this.selectedProjectId).then(data => {this.projectColList = data});
-        this.projectDisplayService.getProjectRowList(this.selectedProjectId)
-        .then(data => {
-          this.projectRowList = data;
+      } else {
+        this.projectColList = this.projectDisplayService.getLoadedProjectColumnList();
+      }
+      this.projectDisplayService.getProjectRowList(this.selectedProjectId)
+      .then(data => {
+        this.projectRowList = data;
+        if(!this.projectDisplayService.loaded) {
           this.projectRowDisplayList = this.projectDisplayService.getProjectItemList();
-        });
+          this.projectDisplayService.loaded = true;
+        } else {
+          this.projectDisplayService.getLoadedProjectRowDisplayList().then(res => {
+            this.projectRowDisplayList = res;
+            this.projectDisplayService.tempelateChange = false;
+          });
+        }
       });
-      
-      this.projectDisplayService.loaded = true;
-    } else {
-      this.isLoading=true;
-      this.projectColList = this.projectDisplayService.getLoadedProjectColumnList();
-      this.projectRowList = this.projectDisplayService.getLoadedProjectRowList();
-      this.projectRowDisplayList = this.projectDisplayService.getLoadedProjectRowDisplayList();
-      console.log("Not getting data");
-    }
+    });
+    
+    
+    
   }
 
   save() {
@@ -60,15 +69,5 @@ export class ProjectDisplayTableComponent implements OnInit {
     if(!item.changed) {
       item.changed = true;
     }
-  }
-
-  cols() {
-    console.log(this.projectColList);
-  }
-  rows() {
-    console.log(this.projectRowList);
-  }
-  items() {
-    console.log(this.projectRowDisplayList);
   }
 }
