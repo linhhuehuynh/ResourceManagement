@@ -61,5 +61,7 @@ public class ResourceColumnService {
         return Optional.empty();
     }
 
+    public void deleteAllColumns() { resourceColumnDao.deleteAll();
+    }
 
 }

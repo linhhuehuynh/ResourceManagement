@@ -58,4 +58,11 @@ public class ResourceColumnController {
         }
         return new ResponseEntity<>("Column Name Not Found!", HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteAllResourceColumn() {
+        resourceColumnService.deleteAllColumns();
+        return new ResponseEntity<>("Deleted All ResourceColumns Successfully!", HttpStatus.OK);
+    }
+
 }
