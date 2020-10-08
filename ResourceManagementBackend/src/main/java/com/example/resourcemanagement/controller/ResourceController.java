@@ -54,7 +54,7 @@ public class ResourceController {
     public ResponseEntity<?> setResourceById(@RequestBody Resource resource, @PathVariable Integer id) {
         Optional<Resource> existResource = resourceService.setResourceById(resource, id);
         if (existResource.isPresent()) {
-            return new ResponseEntity<>("Updated resource Successfully", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>("Resource Not Found!", HttpStatus.NOT_FOUND);
     }
