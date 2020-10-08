@@ -11,6 +11,7 @@ import { ResourceCol } from './resource-col/resource-col.model';
 import { ResourceItem } from './resource-item/resource-item.model';
 
 
+
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.component.html',
@@ -30,8 +31,11 @@ export class ResourceComponent implements OnInit {
   items: MenuItem[];
   editColumnMenu: MenuItem[];
   newColName: string;
+  editColName: string;
+  editColId: number;
   isNewRow = false;
   displayModalColumn: boolean;
+  displayModalEditColumn: boolean;
   displayModalCSV: boolean;
 
   uploadedFile: File;
@@ -68,20 +72,8 @@ export class ResourceComponent implements OnInit {
         command: () => this.showModalDialogCSV()
     }
     ]
-
-    this.editColumnMenu = [
-      {
-          label: 'Edit Column',
-          icon: 'far fa-edit',
-          command: () => console.log("edit column"),
-      },
-      {
-          label: 'Delete Column',
-          icon: 'fas fa-trash-alt',
-          command: (e) => this.onDeleteColumn(e)
-      }
-      ]
   }
+
 
   initData() {
     this.headers =[];
@@ -112,7 +104,7 @@ export class ResourceComponent implements OnInit {
   }
 
 
-  //Add New Row
+ //ADD NEW ROW
   addNewRow(){
     let newRow = new ResourceRow();
     newRow.resource = new Resource();
@@ -122,7 +114,7 @@ export class ResourceComponent implements OnInit {
 
   }
 
-  // Add New Column
+// ADD NEW COLUMN
   showModalDialogColumn() {
     this.displayModalColumn = true;
   } 
@@ -156,18 +148,35 @@ export class ResourceComponent implements OnInit {
     this.displayModalColumn=false;
   }
 
+// EDIT COLUMN NAME
+  showModalEditColumn(id: number) {
+  this.displayModalEditColumn = true;
+  this.editColId = id
+  } 
+
+  editColumn(col: ResourceCol){
+  col.resourceColumnName = this.editColName;
+  col.id = this.editColId;
+
+  this.resourceCol.updateResourceColumn(col).subscribe(() => {
+    this.resourceCol.getAllResourceColumnName().subscribe(columns => {
+      if(columns == null) {} 
+      else {this.headers = columns.sort((a, b) => {return a.id - b.id})}
+    });
+  })
+  
+  this.displayModalEditColumn=false;
+  }
+
+// DELETE A COLUMN
   onDeleteColumn(col: ResourceCol) {
-    // console.log(col)
-    // this.resourceCol.deleteColumnById(col).subscribe(()=> console.log(col))
-
+    this.resourceCol.deleteColumnById(col).subscribe();
     this.headers = this.headers.filter(header => col.id !== header.id)
-
     this.resourceRowList.forEach(row => row.itemList = null);
   }
 
  
-
-  // Import CSV File
+// Import CSV File
   showModalDialogCSV() {
     this.displayModalCSV = true;
   }

@@ -26,6 +26,16 @@
     width: 30px
 }
 
+.dropdown-menu.show {
+    border-radius: 0;
+    padding-right: 0;
+}
+
+.dropdown-item {
+    /* font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif; */
+    padding: 0.5em 0em 0.5em 1em
+}
+
 /* :host ::ng-deep .ng-trigger .ng-trigger-overlayAnimation .p-menu-overlay {
     position: fixed;
 } */

@@ -22,8 +22,11 @@ export class ResourceColService {
     return this.http.post(BACKEND_URL + '/resourcecolumn', col);
   }
 
+  updateResourceColumn(col: ResourceCol): Observable<ResourceCol> {
+    return this.http.put<ResourceCol>(`${BACKEND_URL}/resourcecolumn/${col.id}`, col);
+  }
+
   deleteColumnById(col: ResourceCol): Observable<ResourceCol> {
-    console.log(`service${col.id}`)
     return this.http.delete<ResourceCol>(`${BACKEND_URL}/resourcecolumn/${col.id}`);
   }
 
