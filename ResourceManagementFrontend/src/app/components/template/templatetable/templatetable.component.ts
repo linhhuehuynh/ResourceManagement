@@ -219,7 +219,6 @@ export class TemplatetableComponent implements OnInit {
     // setTimeout(() => this.router.navigate(["/project"]), 2000)
     // //delete all,alert=>dialog
     // this.Addnewitems(Rowlist[0].id, this.newColumnsId)
-    console.log(this.selectedColumns)
     for(let name of this.selectedColumns) {
       for(let col of this.columns) {
         if(col.projectColumnName === name) {
@@ -227,7 +226,11 @@ export class TemplatetableComponent implements OnInit {
         }
       }
     }
-    console.log(this.resultColumns)
+    console.log("new col")
+    console.log(this.resultColumns);
+    this.projectDisplayService.tempelateChange = true;
+    this.projectDisplayService.updateData(this.resultColumns);
+    this.router.navigate(["/project"]);
   }
 
   onChangeTypes(event,template:Template) {
