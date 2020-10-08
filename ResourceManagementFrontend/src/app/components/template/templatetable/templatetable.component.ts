@@ -154,71 +154,7 @@ export class TemplatetableComponent implements OnInit {
             break;
           }  
         }
-      // this.templateService.getProjectColList(this.selectedProjectId).subscribe(
-      //   res=>{for(let projectcolumn of res) {
-      //     // if(projectcolumn.projectColumnName==='name') {
-      //     //   this.selectedColumns.push(projectcolumn.projectColumnName);
-      //     // }
-      //     this.resultColumns.push({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType});
-      //     // console.log({projectColumnName:projectcolumn.projectColumnName,id:projectcolumn.id,columnType:projectcolumn.columnType})
-      //   }
-        
-      //   // this.selectedColumns.push(this.columns[0]);
-      // })
-      // console.log(this.resultColumns);
-      // console.log(this.columns)
-      // console.log(this.newColumns)
-      // console.log(this.newColumnsId);
-      // console.log(Rowlist);
-      // console.log(this.columns.length)
-      // console.log(this.columns[this.columns.length-1])
-      // for(let columnId of this.newColumnsId) {
-      //   for(let Row of Rowlist) {
-      //     this.templateService.createItem(Row.id,columnId).subscribe(
-      //       res=>{
-      //         console.log(res)
-      //       }
-      //     );
-      //   }
-      // }
-      // this.Addnewitems(Rowlist[0].id, this.columns[this.columns.length-1].id)
-      // this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
-      //   res=>{
-      //           for(let template of templates) {
-      //             console.log(template);
-      //             console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
-      //             this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
-      //             this.DeleteTheTemplate(template);
-      //             // console.log(template)
-      //           }
-      //         }
-      // )
-      // if((templates.length != 0)&&(signal)) {
-      //   this.templateService.saveTemplates(templates,this.selectedProjectId).subscribe(
-      //     res=>{
-      //       for(let template of templates) {
-      //         console.log(template);
-      //         console.log({columnName:template.projectColumnName,columnId:null,columnType:template.columnType})
-      //         this.columns.push({columnName:template.projectColumnName,columnType:template.columnType,columnId:null});
-      //         this.DeleteTheTemplate(template);
-      //         // console.log(template)
-      //       }
-      //       this.success=true;
-      //       this.message="You have saved templates successfully.";
-      //       this.title="Thank you";
-            
-      //     },
-      //     error =>{
-      //       this.success=false;
-      //       this.message=error;
-      //       this.title="An error occurred.";
-      //     }
-      //   )
-      // }
-      // console.log(this.templates);
-      // console.log(this.selectedColumns);
-      // console.log(this.message)
-        setTimeout(() => this.router.navigate(["/project"]), 2000)
+      
         // //delete all,alert=>dialog
         // this.Addnewitems(Rowlist[0].id, this.newColumnsId)
         console.log(this.selectedColumns)
@@ -234,7 +170,12 @@ export class TemplatetableComponent implements OnInit {
     } else {
       alert("Please pass unempyty lists as templates")
     }
-    
+
+    console.log("new col")
+    console.log(this.resultColumns);
+    this.projectDisplayService.tempelateChange = true;
+    this.projectDisplayService.updateData(this.resultColumns);
+    this.router.navigate(["/project"]);
   }
 
   onChangeTypes(event,template:Template) {

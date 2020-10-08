@@ -25,6 +25,7 @@ export class ProjectDisplayService {
   private projectColList: ProjectColumn[];
   private projectRowDisplayList: ProjectRowDisplay[];
   loaded: boolean;
+  tempelateChange: boolean;
 
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { 
@@ -33,6 +34,7 @@ export class ProjectDisplayService {
     this.projectColList = [];
     this.projectRowDisplayList = [];
     this.loaded = false;
+    this.tempelateChange = false;
     //Not sure if this is correct, need to double check
     this.userIsAuthenticated = this.authService.getIsAuth();
   }
@@ -104,7 +106,25 @@ export class ProjectDisplayService {
     return this.projectRowList;
   }
 
-  getLoadedProjectRowDisplayList() {
-    return this.projectRowDisplayList;
+  async getLoadedProjectRowDisplayList() {
+    let displayRows: ProjectRowDisplay[] = [];
+    for(let row of this.projectRowList) {
+      let tmpRow = new ProjectRowDisplay();
+      tmpRow.id = row.id;
+      tmpRow.itemList = [];
+      for(let col of this.projectColList) {
+        await this.http.get<ProjectItem>(BACKEND_URL + '/projectitem/rowcol/' + row.id.toString() + "/" + col.id.toString()).toPromise().then(
+          res => {
+            tmpRow.itemList.push(res);
+          }
+        );
+      }
+      displayRows.push(tmpRow);
+    }
+    return displayRows;
+  }
+
+  updateData(cols: ProjectColumn[]) {
+    this.projectColList = cols.sort((a, b) => {return a.id - b.id});
   }
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <p-table #dt [value]="displayResourceRowList" dataKey="id"
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="isLoading"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -41,7 +42,7 @@
                 <td class="item-data" pEditableColumn>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.name" (keyup)="itemUpdated(item)">
+                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.name" (keyup)="defaultResourceUpdated(resourceRow.resource)">
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{resourceRow.resource.name}}
@@ -52,7 +53,7 @@
                 <td class="item-data" pEditableColumn>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.code" (keyup)="itemUpdated(item)">
+                            <input pInputText type="text" [(ngModel)]="resourceRow.resource.code" (keyup)="defaultResourceUpdated(resourceRow.resource)">
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{resourceRow.resource.code}}
