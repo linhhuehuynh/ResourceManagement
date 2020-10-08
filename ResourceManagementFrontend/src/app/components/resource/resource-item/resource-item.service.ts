@@ -52,6 +52,13 @@ export class ResourceItemService {
   }
 
 
+  emptyData() {
+    this.resources = [];
+    this.resourceRowList = []
+  }
+
+
+
 
   // saveChanges(projectRowDisplayList: ProjectRowDisplay[]) {
   //   for(let projectRow of projectRowDisplayList) {
