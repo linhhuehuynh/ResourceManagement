@@ -170,6 +170,8 @@ export class ResourceComponent implements OnInit {
 
 // DELETE A COLUMN
   onDeleteColumn(col: ResourceCol) {
+    console.log(col);
+    console.log(this.headers)
     this.resourceCol.deleteColumnById(col).subscribe();
     this.headers = this.headers.filter(header => col.id !== header.id)
     this.resourceRowList.forEach(row => row.itemList = null);
